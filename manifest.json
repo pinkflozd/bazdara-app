@@ -1,0 +1,37 @@
+{
+  "name": "Bazdara",
+  "short_name": "Bazdara",
+  "description": "Vreme Piran, Podatki iz oceanografske boje Vide, Plimovanje morja",
+    "icons": [{
+      "src": "images/icons/bazdara-icon-32.png",
+      "type": "image/png",
+      "sizes": "32x32"
+    }, {
+      "src": "images/icons/bazdara-icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    }, {
+      "src": "images/icons/bazdara-icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    }, {
+      "src": "images/icons/bazdara-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },{
+      "src": "images/icons/bazdara-icon-384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },{
+      "src": "images/icons/bazdara-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }],
+    "background_color": "#1e88e5",
+    "theme_color": "#1e88e5",
+    "display": "standalone",
+    "start_url": "/?utm_source=App&utm_medium=WebApp&utm_campaign=App",
+    "scope": "/",
+    "orientation": "any",
+    "gcm_sender_id": "103953800507"
+}
