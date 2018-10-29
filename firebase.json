@@ -3,38 +3,31 @@
     "rules": "database.rules.json"
   },
   "hosting": {
-    "public": "build/es5-bundled",
-    "rewrites": [{
-      "source": "**/!(*.js|*.html|*.css|*.json|*.svg|*.png|*.jpg|*.jpeg|*.json|*.webp|*.xml|*.scss)",
-      "destination": "/index.html"
-    }],
-
-    "headers": [{
-        "source": "**/*.@(eot|otf|ttf|ttc|woff|font.css)",
-        "headers": [{
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
-        }]
-      }, {
-        "source": "**/*.@(jpg|jpeg|gif|png)",
-        "headers": [{
-          "key": "Cache-Control",
-          "value": "max-age=7200"
-        }]
-      }, {
-        "source": "service-worker.js",
-        "headers": [{
-            "key": "Service-Worker-Allowed",
-            "value": "/"
+    "public": "build",
+    "ignore": [
+      "firebase.json",
+      "**/.*"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "function": "app"
+      }
+    ],
+    "headers": [
+      {
+        "source" : "**/service-worker.js",
+        "headers" : [
+          {
+            "key" : "Service-Worker-Allowed",
+            "value" : "/"
           },
           {
-            "key": "Cache-Control",
-            "value": "no-cache"
+            "key" : "Cache-Control",
+            "value" : "no-cache"
           }
         ]
       }
-
     ]
-
   }
 }
