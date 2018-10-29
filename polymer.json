@@ -13,8 +13,7 @@
     "!node_modules/@webcomponents/webcomponentsjs/gulpfile.js",
     "node_modules/@webcomponents/webcomponentsjs/bundles/*.js"
   ],
-  "builds": [
-    {
+  "builds": [{
       "name": "esm-bundled",
       "browserCapabilities": [
         "es2015",

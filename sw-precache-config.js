@@ -14,9 +14,6 @@ module.exports = {
     'manifest.json'
   ],
 
-  navigateFallback: '/index.html',
-  navigateFallbackWhitelist: [ /^\/[^\_]+\/?/ ],
-
   runtimeCaching: [
     {
       urlPattern: /\/@webcomponents\/webcomponentsjs\//,
