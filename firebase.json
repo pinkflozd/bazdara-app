@@ -4,14 +4,12 @@
   },
   "hosting": {
     "public": "build/es5-bundled",
-    "rewrites": [ {
+    "rewrites": [{
       "source": "**/!(*.js|*.html|*.css|*.json|*.svg|*.png|*.jpg|*.jpeg|*.json|*.webp|*.xml|*.scss)",
       "destination": "/index.html"
-    } ],
+    }],
 
-
-    "headers": [
-      {
+    "headers": [{
         "source": "**/*.@(eot|otf|ttf|ttc|woff|font.css)",
         "headers": [{
           "key": "Access-Control-Allow-Origin",
@@ -26,15 +24,10 @@
       }, {
         "source": "service-worker.js",
         "headers": [{
-          "key": "Cache-Control",
-          "value": "max-age=0"
+          "key": "Service-Worker-Allowed",
+          "value": "/"
         }]
       }
-
-
-
-
-
 
     ]
 
