@@ -1,0 +1,4 @@
+Sitemap: https://www.bazdara.com/sitemap.xml
+
+User-agent: *
+Allow: /

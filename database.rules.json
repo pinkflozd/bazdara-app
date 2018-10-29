@@ -1,0 +1,16 @@
+{
+  "rules": {
+    ".read": true,
+    ".write": false,
+    "plima": {
+      "koper": {
+        ".indexOn": "d"
+      }
+    },
+    "plimovanje": {
+      "koper": {
+        ".indexOn": "d"
+      }
+    }
+  }
+}
