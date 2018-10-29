@@ -11,12 +11,6 @@ Install [Polymer CLI](https://github.com/Polymer/polymer-cli) using
 
     npm install -g polymer-cli@next
 
-##### Initialize project from template
-
-    mkdir my-app
-    cd my-app
-    polymer init polymer-3-starter-kit
-
 ### Start the development server
 
 This command serves the app at `http://127.0.0.1:8081` and provides basic URL
@@ -26,7 +20,7 @@ routing for the app:
 
 ### Build
 
-The `npm run build` command builds your Polymer application for production, using build configuration options provided by the command line or in your project's `polymer.json` file.
+The `npm run build:static` command builds your Polymer application for production, using build configuration options provided by the command line or in your project's `polymer.json` file.
 
 You can configure your `polymer.json` file to create multiple builds. This is necessary if you will be serving different builds optimized for different browsers. You can define your own named builds, or use presets. See the documentation on [building your project for production](https://www.polymer-project.org/3.0/toolbox/build-for-production) for more information.
 
