@@ -94,7 +94,7 @@ class BazdaraApp extends PolymerElement {
 
           <app-header slot="header" condenses="" reveals="" effects="waterfall">
             <app-toolbar>
-              <paper-icon-button icon="bazdara-icons:menu" drawer-toggle=""></paper-icon-button>
+              <paper-icon-button icon="bazdara-icons:menu" drawer-toggle="" aria-label="Menu"></paper-icon-button>
               <div main-title="">Bazdara</div>
             </app-toolbar>
           </app-header>
