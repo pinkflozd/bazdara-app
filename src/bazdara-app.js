@@ -38,6 +38,7 @@ class BazdaraApp extends PolymerElement {
         :host {
           --app-primary-color: #4285f4;
           --app-secondary-color: black;
+          --app-drawer-width: 256px;
 
           display: block;
         }
@@ -79,7 +80,7 @@ class BazdaraApp extends PolymerElement {
       <app-route route="{{route}}" pattern="[[rootPath]]:page" data="{{routeData}}" tail="{{subroute}}">
       </app-route>
 
-      <app-drawer-layout fullbleed="" narrow="{{narrow}}">
+      <app-drawer-layout fullbleed="" force-narrow narrow="{{narrow}}">
         <!-- Drawer content -->
         <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
           <app-toolbar>Menu</app-toolbar>
