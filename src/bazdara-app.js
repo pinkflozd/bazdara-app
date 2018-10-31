@@ -23,6 +23,19 @@ import '@polymer/iron-selector/iron-selector.js';
 import '@polymer/paper-icon-button/paper-icon-button.js';
 import './bazdara-icons.js';
 
+import firebase from 'firebase/app';
+
+const config = {
+    apiKey: "AIzaSyD2PAdzxrpNtJWqKGUm2RW441euKOT6p6Y",
+    authDomain: "bazdara-99a47.firebaseapp.com",
+    databaseURL: "https://bazdara-99a47.firebaseio.com",
+    projectId: "bazdara-99a47",
+    storageBucket: "bazdara-99a47.appspot.com",
+    messagingSenderId: "544509936614"
+};
+
+export default firebase.initializeApp(config);
+
 // Gesture events like tap and track generated from touch will not be
 // preventable, allowing for better scrolling performance.
 setPassiveTouchGestures(true);
