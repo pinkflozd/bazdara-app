@@ -10,9 +10,9 @@
 
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import './shared-styles.js';
-import './elements/geo-location.js';
-import './elements/fullscreen-api.js';
-import './elements/fullscreen-icon-button.js';
+
+
+import './components/live-cam.js';
 
 
 class BazdaraHome extends PolymerElement {
@@ -29,12 +29,7 @@ class BazdaraHome extends PolymerElement {
       <div class="card">
         <div class="circle">1</div>
         <h1>Home</h1>
-        <fullscreen-icon-button></fullscreen-icon-button>
-        <geo-location latitude="{{latitude}}" longitude="{{longitude}}"></geo-location>
-        <ul>
-          <li>Latitude: [[latitude]]</li>
-          <li>Longitude: [[longitude]]</li>
-        </ul>
+        <live-cam></live-cam>
 
       </div>
     `;

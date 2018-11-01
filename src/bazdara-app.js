@@ -23,18 +23,7 @@ import '@polymer/iron-selector/iron-selector.js';
 import '@polymer/paper-icon-button/paper-icon-button.js';
 import './bazdara-icons.js';
 
-import firebase from 'firebase/app';
-
-const config = {
-    apiKey: "AIzaSyD2PAdzxrpNtJWqKGUm2RW441euKOT6p6Y",
-    authDomain: "bazdara-99a47.firebaseapp.com",
-    databaseURL: "https://bazdara-99a47.firebaseio.com",
-    projectId: "bazdara-99a47",
-    storageBucket: "bazdara-99a47.appspot.com",
-    messagingSenderId: "544509936614"
-};
-
-export default firebase.initializeApp(config);
+import './elements/firebase-app.js';
 
 // Gesture events like tap and track generated from touch will not be
 // preventable, allowing for better scrolling performance.
@@ -87,6 +76,9 @@ class BazdaraApp extends PolymerElement {
         }
       </style>
 
+      <firebase-document id="cameras" path="/camera" data="{{cameras}}"></firebase-document>
+
+
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]">
       </app-location>
 
@@ -108,7 +100,7 @@ class BazdaraApp extends PolymerElement {
           <app-header slot="header" condenses="" reveals="" effects="waterfall">
             <app-toolbar>
               <paper-icon-button icon="bazdara-icons:menu" drawer-toggle="" aria-label="Menu"></paper-icon-button>
-              <div main-title="">Bazdara</div>
+              <div main-title="">Bazdara [[cameras.kanegra]]</div>
             </app-toolbar>
           </app-header>
 
