@@ -17,7 +17,6 @@ import 'firebase/database';
 import 'firebase/storage';
 
 import '../elements/geo-location.js';
-import '../elements/fullscreen-api.js';
 import '../elements/fullscreen-icon-button.js';
 
 const databaseRef = firebase.database().ref();
@@ -45,11 +44,10 @@ class LiveCam extends PolymerElement {
      }
 
      .full {
-       margin-top: -170px;
+       top: 13px;
        margin-left: 13px;
        position: absolute;
      }
-
 
      paper-icon-button{
        color: #000;
@@ -58,7 +56,7 @@ class LiveCam extends PolymerElement {
        border-radius: 50%;
        width: 36px;
        height: 36px;
-       background-color: #fff
+       background-color: #fff;
      }
 
      fullscreen-icon-button {
@@ -72,9 +70,8 @@ class LiveCam extends PolymerElement {
      }
 
      .cam {
-       width: 309px;
-       height: 175px;
-       position: relative;
+       width: 100%;
+      position: relative;
      }
 
      #video {
@@ -87,7 +84,6 @@ class LiveCam extends PolymerElement {
        color: #F44336;
        --paper-icon-button-ink-color: #F44336;
      }
-
 
      paper-dropdown-menu {
        width: 100%;
@@ -122,15 +118,100 @@ class LiveCam extends PolymerElement {
       border-bottom: 1px solid #f0f0f0;
     }
     paper-spinner {
-      position:absolute;
-      margin-left: -14px;
-      left:50%;
-      top:50%"
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
     }
 
       </style>
 
       <geo-location latitude="{{lat}}" longitude="{{lng}}"></geo-location>
+
+      <paper-dropdown-menu label="Select webcam" style="margin-left:-10px;">
+        <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="id" selected="{{tabselect}}">
+          <paper-item class="cont" hidden$="[[cameras.sipiran04]]" id="sipiran04" on-tap="onTabSelect">
+            Piran
+          </paper-item>
+          <paper-item class="cont" hidden$="[[cameras.sipiran03]]" id="sipiran03" on-tap="onTabSelect">
+            Piran&nbsp;-&nbsp;Tartini
+          </paper-item>
+          <paper-item class="cont" hidden$="[[cameras.sipiranpunta]]" id="sipiranpunta" on-tap="onTabSelect">
+            Piran&nbsp;-&nbsp;Panorama
+          </paper-item>
+          <paper-item class="cont" hidden$="[[cameras.podvodna]]" id="podvodna" on-tap="onTabSelect">
+            Piran&nbsp;-&nbsp;Podvodna
+          </paper-item>
+          <paper-item class="cont" hidden$="[[cameras.siportoroz03]]" id="siportoroz03" on-tap="onTabSelect">
+            Portorož
+          </paper-item>
+          <paper-item class="cont" hidden$="[[cameras.siportoroz05]]" id="siportoroz05" on-tap="onTabSelect">
+            Portorož&nbsp;Panorama&nbsp;1
+          </paper-item>
+          <paper-item class="cont" hidden$="[[cameras.siportoroz04]]" id="siportoroz04" on-tap="onTabSelect">
+            Portorož&nbsp;Panorama&nbsp;2
+          </paper-item>
+          <paper-item class="cont" hidden$="[[cameras.sifiesa01]]" id="sifiesa01" on-tap="onTabSelect">
+            Fiesa
+          </paper-item>
+          <paper-item class="cont" hidden$="[[cameras.sistrunjan01]]" id="sistrunjan01" on-tap="onTabSelect">
+            Strunjan
+          </paper-item>
+          <paper-item class="cont" hidden$="[[cameras.sisolinesecovlje]]" id="sisolinesecovlje" on-tap="onTabSelect">
+            Seča&nbsp;Soline
+          </paper-item>
+          <paper-item class="cont" hidden$="[[cameras.siljpz1]]" id="siljpz1" on-tap="onTabSelect">
+            AP&nbsp;Portorož
+          </paper-item>
+          <paper-item class="cont" hidden$="[[cameras.izola]]" id="izola" on-tap="onTabSelect">
+            Izola
+          </paper-item>
+          <paper-item class="cont" hidden$="[[cameras.siizola1]]" id="siizola1" on-tap="onTabSelect">
+            Izola&nbsp;San&nbsp;Simon
+          </paper-item>
+          <paper-item class="cont" hidden$="[[cameras.siizola3]]" id="siizola3" on-tap="onTabSelect">
+            Izola&nbsp;Panorama
+          </paper-item>
+          <paper-item class="cont" hidden$="[[cameras.siwcKOPERMARKOVECn]]" id="siwcKOPERMARKOVECn" on-tap="onTabSelect">
+            Markovec
+          </paper-item>
+          <paper-item class="cont" hidden$="[[cameras.siwcKOPERMARKOVECe]]" id="siwcKOPERMARKOVECe" on-tap="onTabSelect">
+            Koper
+          </paper-item>
+          <paper-item class="cont" hidden$="[[cameras.trst]]" id="trst" on-tap="onTabSelect">
+            Trst
+          </paper-item>
+          <paper-item class="cont" hidden$="[[cameras.kanegra]]" id="kanegra" on-tap="onTabSelect">
+            Kanegra
+          </paper-item>
+          <paper-item class="cont" hidden$="[[cameras.hrgolfadriatic1]]" id="hrgolfadriatic1" on-tap="onTabSelect">
+            Crveni Vrh
+          </paper-item>
+          <paper-item class="cont" hidden$="[[cameras.hrsavudrija1]]" id="hrsavudrija1" on-tap="onTabSelect">
+            Savudrija
+          </paper-item>
+          <paper-item class="cont" hidden$="[[cameras.hrumag4]]" id="hrumag4" on-tap="onTabSelect">
+            Umag
+          </paper-item>
+          <paper-item class="cont" hidden$="[[cameras.hrnovigrad1]]" id="hrnovigrad1" on-tap="onTabSelect">
+            Novigrad
+          </paper-item>
+          <paper-item class="cont" hidden$="[[cameras.hrporec03]]" id="hrporec03" on-tap="onTabSelect">
+            Poreč
+          </paper-item>
+          <paper-item class="cont" hidden$="[[cameras.hrporec1]]" id="hrporec1" on-tap="onTabSelect">
+            Poreč Marina
+          </paper-item>
+          <paper-item class="cont" hidden$="[[cameras.hrrovinj2]]" id="hrrovinj2" on-tap="onTabSelect">
+            Rovinj&nbsp;Panorama
+          </paper-item>
+          <paper-item class="cont" hidden$="[[cameras.hrrovinj3]]" id="hrrovinj3" on-tap="onTabSelect">
+            Rovinj&nbsp;Center
+          </paper-item>
+        </paper-listbox>
+      </paper-dropdown-menu>
 
       <div class="cam">
 
@@ -138,94 +219,11 @@ class LiveCam extends PolymerElement {
         <video poster$="[[poster]]" id="video" preload="none"></video>
 
         <div class="full">
-          <paper-icon-button class$="video {{videoClass}}" on-tap="videoClick" icon="notification:live-tv" active={{active}} hidden="{{disabled}}"></paper-icon-button>
-          <fullscreen-icon-button target="#video" class="fullscreen" title="fullscreen" tabindex="0" alt="fullscreen" onclick="ga('send', 'event', 'Kamera', 'Fullscreen');"></fullscreen-icon-button>
+          <paper-icon-button class$="video {{videoClass}}" on-tap="videoClick" icon="notification:live-tv" active={{active}} hidden="[[disabled]]"></paper-icon-button>
+          <paper-icon-button class="fullscreen" on-tap="videoFull" icon="bazdara-icons:fullscreen" hidden="[[fullscreenAvailable]]"></paper-icon-button>
         </div>
 
       </div>
-
-      <paper-dropdown-menu label="{{selectcam}}" style="margin-top:-8px;margin-bottom:-8px">
-        <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="id" selected="{{tabselect}}">
-          <paper-item class="cont" hidden$="[[cameras.sipiran04]]" id="sipiran04" on-tap="onTabSelect" onclick="ga('send', 'event', 'Kamera', 'Piran');">
-            Piran
-          </paper-item>
-          <paper-item class="cont" hidden$="[[cameras.sipiran03]]" id="sipiran03" on-tap="onTabSelect" onclick="ga('send', 'event', 'Kamera', 'Piran Tartini');">
-            Piran&nbsp;-&nbsp;Tartini
-          </paper-item>
-          <paper-item class="cont" hidden$="[[cameras.sipiranpunta]]" id="sipiranpunta" on-tap="onTabSelect" onclick="ga('send', 'event', 'Kamera', 'Piran Panorama');">
-            Piran&nbsp;-&nbsp;Panorama
-          </paper-item>
-          <paper-item class="cont" hidden$="[[cameras.podvodna]]" id="podvodna" on-tap="onTabSelect" onclick="ga('send', 'event', 'Kamera', 'Piran Podvodna');">
-            Piran&nbsp;-&nbsp;Podvodna
-          </paper-item>
-          <paper-item class="cont" hidden$="[[cameras.siportoroz03]]" id="siportoroz03" on-tap="onTabSelect" onclick="ga('send', 'event', 'Kamera', 'Portorož');">
-            Portorož
-          </paper-item>
-          <paper-item class="cont" hidden$="[[cameras.siportoroz05]]" id="siportoroz05" on-tap="onTabSelect" onclick="ga('send', 'event', 'Kamera', 'Portorož Panorama 1');">
-            Portorož&nbsp;Panorama&nbsp;1
-          </paper-item>
-          <paper-item class="cont" hidden$="[[cameras.siportoroz04]]" id="siportoroz04" on-tap="onTabSelect" onclick="ga('send', 'event', 'Kamera', 'Portorož Panorama 2');">
-            Portorož&nbsp;Panorama&nbsp;2
-          </paper-item>
-          <paper-item class="cont" hidden$="[[cameras.sifiesa01]]" id="sifiesa01" on-tap="onTabSelect" onclick="ga('send', 'event', 'Kamera', 'Fiesa');">
-            Fiesa
-          </paper-item>
-          <paper-item class="cont" hidden$="[[cameras.sistrunjan01]]" id="sistrunjan01" on-tap="onTabSelect" onclick="ga('send', 'event', 'Kamera', 'Strunjan');">
-            Strunjan
-          </paper-item>
-          <paper-item class="cont" hidden$="[[cameras.sisolinesecovlje]]" id="sisolinesecovlje" on-tap="onTabSelect" onclick="ga('send', 'event', 'Kamera', 'Soline');">
-            Seča&nbsp;Soline
-          </paper-item>
-          <paper-item class="cont" hidden$="[[cameras.siljpz1]]" id="siljpz1" on-tap="onTabSelect" onclick="ga('send', 'event', 'Kamera', 'AP Porotorož');">
-            AP&nbsp;Portorož
-          </paper-item>
-          <paper-item class="cont" hidden$="[[cameras.izola]]" id="izola" on-tap="onTabSelect" onclick="ga('send', 'event', 'Kamera', 'Izola');">
-            Izola
-          </paper-item>
-          <paper-item class="cont" hidden$="[[cameras.siizola1]]" id="siizola1" on-tap="onTabSelect" onclick="ga('send', 'event', 'Kamera', 'Izola San Simon');">
-            Izola&nbsp;San&nbsp;Simon
-          </paper-item>
-          <paper-item class="cont" hidden$="[[cameras.siizola3]]" id="siizola3" on-tap="onTabSelect" onclick="ga('send', 'event', 'Kamera', 'Izola Panorama');">
-            Izola&nbsp;Panorama
-          </paper-item>
-          <paper-item class="cont" hidden$="[[cameras.siwcKOPERMARKOVECn]]" id="siwcKOPERMARKOVECn" on-tap="onTabSelect" onclick="ga('send', 'event', 'Kamera', 'Markovec');">
-            Markovec
-          </paper-item>
-          <paper-item class="cont" hidden$="[[cameras.siwcKOPERMARKOVECe]]" id="siwcKOPERMARKOVECe" on-tap="onTabSelect" onclick="ga('send', 'event', 'Kamera', 'Koper');">
-            Koper
-          </paper-item>
-          <paper-item class="cont" hidden$="[[cameras.trst]]" id="trst" on-tap="onTabSelect" onclick="ga('send', 'event', 'Kamera', 'Trst');">
-            Trst
-          </paper-item>
-          <paper-item class="cont" hidden$="[[cameras.kanegra]]" id="kanegra" on-tap="onTabSelect" onclick="ga('send', 'event', 'Kamera', 'Kanegra');">
-            Kanegra
-          </paper-item>
-          <paper-item class="cont" hidden$="[[cameras.hrgolfadriatic1]]" id="hrgolfadriatic1" on-tap="onTabSelect" onclick="ga('send', 'event', 'Kamera', 'Crveni Vrh');">
-            Crveni Vrh
-          </paper-item>
-          <paper-item class="cont" hidden$="[[cameras.hrsavudrija1]]" id="hrsavudrija1" on-tap="onTabSelect" onclick="ga('send', 'event', 'Kamera', 'Savudrija');">
-            Savudrija
-          </paper-item>
-          <paper-item class="cont" hidden$="[[cameras.hrumag4]]" id="hrumag4" on-tap="onTabSelect" onclick="ga('send', 'event', 'Kamera', 'Umag');">
-            Umag
-          </paper-item>
-          <paper-item class="cont" hidden$="[[cameras.hrnovigrad1]]" id="hrnovigrad1" on-tap="onTabSelect" onclick="ga('send', 'event', 'Kamera', 'Novigrad');">
-            Novigrad
-          </paper-item>
-          <paper-item class="cont" hidden$="[[cameras.hrporec03]]" id="hrporec03" on-tap="onTabSelect" onclick="ga('send', 'event', 'Kamera', 'Poreč');">
-            Poreč
-          </paper-item>
-          <paper-item class="cont" hidden$="[[cameras.hrporec1]]" id="hrporec1" on-tap="onTabSelect" onclick="ga('send', 'event', 'Kamera', 'Poreč Marina');">
-            Poreč Marina
-          </paper-item>
-          <paper-item class="cont" hidden$="[[cameras.hrrovinj2]]" id="hrrovinj2" on-tap="onTabSelect" onclick="ga('send', 'event', 'Kamera', 'Rovinj');">
-            Rovinj&nbsp;Panorama
-          </paper-item>
-          <paper-item class="cont" hidden$="[[cameras.hrrovinj3]]" id="hrrovinj3" on-tap="onTabSelect" onclick="ga('send', 'event', 'Kamera', 'Rovinj Center');">
-            Rovinj&nbsp;Center
-          </paper-item>
-        </paper-listbox>
-      </paper-dropdown-menu>
 
       <paper-toast id="noVideo" duration="0">
         <b><i18n-msg msgid="camoffline">Kamera ni dosegljiva</i18n-msg></b> <paper-button on-click="camerastop" onclick="noVideo.toggle();" class="yellow-button">Stop</paper-button>
@@ -297,12 +295,11 @@ class LiveCam extends PolymerElement {
     var button = e.target;
     this.custcam = button.id;
     if (Hls.isSupported()) {
-      var hls = new Hls({
-        autoStartLoad: true
-      });
-      video.pause();
-      hls.destroy();
-      video.load()
+      this.video.pause();
+      if (this.hls) {
+        this.hls.destroy();
+      }
+      this.video.load()
       this.videoClass = "";
       this.active = false;
       this.$.noVideo.close();
@@ -365,7 +362,6 @@ class LiveCam extends PolymerElement {
         closest = index;
         mindif = dif;
       }
-
     }
 
     // echo the nearest city
@@ -373,6 +369,8 @@ class LiveCam extends PolymerElement {
   }
 
   camera() {
+
+    this.video = this.$.video;
 
     if (this.custcam == "sipiran04") {
       this.lat = "0";
@@ -488,17 +486,14 @@ class LiveCam extends PolymerElement {
       this.disabled = true;
     }
 
-
-    var video = this.$.video;
-
-    video.addEventListener("contextmenu", function(e) {
+    this.video.addEventListener("contextmenu", function(e) {
       e.preventDefault();
       e.stopPropagation();
     }, false);
 
     // hide the controls if they're visible
-    if (video.hasAttribute("controls")) {
-      video.removeAttribute("controls")
+    if (this.video.hasAttribute("controls")) {
+      this.video.removeAttribute("controls")
     }
 
     var storageRef = firebase.storage().ref();
@@ -512,10 +507,10 @@ class LiveCam extends PolymerElement {
       //xhr.open('GET', url);
       //xhr.send();
       this.loadin = false;
-      video.poster = url;
+      this.video.poster = url;
 
 
-      if (Hls.isSupported() || video.canPlayType('application/vnd.apple.mpegurl')) {
+      if (Hls.isSupported() || this.video.canPlayType('application/vnd.apple.mpegurl')) {
 
       } else {
         this.disabled = true;
@@ -524,28 +519,20 @@ class LiveCam extends PolymerElement {
 
 
     }.bind(this)).catch(function(error) {
-      setDelay(function() {
-        this.camera();
-      }.bind(this), 10000);
+      this.camera();
     });
 
   }
 
   camerastop() {
-    if (Hls.isSupported()) {
-      var hls = new Hls({
-        autoStartLoad: true
-      });
-    };
 
-    var video = this.$.video;
     this.loadin = true;
-    video.pause();
-    video.load()
+    this.video.pause();
+    this.video.load()
     if (Hls.isSupported()) {
-      hls.destroy();
+      this.hls.destroy();
     } else {
-      video.src = '';
+      this.video.src = '';
     }
     this.videoClass = "";
     this.active = false;
@@ -557,7 +544,7 @@ class LiveCam extends PolymerElement {
   }
 
   disa() {
-    if (Hls.isSupported() || video.canPlayType('application/vnd.apple.mpegurl')) {
+    if (Hls.isSupported() || this.video.canPlayType('application/vnd.apple.mpegurl')) {
       this.disabled = false;
     } else {
       this.disabled = true;
@@ -567,50 +554,46 @@ class LiveCam extends PolymerElement {
 
 
   videoFull() {
-    var video = this.$.video;
+    this.video = this.$.video;
 
-    if (video.canPlayType('application/vnd.apple.mpegurl')) {
-
-      if (video.requestFullscreen) {
-        video.requestFullscreen();
-      } else if (video.mozRequestFullScreen) {
-        video.mozRequestFullScreen();
-      } else if (video.webkitRequestFullscreen) {
-        video.webkitRequestFullscreen();
-      } else if (video.msRequestFullscreen) {
-        video.msRequestFullscreen();
-      }
-
+    if (this.video.requestFullscreen) {
+      this.video.requestFullscreen();
+    } else if (this.video.mozRequestFullScreen) {
+      this.video.mozRequestFullScreen();
+    } else if (this.video.webkitRequestFullscreen) {
+      this.video.webkitRequestFullscreen();
+    } else if (this.video.msRequestFullscreen) {
+      this.video.msRequestFullscreen();
     }
+
   }
 
   videoClick() {
     this.loadin = true;
-
-    var video = this.$.video;
+    this.video = this.$.video;
 
     if (Hls.isSupported()) {
-      var hls = new Hls({
+      this.hls = new Hls({
         autoStartLoad: true
       });
 
-      if (video.paused) {
+      if (this.video.paused) {
 
         if (this.cdn.indexOf('http') > -1) {
-          hls.loadSource(this.cdn);
+          this.hls.loadSource(this.cdn);
         } else if (this.cdn.indexOf('kanegra') > -1) {
-          hls.loadSource(this.cameras.ytkanegra);
+          this.hls.loadSource(this.cameras.ytkanegra);
         } else {
-          hls.loadSource('https://cdn-' + this.cdn + '.whatsupcams.com/hls/' + this.town + '.m3u8');
+          this.hls.loadSource('https://cdn-' + this.cdn + '.whatsupcams.com/hls/' + this.town + '.m3u8');
         }
 
-        hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, function() {
+        this.hls.attachMedia(this.video);
+        this.hls.on(Hls.Events.MANIFEST_PARSED, function() {
 
         });
 
 
-        hls.on(Hls.Events.ERROR, function(event, data) {
+        this.hls.on(Hls.Events.ERROR, function(event, data) {
           if (data.fatal) {
             switch (data.type) {
               case Hls.ErrorTypes.NETWORK_ERROR:
@@ -626,54 +609,51 @@ class LiveCam extends PolymerElement {
           }
         }.bind(this));
 
-        video.play();
+        this.video.play();
         this.videoClass = "play";
         this.active = true;
         this.loadin = false;
-        ga('send', 'event', 'Kamera', 'Play');
 
       } else {
         this.loadin = true;
-        video.pause();
-        hls.destroy();
-        video.load()
+        this.video.pause();
+        this.hls.destroy();
+        this.video.load()
         this.videoClass = "";
         this.active = false;
 
         this.camera();
 
       };
-    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    } else if (this.video.canPlayType('application/vnd.apple.mpegurl')) {
 
-      if (video.paused) {
+      if (this.video.paused) {
         if (this.cdn.indexOf('http') > -1) {
-          video.src = this.cdn;
+          this.video.src = this.cdn;
         } else if (this.cdn.indexOf('kanegra') > -1) {
-          video.src = this.cameras.ytkanegra;
+          this.video.src = this.cameras.ytkanegra;
         } else {
-          video.src = 'https://cdn-' + this.cdn + '.whatsupcams.com/hls/' + this.town + '.m3u8';
+          this.video.src = 'https://cdn-' + this.cdn + '.whatsupcams.com/hls/' + this.town + '.m3u8';
         }
 
         this.videoClass = "play";
         this.active = true;
-        video.play();
+        this.video.play();
         this.loadin = false;
-
-        ga('send', 'event', 'Kamera', 'Play');
 
       } else {
         this.loadin = true;
-        video.pause();
-        video.src = '';
-        video.load()
+        this.video.pause();
+        this.video.src = '';
+        this.video.load()
         if (this.cdn.indexOf('http') > -1) {
-          video.src = this.cdn;
+          this.video.src = this.cdn;
         } else if (this.cdn.indexOf('kanegra') > -1) {
-          video.src = this.cameras.ytkanegra;
+          this.video.src = this.cameras.ytkanegra;
         } else {
-          video.src = 'https://cdn-' + this.cdn + '.whatsupcams.com/hls/' + this.town + '.m3u8';
+          this.video.src = 'https://cdn-' + this.cdn + '.whatsupcams.com/hls/' + this.town + '.m3u8';
         }
-        //video.load()
+        //this.video.load()
         this.videoClass = "";
         this.active = false;
 
@@ -692,18 +672,21 @@ class LiveCam extends PolymerElement {
   ready() {
     super.ready();
 
+    this.fullscreenAvailable = (document.fullscreenEnabled ||
+      document.webkitFullscreenEnabled ||
+      document.mozFullScreenEnabled ||
+      document.msFullscreenEnabled) ? false : true;
+
     cameraRef.on('value', function(camer) {
       this.cameras = camer.val();
     }.bind(this));
 
-    // load external mapbox-gl.js script
     const hlsjs = document.createElement('script');
-    hlsjs.setAttribute('src', '../../node_modules/hls.js/dist/hls.light.min.js');
+    hlsjs.setAttribute('src', 'https://cdn.jsdelivr.net/npm/hls.js@0.11.0/dist/hls.light.min.js');
     document.head.appendChild(hlsjs);
 
     hlsjs.addEventListener('load', function() {
-      // mapboxgl is available here, do whatever you want
-      console.log("test");
+
     })
 
   }
