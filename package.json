@@ -16,6 +16,7 @@
     "lint": "polymer lint",
     "test": "polymer test",
     "test:integration": "polymer build # test that psk builds without error with the CLI",
+    "postinstall": "cd functions && npm install",
     "postinstall": "cd server && npm install"
   },
   "dependencies": {
