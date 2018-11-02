@@ -24,12 +24,8 @@ class BazdaraHome extends PolymerElement {
         }
       </style>
 
-      <div class="card">
-        <div class="circle">1</div>
-        <h1>Home</h1>
-        <live-cam></live-cam>
+      <live-cam></live-cam>
 
-      </div>
     `;
   }
 }

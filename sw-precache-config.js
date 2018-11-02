@@ -11,13 +11,34 @@
 module.exports = {
   staticFileGlobs: [
     'src/**/*',
-    'manifest.json'
+    'manifest.json',
+    '/images/icons/**/*.*',
   ],
 
-  runtimeCaching: [
-    {
+  runtimeCaching: [{
       urlPattern: /\/@webcomponents\/webcomponentsjs\//,
       handler: 'fastest'
+    },
+    {
+      /* Google Analytics */
+      urlPattern: /https?:\/\/((www|ssl)\.)?google-analytics\.com\/analytics.js/,
+      handler: 'networkFirst'
+    },
+    {
+      urlPattern: /https?:\/\/firebasestorage\.googleapis\.com\/.*/,
+      handler: 'networkFirst'
+    },
+    {
+      urlPattern: /https?:\/\/cdn\.jsdelivr\.net\/.*/,
+      handler: 'fastest'
+    },
+    {
+      urlPattern: /https?:\/\/fonts.+/,
+      handler: 'fastest'
+    },
+    {
+      urlPattern: /https?:\/\/x\.bazdara\.com\/.*/,
+      handler: 'networkFirst'
     }
   ]
 };

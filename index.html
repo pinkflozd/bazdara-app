@@ -34,6 +34,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <link rel="icon" href="favicon.ico">
   <meta name="theme-color" content="#2196f3">
   <link rel="manifest" href="manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://firebasestorage.googleapis.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="apple-touch-icon" sizes="32x32" href="images/icons/bazdara-icon-32.png">
   <link rel="apple-touch-icon" sizes="128x128" href="images/icons/bazdara-icon-128.png">
   <link rel="apple-touch-icon" sizes="144x144" href="images/icons/bazdara-icon-144.png">
@@ -66,7 +69,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <meta name="google-site-verification" content="twWiK2UYGW1eR4hUZ1pECBtAI6J9oCtXPiTbrJgR08A" />
   <meta name="author" content="Luka Karinja">
   <script type='application/ld+json'>
-  [{"@context": "http://schema.org","@type": "Organization","url": "https://www.bazdara.com","logo": "https://www.bazdara.com/images/icons/bazdara-icon-512.png","sameAs": ["https://www.facebook.com/bazdaraPiran"]}, {"@context": "http://schema.org","@type": "WebSite","name": "Bazdara","alternateName": "Adriatic nautic guide","url": "https://www.bazdara.com"}]
+    [{
+      "@context": "http://schema.org",
+      "@type": "Organization",
+      "url": "https://www.bazdara.com",
+      "logo": "https://www.bazdara.com/images/icons/bazdara-icon-512.png",
+      "sameAs": ["https://www.facebook.com/bazdaraPiran"]
+    }, {
+      "@context": "http://schema.org",
+      "@type": "WebSite",
+      "name": "Bazdara",
+      "alternateName": "Adriatic nautic guide",
+      "url": "https://www.bazdara.com"
+    }]
   </script>
 
   <script>
@@ -93,35 +108,168 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         });
       });
     }
-
-
   </script>
 
   <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
   <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
-  <script src="node_modules/web-animations-js/web-animations-next-lite.min.js"></script>
 
   <!-- Load your application shell -->
   <script type="module" src="src/bazdara-app.js"></script>
 
   <!-- Add any global styles for body, document, etc. -->
   <style>
+    html.loading {
+      overflow: hidden;
+    }
+
     body {
       margin: 0;
       font-family: "Roboto", "Noto", sans-serif;
       line-height: 1.5;
       min-height: 100vh;
-      background-color: #eeeeee;
+    }
+
+    body.loading {
+      width: 100vh;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    #loadingScreen {
+      z-index: 2000;
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      opacity: 1 !important;
+      background: url(images/icons/bazdara-icon-192.png) #1e88e5 center center no-repeat;
+      background-size: 96px 96px;
+      transition: opacity 250ms;
+      -webkit-animation: heartbeat 2000ms infinite;
+      animation: heartbeat 2000ms infinite;
+    }
+
+    #nojs {
+      z-index: 2000;
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      opacity: 1 !important;
+      background: url(images/icons/bazdara-icon-192.png) #1e88e5 center center no-repeat;
+      background-size: 96px 96px;
+      -webkit-animation: heartbeat 10000ms infinite;
+      animation: heartbeat 10000ms infinite;
+    }
+
+    #nojs h1 {
+      font-color: #fff;
+      text-align: center
+    }
+
+    #loadingScreen.ready {
+      opacity: 0 !important;
+    }
+
+    @-webkit-keyframes heartbeat {
+      0% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+      }
+
+      20% {
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1);
+      }
+
+      40% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+      }
+
+      60% {
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1);
+      }
+
+      80% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+      }
+    }
+
+    @keyframes heartbeat {
+      0% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+      }
+
+      20% {
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1);
+      }
+
+      40% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+      }
+
+      60% {
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1);
+      }
+
+      80% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+      }
+    }
+
+    *::-webkit-media-controls-panel {
+      display: none !important;
+      -webkit-appearance: none;
+    }
+
+    *::--webkit-media-controls-play-button {
+      display: none !important;
+      -webkit-appearance: none;
+    }
+
+    *::-webkit-media-controls-start-playback-button {
+      display: none !important;
+      -webkit-appearance: none;
     }
   </style>
 </head>
 
-<body>
+<body class="loading">
+  <div id="loadingScreen"></div>
   <bazdara-app></bazdara-app>
   <noscript>
-      Please enable JavaScript to view this website.
-    </noscript>
+    <div id="nojs">
+    <h1>Please enable JavaScript to view this website.</h1>
+    </div>
+  </noscript>
   <!-- Built with love using Polymer Starter Kit -->
+  <script>
+    document.addEventListener('WebComponentsReady', function(e) {
+      var loadingScreen = document.querySelector('#loadingScreen');
+
+      loadingScreen.classList.add('ready');
+
+      loadingScreen.addEventListener('transitionend', function() {
+        // Remove the loading screen from DOM after CSS transition.
+        document.body.removeChild(loadingScreen);
+        document.body.classList.remove('loading');
+      }, false);
+
+    });
+  </script>
+  <script src="node_modules/web-animations-js/web-animations-next-lite.min.js" defer async></script>
 </body>
 
 </html>

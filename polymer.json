@@ -2,7 +2,9 @@
   "entrypoint": "index.html",
   "shell": "src/bazdara-app.js",
   "sources": [
-    "images/**/*"
+    "images/**/*",
+    "node_modules/@polymer/app-storage/app-indexeddb-mirror/app-indexeddb-mirror-worker.js",
+    "node_modules/@polymer/app-storage/app-indexeddb-mirror/common-worker-scope.js"
   ],
   "extraDependencies": [
     "favicon.ico",

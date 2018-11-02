@@ -8,25 +8,34 @@
       "firebase.json",
       "**/.*"
     ],
-    "rewrites": [
-      {
-        "source": "**",
-        "function": "app"
-      }
-    ],
-    "headers": [
-      {
-        "source" : "**/service-worker.js",
-        "headers" : [
-          {
-            "key" : "Service-Worker-Allowed",
-            "value" : "/"
+    "rewrites": [{
+      "source": "**",
+      "function": "app"
+    }],
+    "headers": [{
+        "source": "**/service-worker.js",
+        "headers": [{
+            "key": "Service-Worker-Allowed",
+            "value": "/"
           },
           {
-            "key" : "Cache-Control",
-            "value" : "no-cache"
+            "key": "Cache-Control",
+            "value": "no-cache"
           }
         ]
+      },
+      {
+        "source": "**/*.@(eot|otf|ttf|ttc|woff|font.css)",
+        "headers": [{
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }]
+      }, {
+        "source": "**/*.@(jpg|jpeg|gif|png|webp|svg)",
+        "headers": [{
+          "key": "Cache-Control",
+          "value": "max-age=604800"
+        }]
       }
     ]
   }

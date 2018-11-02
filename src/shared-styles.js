@@ -9,37 +9,61 @@
  */
 
 import '@polymer/polymer/polymer-element.js';
+import '@polymer/paper-styles/color.js';
 
 const $_documentContainer = document.createElement('template');
 $_documentContainer.innerHTML = `<dom-module id="shared-styles">
   <template>
     <style>
-      .card {
-        margin: 24px;
-        padding: 16px;
-        color: #757575;
-        border-radius: 5px;
-        background-color: #fff;
-        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
-      }
-
-      .circle {
-        display: inline-block;
-        width: 64px;
-        height: 64px;
-        text-align: center;
-        color: #555;
-        border-radius: 50%;
-        background: #ddd;
-        font-size: 30px;
-        line-height: 64px;
-      }
-
-      h1 {
-        margin: 16px 0;
-        color: #212121;
-        font-size: 22px;
-      }
+    :host  {
+      /*
+       * You can use these generic variables in your elements for easy theming.
+       * For example, if all your elements use \`--primary-text-color\` as its main
+       * color, then switching from a light to a dark theme is just a matter of
+       * changing the value of \`--primary-text-color\` in your application.
+       */
+      --primary-text-color: var(--light-theme-text-color);
+      --primary-background-color: var(--light-theme-background-color);
+      --secondary-background-color: var(--light-theme-background2-color);
+      --secondary-text-color: var(--light-theme-secondary-color);
+      --disabled-text-color: var(--light-theme-disabled-color);
+      --divider-color: var(--light-theme-divider-color);
+      --error-color: var(--paper-deep-orange-a700);
+      /*
+       * Primary and accent colors. Also see color.js for more colors.
+       */
+      --primary-color: var(--paper-blue-500);
+      --light-primary-color: var(--paper-blue-100);
+      --dark-primary-color: var(--paper-blue-700);
+      --accent-color: var(--paper-pink-a200);
+      --light-accent-color: var(--paper-pink-a100);
+      --dark-accent-color: var(--paper-pink-a400);
+      /*
+       * Material Design Light background theme
+       */
+       --light-theme-background-color: #fff;
+       --light-theme-background2-color: #eee;
+      --light-theme-base-color: #000000;
+      --light-theme-text-color: var(--paper-grey-900);
+      --light-theme-secondary-color: #737373;  /* for secondary text and icons */
+      --light-theme-disabled-color: #9b9b9b;  /* disabled/hint text */
+      --light-theme-divider-color: #dbdbdb;
+      /*
+       * Material Design Dark background theme
+       */
+       --dark-theme-background-color: var(--paper-grey-900);
+       --dark-theme-background2-color: var(--paper-grey-800);
+      --dark-theme-base-color: #ffffff;
+      --dark-theme-text-color: #ffffff;
+      --dark-theme-secondary-color: #bcbcbc;  /* for secondary text and icons */
+      --dark-theme-disabled-color: #646464;  /* disabled/hint text */
+      --dark-theme-divider-color: #3c3c3c;
+      /*
+       * Deprecated values because of their confusing names.
+       */
+      --text-primary-color: var(--dark-theme-text-color);
+      --default-primary-color: var(--primary-color);
+    }
     </style>
   </template>
 </dom-module>`;

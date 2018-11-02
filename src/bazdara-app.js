@@ -8,8 +8,14 @@
  * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 
-import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
-import { setPassiveTouchGestures, setRootPath } from '@polymer/polymer/lib/utils/settings.js';
+import {
+  PolymerElement,
+  html
+} from '@polymer/polymer/polymer-element.js';
+import {
+  setPassiveTouchGestures,
+  setRootPath
+} from '@polymer/polymer/lib/utils/settings.js';
 import '@polymer/app-layout/app-drawer/app-drawer.js';
 import '@polymer/app-layout/app-drawer-layout/app-drawer-layout.js';
 import '@polymer/app-layout/app-header/app-header.js';
@@ -22,6 +28,7 @@ import '@polymer/iron-pages/iron-pages.js';
 import '@polymer/iron-selector/iron-selector.js';
 import '@polymer/paper-icon-button/paper-icon-button.js';
 import './bazdara-icons.js';
+import './shared-styles.js';
 
 import './elements/firebase-app.js';
 
@@ -35,14 +42,15 @@ setRootPath(BazdaraAppGlobals.rootPath);
 
 class BazdaraApp extends PolymerElement {
   static get template() {
-    return html`
-      <style>
+    return html `
+      <style include="shared-styles">
         :host {
-          --app-primary-color: #4285f4;
-          --app-secondary-color: black;
           --app-drawer-width: 256px;
-
           display: block;
+        }
+
+        :root  {
+          background-color: var(--secondary-background-color);
         }
 
         app-drawer-layout:not([narrow]) [drawer-toggle] {
@@ -51,7 +59,7 @@ class BazdaraApp extends PolymerElement {
 
         app-header {
           color: #fff;
-          background-color: var(--app-primary-color);
+          background-color: var(--primary-color);
         }
 
         app-header paper-icon-button {
@@ -75,9 +83,8 @@ class BazdaraApp extends PolymerElement {
           font-weight: bold;
         }
       </style>
-
+      <div id="loadingScreen"></div>
       <firebase-document id="cameras" path="/camera" data="{{cameras}}"></firebase-document>
-
 
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]">
       </app-location>
@@ -132,10 +139,10 @@ class BazdaraApp extends PolymerElement {
   }
 
   _routePageChanged(page) {
-     // Show the corresponding page according to the route.
-     //
-     // If no page was found in the route data, page will be an empty string.
-     // Show 'home' in that case. And if the page doesn't exist, show 'view404'.
+    // Show the corresponding page according to the route.
+    //
+    // If no page was found in the route data, page will be an empty string.
+    // Show 'home' in that case. And if the page doesn't exist, show 'view404'.
     if (!page) {
       this.page = 'home';
     } else if (['home'].indexOf(page) !== -1) {
