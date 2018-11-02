@@ -15,7 +15,8 @@
     "deploy:firebase": "polymer build --auto-base-path && gulp firebase && firebase deploy --only functions,hosting,database",
     "lint": "polymer lint",
     "test": "polymer test",
-    "test:integration": "polymer build # test that psk builds without error with the CLI"
+    "test:integration": "polymer build # test that psk builds without error with the CLI",
+    "postinstall": "cd server && npm install"
   },
   "dependencies": {
     "@polymer/app-layout": "^3.0.1",

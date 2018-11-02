@@ -17,7 +17,6 @@ import 'firebase/database';
 import 'firebase/storage';
 
 import '../elements/geo-location.js';
-import '../elements/fullscreen-icon-button.js';
 
 const databaseRef = firebase.database().ref();
 export const cameraRef = databaseRef.child("camera");
