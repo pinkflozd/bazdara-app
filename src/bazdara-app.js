@@ -27,10 +27,16 @@ import '@polymer/app-route/app-route.js';
 import '@polymer/iron-pages/iron-pages.js';
 import '@polymer/iron-selector/iron-selector.js';
 import '@polymer/paper-icon-button/paper-icon-button.js';
+
+import '@polymer/paper-dialog/paper-dialog.js';
+import '@polymer/neon-animation/neon-animations.js';
+
 import './bazdara-icons.js';
 import './shared-styles.js';
 
 import './elements/firebase-app.js';
+import './elements/firebase-login.js';
+
 
 // Gesture events like tap and track generated from touch will not be
 // preventable, allowing for better scrolling performance.
@@ -82,6 +88,11 @@ class BazdaraApp extends PolymerElement {
           color: black;
           font-weight: bold;
         }
+
+        paper-dialog#dialog {
+          width:320px;
+          padding:10px;
+        }
       </style>
 
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]">
@@ -94,6 +105,8 @@ class BazdaraApp extends PolymerElement {
         <!-- Drawer content -->
         <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
           <app-toolbar>Menu</app-toolbar>
+          <paper-button raised on-tap="_openDialog">Log In</paper-button>
+
           <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
             <a name="home" href="[[rootPath]]home">Home</a>
           </iron-selector>
@@ -105,7 +118,7 @@ class BazdaraApp extends PolymerElement {
           <app-header slot="header" condenses="" reveals="" effects="waterfall">
             <app-toolbar>
               <paper-icon-button icon="bazdara-icons:menu" drawer-toggle="" aria-label="Menu"></paper-icon-button>
-              <div main-title="">Bazdara [[persistedCameras.kanegra]]</div>
+              <div main-title="">Bazdara</div>
             </app-toolbar>
           </app-header>
 
@@ -113,6 +126,15 @@ class BazdaraApp extends PolymerElement {
             <bazdara-home name="home"></bazdara-home>
             <bazdara-view404 name="view404"></bazdara-view404>
           </iron-pages>
+
+          <paper-dialog id="dialog">
+            <firebase-login></firebase-login>
+            <div class="buttons">
+              <paper-button dialog-confirm autofocus>Tap me to close</paper-button>
+            </div>
+          </paper-dialog>
+
+
         </app-header-layout>
       </app-drawer-layout>
     `;
@@ -134,6 +156,13 @@ class BazdaraApp extends PolymerElement {
     return [
       '_routePageChanged(routeData.page)'
     ];
+  }
+
+  _openDialog() {
+    if (!this.$.drawer.persistent) {
+      this.$.drawer.close();
+    }
+    this.$.dialog.open();
   }
 
   _routePageChanged(page) {

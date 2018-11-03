@@ -17,10 +17,6 @@ import './shared-styles.js';
 
 import './components/live-cam.js';
 
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import '@fabricelements/skeleton-auth/skeleton-auth.js';
-
 class BazdaraHome extends PolymerElement {
   static get template() {
     return html `
@@ -34,16 +30,6 @@ class BazdaraHome extends PolymerElement {
       </style>
 
       <live-cam></live-cam>
-      <skeleton-auth
-               google
-               facebook
-               email
-               phone
-               popup
-               signed-in="{{signedIn}}"
-               user="{{user}}"></skeleton-auth>
-
-
     `;
   }
 
