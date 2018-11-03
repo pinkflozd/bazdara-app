@@ -37,6 +37,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://firebasestorage.googleapis.com">
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="modulepreload" href="src/bazdara-app.js">
   <link rel="apple-touch-icon" sizes="32x32" href="images/icons/bazdara-icon-32.png">
   <link rel="apple-touch-icon" sizes="128x128" href="images/icons/bazdara-icon-128.png">
   <link rel="apple-touch-icon" sizes="144x144" href="images/icons/bazdara-icon-144.png">
@@ -73,7 +74,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       "@context": "http://schema.org",
       "@type": "Organization",
       "url": "https://www.bazdara.com",
-      "logo": "https://www.bazdara.com/images/icons/bazdara-icon-512.png",
+      "logo": "images/icons/bazdara-icon-512.png",
       "sameAs": ["https://www.facebook.com/bazdaraPiran"]
     }, {
       "@context": "http://schema.org",
@@ -83,38 +84,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       "url": "https://www.bazdara.com"
     }]
   </script>
-
-  <script>
-    /**
-     * [polymer-root-path]
-     *
-     * Leave this line unchanged if you intend to serve your app from the root
-     * path (e.g., with URLs like `my.domain/` and `my.domain/view1`).
-     *
-     * If you intend to serve your app from a non-root path (e.g., with URLs
-     * like `my.domain/bazdara-app/` and `my.domain/bazdara-app/view1`), edit this line
-     * to indicate the path from which you'll be serving, including leading
-     * and trailing slashes (e.g., `/bazdara-app/`).
-     */
-    window.BazdaraAppGlobals = {
-      rootPath: '/'
-    };
-
-    // Load and register pre-caching Service Worker
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function() {
-        navigator.serviceWorker.register('service-worker.js', {
-          scope: BazdaraAppGlobals.rootPath
-        });
-      });
-    }
-  </script>
-
-  <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
-  <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
-
-  <!-- Load your application shell -->
-  <script type="module" src="src/bazdara-app.js"></script>
 
   <!-- Add any global styles for body, document, etc. -->
   <style>
@@ -162,12 +131,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       opacity: 1 !important;
       background: url(images/icons/bazdara-icon-192.png) #1e88e5 center center no-repeat;
       background-size: 96px 96px;
-      -webkit-animation: heartbeat 10000ms infinite;
-      animation: heartbeat 10000ms infinite;
     }
 
-    #nojs h1 {
-      font-color: #fff;
+    #nojs .text {
+      color: #fff;
+      font-weight:200;
+      font-size:32px;
+      padding:100px 10px;
       text-align: center
     }
 
@@ -244,6 +214,39 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       -webkit-appearance: none;
     }
   </style>
+
+  <script>
+    /**
+     * [polymer-root-path]
+     *
+     * Leave this line unchanged if you intend to serve your app from the root
+     * path (e.g., with URLs like `my.domain/` and `my.domain/view1`).
+     *
+     * If you intend to serve your app from a non-root path (e.g., with URLs
+     * like `my.domain/bazdara-app/` and `my.domain/bazdara-app/view1`), edit this line
+     * to indicate the path from which you'll be serving, including leading
+     * and trailing slashes (e.g., `/bazdara-app/`).
+     */
+    window.BazdaraAppGlobals = {
+      rootPath: '/'
+    };
+
+    // Load and register pre-caching Service Worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('service-worker.js', {
+          scope: BazdaraAppGlobals.rootPath
+        });
+      });
+    }
+  </script>
+
+  <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
+  <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+
+  <!-- Load your application shell -->
+  <script type="module" src="src/bazdara-app.js"></script>
+
 </head>
 
 <body class="loading">
@@ -251,7 +254,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <bazdara-app></bazdara-app>
   <noscript>
     <div id="nojs">
-    <h1>Please enable JavaScript to view this website.</h1>
+    <div class="text">Please enable JavaScript to view this website.</div>
     </div>
   </noscript>
   <!-- Built with love using Polymer Starter Kit -->

@@ -151,8 +151,6 @@ class LiveCam extends PolymerElement {
           persisted-data="{{persistedCameras}}">
       </app-indexeddb-mirror>
 
-      <geo-location latitude="{{lat}}" longitude="{{lng}}"></geo-location>
-
       <div class="paper-material selector back" elevation="1">
       <div class="wrap">
       <paper-dropdown-menu label="Select webcam">
@@ -260,6 +258,9 @@ class LiveCam extends PolymerElement {
       <paper-toast id="noVideo" duration="0">
         <b>Kamera ni dosegljiva</b> <paper-button on-click="camerastop" class="yellow-button">Stop</paper-button>
       </paper-toast>
+
+      <geo-location latitude="{{lat}}" longitude="{{lng}}"></geo-location>
+
     `;
   }
 
@@ -278,7 +279,7 @@ class LiveCam extends PolymerElement {
       },
       town: {
         type: String,
-        value: 'si_piran04'
+        value: ''
       },
       poster: {
         type: String,

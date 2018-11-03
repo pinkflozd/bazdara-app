@@ -33,7 +33,8 @@
       },
       "bundle": true,
       "addServiceWorker": true,
-      "addPushManifest": true
+      "addPushManifest": true,
+      "insertPrefetchLinks": true
     },
     {
       "name": "es6-bundled",
@@ -52,7 +53,8 @@
       },
       "bundle": true,
       "addServiceWorker": true,
-      "addPushManifest": true
+      "addPushManifest": true,
+      "insertPrefetchLinks": true
     },
     {
       "name": "es5-bundled",
@@ -69,7 +71,8 @@
       },
       "bundle": true,
       "addServiceWorker": true,
-      "addPushManifest": true
+      "addPushManifest": true,
+      "insertPrefetchLinks": true
     }
   ],
   "moduleResolution": "node",
