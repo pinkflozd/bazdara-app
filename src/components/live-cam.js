@@ -14,7 +14,6 @@ import '@polymer/paper-icon-button/paper-icon-button.js';
 import '@polymer/paper-listbox/paper-listbox.js';
 import '@polymer/paper-toast/paper-toast.js';
 import '@polymer/paper-button/paper-button.js';
-import '@polymer/iron-icons/notification-icons.js';
 
 import '@polymer/app-storage/app-indexeddb-mirror/app-indexeddb-mirror.js';
 
@@ -247,7 +246,7 @@ class LiveCam extends PolymerElement {
         <video poster$="[[poster]]" id="video" preload="none"></video>
 
         <div class="full">
-          <paper-icon-button class$="video {{videoClass}}" on-tap="videoClick" icon="notification:live-tv" active={{active}} hidden="[[disabled]]" aria-label="Play webcam"></paper-icon-button>
+          <paper-icon-button class$="video {{videoClass}}" on-tap="videoClick" icon="bazdara-icons:live-tv" active={{active}} hidden="[[disabled]]" aria-label="Play webcam"></paper-icon-button>
           <paper-icon-button class="fullscreen" on-tap="videoFull" icon="bazdara-icons:fullscreen" hidden="[[fullscreenAvailable]]" aria-label="Fullscreen webcam"></paper-icon-button>
         </div>
 

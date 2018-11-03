@@ -8,7 +8,10 @@
  * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 
-import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+import {
+  PolymerElement,
+  html
+} from '@polymer/polymer/polymer-element.js';
 import './shared-styles.js';
 
 import './components/live-cam.js';
@@ -19,7 +22,7 @@ import '@fabricelements/skeleton-auth/skeleton-auth.js';
 
 class BazdaraHome extends PolymerElement {
   static get template() {
-    return html`
+    return html `
       <style include="shared-styles">
         :host {
           display: block;
@@ -30,12 +33,15 @@ class BazdaraHome extends PolymerElement {
 
       <live-cam></live-cam>
 
-      <skeleton-auth google
+      <skeleton-auth
+               google
+               facebook
                email
-               on-error="handleError"
-               recaptcha-container="recaptcha"></skeleton-auth>
+               phone
+               popup
+               signed-in="{{signedIn}}"
+               user="{{user}}"></skeleton-auth>
 
-               <div id="recaptcha"></div>
 
     `;
   }
