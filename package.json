@@ -19,6 +19,7 @@
     "postinstall": "cd server && npm install && cd ../functions && npm install"
   },
   "dependencies": {
+    "@fabricelements/skeleton-auth": "0.0.1",
     "@polymer/app-layout": "^3.0.1",
     "@polymer/app-route": "^3.0.2",
     "@polymer/app-storage": "^3.0.2",
