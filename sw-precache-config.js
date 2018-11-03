@@ -12,8 +12,13 @@ module.exports = {
   staticFileGlobs: [
     'src/**/*',
     'manifest.json',
-    '/images/icons/**/*.*',
+    'images/icons/**/*',
+    'favicon.ico',
+    'node_modules/web-animations-js/web-animations-next-lite.min.js'
   ],
+
+  navigateFallback: 'index.html',
+  navigateFallbackWhitelist: [ /^\/[^\_]+\/?/ ],
 
   runtimeCaching: [{
       urlPattern: /\/@webcomponents\/webcomponentsjs\//,

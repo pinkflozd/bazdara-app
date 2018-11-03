@@ -13,6 +13,10 @@ import './shared-styles.js';
 
 import './components/live-cam.js';
 
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import '@fabricelements/skeleton-auth/skeleton-auth.js';
+
 class BazdaraHome extends PolymerElement {
   static get template() {
     return html`
@@ -25,6 +29,13 @@ class BazdaraHome extends PolymerElement {
       </style>
 
       <live-cam></live-cam>
+
+      <skeleton-auth google
+               email
+               on-error="handleError"
+               recaptcha-container="recaptcha"></skeleton-auth>
+
+               <div id="recaptcha"></div>
 
     `;
   }
