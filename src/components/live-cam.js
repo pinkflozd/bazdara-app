@@ -301,7 +301,10 @@ class LiveCam extends PolymerElement {
         type: Object,
         notify: true,
         reflectToAttribute: true
-      }
+      },
+      persistedCameras:{
+        type: Object,
+      },
     };
   }
 

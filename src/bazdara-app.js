@@ -83,8 +83,6 @@ class BazdaraApp extends PolymerElement {
           font-weight: bold;
         }
       </style>
-      <div id="loadingScreen"></div>
-      <firebase-document id="cameras" path="/camera" data="{{cameras}}"></firebase-document>
 
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]">
       </app-location>
@@ -107,7 +105,7 @@ class BazdaraApp extends PolymerElement {
           <app-header slot="header" condenses="" reveals="" effects="waterfall">
             <app-toolbar>
               <paper-icon-button icon="bazdara-icons:menu" drawer-toggle="" aria-label="Menu"></paper-icon-button>
-              <div main-title="">Bazdara [[cameras.kanegra]]</div>
+              <div main-title="">Bazdara [[persistedCameras.kanegra]]</div>
             </app-toolbar>
           </app-header>
 

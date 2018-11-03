@@ -12,6 +12,7 @@ import {
   PolymerElement,
   html
 } from '@polymer/polymer/polymer-element.js';
+
 import './shared-styles.js';
 
 import './components/live-cam.js';
@@ -23,6 +24,7 @@ import '@fabricelements/skeleton-auth/skeleton-auth.js';
 class BazdaraHome extends PolymerElement {
   static get template() {
     return html `
+
       <style include="shared-styles">
         :host {
           display: block;
@@ -32,7 +34,6 @@ class BazdaraHome extends PolymerElement {
       </style>
 
       <live-cam></live-cam>
-
       <skeleton-auth
                google
                facebook
@@ -45,6 +46,7 @@ class BazdaraHome extends PolymerElement {
 
     `;
   }
+
 }
 
 window.customElements.define('bazdara-home', BazdaraHome);
