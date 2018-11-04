@@ -269,7 +269,7 @@ class LiveCam extends PolymerElement {
         value: 0
       },
       lng: {
-        observer: 'numberChanged',
+        observer: 'fireload',
         type: Number,
         value: 0
       },
@@ -312,10 +312,9 @@ class LiveCam extends PolymerElement {
   }
 
   fireload() {
-    this.camera();
-    setInterval(function() {
+    if (this.cameras) {
       this.camera();
-    }.bind(this), 300000);
+    }
   }
 
   Deg2Rad(deg) {
@@ -360,44 +359,47 @@ class LiveCam extends PolymerElement {
     var closest;
     var index;
 
+
     var cities = [
-      ["si_piran04", 0, 0, "001", "sipiran04"],
-      ["si_piran04", 46.0569, 14.5058, "001", "sipiran04"],
-      ["si_piran04", 45.524841, 13.567059, "001", "sipiran04"],
-      ["si_piran03", 45.528666, 13.568362, "001", "sipiran03"],
-      ["si_piranpunta", 45.5283129, 13.5659228, "001", "sipiranpunta"],
-      ["podvodna", 99, 99, "https://x.bazdara.com/mbss/mbss.stream/playlist.m3u8?DVR", "podvodna"],
-      ["si_fiesa01", 45.525243, 13.582448, "003", "sifiesa01"],
-      ["si_strunjan01", 45.527656, 13.603306, "003", "sistrunjan01"],
-      ["si_portoroz03", 45.512827, 13.5933043, "001", "siportoroz03"],
-      ["si_portoroz05", 45.512260, 13.594525, "001", "siportoroz05"],
-      ["si_portoroz04", 45.511023, 13.594466, "003", "siportoroz04"],
-      ["si_ljpz1", 45.473511, 13.6139783, "002", "siljpz1"],
-      ["izola", 45.533596, 13.651651, "002", "izola"],
-      ["si_izola3", 45.531197, 13.634514, "001", "siizola3"],
-      ["si_izola1", 45.532097, 13.645430, "001", "siizola1"],
-      ["siwc_KOPER_MARKOVEC_e", 45.546163, 13.709389, "002", "siwcKOPERMARKOVECe"],
-      ["siwc_KOPER_MARKOVEC_n", 45.546729, 13.693094, "002", "siwcKOPERMARKOVECn"],
-      ["hr_novigrad1", 45.318399, 13.562551, "002", "hrnovigrad1"],
-      ["hr_umag4", 45.435882, 13.523732, "001", "hrumag4"],
-      ["hr_porec03", 45.227733, 13.589623, "001", "hrporec03"],
-      ["hr_porec1", 45.216387, 13.597995, "001", "hrporec1"],
-      ["hr_rovinj2", 45.084720, 13.634840, "002", "hrrovinj2"],
-      ["kanegra", 45.487442, 13.559213, "kanegra", "kanegra"],
-      ["hr_savudrija1", 45.501171, 13.503542, "001", "hrsavudrija1"],
-      ["trst", 45.692709, 13.749297, "002", "trst"],
-      ["hr_golfadriatic1", 45.493339, 13.536247, "003", "hrgolfadriatic1"],
-      ["si_solinesecovlje", 45.490140, 13.606183, "004", "sisolinesecovlje"],
-      ["hr_rovinj3", 45.080280, 13.635722, "001", "hrrovinj3"]
+      ["si_piran04", 0, 0, "001", "sipiran04", this.persistedCameras.sipiran04],
+      ["si_piranpunta", 46.0569, 14.5058, "001", "sipiranpunta", this.persistedCameras.sipiranpunta],
+      ["si_piran04", 45.524841, 13.567059, "001", "sipiran04", this.persistedCameras.sipiran04],
+      ["si_piran03", 45.528666, 13.568362, "001", "sipiran03", this.persistedCameras.sipiran03],
+      ["si_piranpunta", 45.5283129, 13.5659228, "001", "sipiranpunta", this.persistedCameras.sipiranpunta],
+      ["podvodna", 99, 99, "https://x.bazdara.com/mbss/mbss.stream/playlist.m3u8?DVR", "podvodna", this.persistedCameras.podvodna],
+      ["si_fiesa01", 45.525243, 13.582448, "003", "sifiesa01", this.persistedCameras.sifiesa01],
+      ["si_strunjan01", 45.527656, 13.603306, "003", "sistrunjan01", this.persistedCameras.sistrunjan01],
+      ["si_portoroz03", 45.512827, 13.5933043, "001", "siportoroz03", this.persistedCameras.siportoroz03],
+      ["si_portoroz05", 45.512260, 13.594525, "001", "siportoroz05", this.persistedCameras.siportoroz05],
+      ["si_portoroz04", 45.511023, 13.594466, "003", "siportoroz04", this.persistedCameras.siportoroz04],
+      ["si_ljpz1", 45.473511, 13.6139783, "002", "siljpz1", this.persistedCameras.siljpz1],
+      ["izola", 45.533596, 13.651651, "002", "izola", this.persistedCameras.izola],
+      ["si_izola3", 45.531197, 13.634514, "001", "siizola3", this.persistedCameras.siizola3],
+      ["si_izola1", 45.532097, 13.645430, "001", "siizola1", this.persistedCameras.siizola1],
+      ["siwc_KOPER_MARKOVEC_e", 45.546163, 13.709389, "002", "siwcKOPERMARKOVECe", this.persistedCameras.siwcKOPERMARKOVECe],
+      ["siwc_KOPER_MARKOVEC_n", 45.546729, 13.693094, "002", "siwcKOPERMARKOVECn", this.persistedCameras.siwcKOPERMARKOVECn],
+      ["hr_novigrad1", 45.318399, 13.562551, "002", "hrnovigrad1", this.persistedCameras.hrnovigrad1],
+      ["hr_umag4", 45.435882, 13.523732, "001", "hrumag4", this.persistedCameras.hrumag4],
+      ["hr_porec03", 45.227733, 13.589623, "001", "hrporec03", this.persistedCameras.hrporec03],
+      ["hr_porec1", 45.216387, 13.597995, "001", "hrporec1", this.persistedCameras.hrporec1],
+      ["hr_rovinj2", 45.084720, 13.634840, "002", "hrrovinj2", this.persistedCameras.hrrovinj2],
+      ["kanegra", 45.487442, 13.559213, "kanegra", "kanegra", this.persistedCameras.kanegra],
+      ["hr_savudrija1", 45.501171, 13.503542, "001", "hrsavudrija1", this.persistedCameras.hrsavudrija1],
+      ["trst", 45.692709, 13.749297, "002", "trst", this.persistedCameras.trst],
+      ["hr_golfadriatic1", 45.493339, 13.536247, "003", "hrgolfadriatic1", this.persistedCameras.hrgolfadriatic1],
+      ["si_solinesecovlje", 45.490140, 13.606183, "004", "sisolinesecovlje", this.persistedCameras.sisolinesecovlje],
+      ["hr_rovinj3", 45.080280, 13.635722, "001", "hrrovinj3", this.persistedCameras.hrrovinj3]
     ];
 
     for (index = 0; index < cities.length; ++index) {
       var dif = this.PythagorasEquirectangular(latitude, longitude, cities[index][1], cities[index][2]);
-
-      if (dif < mindif) {
-        closest = index;
-        mindif = dif;
+      if (cities[index][5] == null) {
+        if (dif < mindif) {
+          closest = index;
+          mindif = dif;
+        }
       }
+
     }
 
     // echo the nearest city
@@ -579,7 +581,9 @@ class LiveCam extends PolymerElement {
   }
 
   numberChanged() {
+
     this.camera();
+
   }
 
   disa() {
@@ -728,6 +732,14 @@ class LiveCam extends PolymerElement {
     });
   }
 
+  ready() {
+    super.ready();
+
+    setInterval(function() {
+      this.camera();
+    }.bind(this), 300000);
+
+  }
 
 }
 
