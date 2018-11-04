@@ -13,6 +13,9 @@ import {
   html
 } from '@polymer/polymer/polymer-element.js';
 import {
+  afterNextRender
+} from '@polymer/polymer/lib/utils/render-status.js';
+import {
   setPassiveTouchGestures,
   setRootPath
 } from '@polymer/polymer/lib/utils/settings.js';
@@ -29,14 +32,12 @@ import '@polymer/iron-selector/iron-selector.js';
 import '@polymer/paper-icon-button/paper-icon-button.js';
 
 import '@polymer/paper-dialog/paper-dialog.js';
-import '@polymer/neon-animation/neon-animations.js';
 
 import './bazdara-icons.js';
 import './shared-styles.js';
 
 import './elements/firebase-app.js';
-import './elements/firebase-login.js';
-
+import '@fabricelements/skeleton-auth/auth-mixin.js';
 
 // Gesture events like tap and track generated from touch will not be
 // preventable, allowing for better scrolling performance.
@@ -46,7 +47,7 @@ setPassiveTouchGestures(true);
 // in `index.html`.
 setRootPath(BazdaraAppGlobals.rootPath);
 
-class BazdaraApp extends PolymerElement {
+class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
   static get template() {
     return html `
       <style include="shared-styles">
@@ -159,10 +160,13 @@ class BazdaraApp extends PolymerElement {
   }
 
   _openDialog() {
-    if (!this.$.drawer.persistent) {
-      this.$.drawer.close();
-    }
-    this.$.dialog.open();
+    import('./elements/firebase-login.js').then(function() {
+      if (!this.$.drawer.persistent) {
+        this.$.drawer.close();
+      }
+      this.$.dialog.open();
+    }.bind(this));
+
   }
 
   _routePageChanged(page) {
@@ -199,5 +203,6 @@ class BazdaraApp extends PolymerElement {
     }
   }
 }
+
 
 window.customElements.define('bazdara-app', BazdaraApp);

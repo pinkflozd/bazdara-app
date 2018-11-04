@@ -21,11 +21,6 @@ import firebase from 'firebase/app';
 import 'firebase/database';
 import 'firebase/storage';
 
-import '../elements/geo-location.js';
-
-const databaseRef = firebase.database().ref();
-export const cameraRef = databaseRef.child("camera");
-
 class LiveCam extends PolymerElement {
 
   static get template() {
@@ -315,7 +310,7 @@ class LiveCam extends PolymerElement {
   }
 
   fireload() {
-
+      this.camera();
     setInterval(function() {
       this.camera();
     }.bind(this), 300000);
@@ -721,6 +716,9 @@ class LiveCam extends PolymerElement {
       hlsjs.setAttribute('src', 'https://cdn.jsdelivr.net/npm/hls.js@0.11.0/dist/hls.light.min.js');
       document.head.appendChild(hlsjs);
 
+      var databaseRef = firebase.database().ref();
+      var cameraRef = databaseRef.child("camera");
+
       cameraRef.on('value', function(camer) {
         this.cameras = camer.val();
       }.bind(this));
@@ -730,6 +728,10 @@ class LiveCam extends PolymerElement {
 
   ready() {
     super.ready();
+
+    afterNextRender(this, function() {
+    import('../elements/geo-location.js').then(null);
+    });
 
   }
 
