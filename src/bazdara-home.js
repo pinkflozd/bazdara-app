@@ -15,7 +15,7 @@ import {
 
 import './shared-styles.js';
 
-import './components/live-cam.js';
+import './elements/live-cam.js';
 
 class BazdaraHome extends PolymerElement {
   static get template() {
