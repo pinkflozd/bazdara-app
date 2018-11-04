@@ -30,13 +30,13 @@ import '@polymer/app-route/app-route.js';
 import '@polymer/iron-pages/iron-pages.js';
 import '@polymer/iron-selector/iron-selector.js';
 import '@polymer/paper-icon-button/paper-icon-button.js';
-
 import '@polymer/paper-dialog/paper-dialog.js';
 
 import './bazdara-icons.js';
 import './shared-styles.js';
 
 import './elements/firebase-app.js';
+import './elements/geo-button.js';
 import '@fabricelements/skeleton-auth/auth-mixin.js';
 
 // Gesture events like tap and track generated from touch will not be
@@ -94,6 +94,16 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
           width:320px;
           padding:10px;
         }
+
+        .title {
+          text-align: center;
+          font-weight:200;
+          font-size:36px
+        }
+
+        .button-width {
+          width:40px
+        }
       </style>
 
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]">
@@ -118,8 +128,9 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
 
           <app-header slot="header" condenses="" reveals="" effects="waterfall">
             <app-toolbar>
-              <paper-icon-button icon="bazdara-icons:menu" drawer-toggle="" aria-label="Menu"></paper-icon-button>
-              <div main-title="">Bazdara</div>
+              <paper-icon-button class="button-width" icon="bazdara-icons:menu" drawer-toggle="" aria-label="Menu"></paper-icon-button>
+              <div class="title" main-title="Bazdara">Bazdara</div>
+              <geo-button class="button-width"></geo-button>
             </app-toolbar>
           </app-header>
 

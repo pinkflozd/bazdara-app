@@ -145,6 +145,8 @@ class LiveCam extends PolymerElement {
           persisted-data="{{persistedCameras}}">
       </app-indexeddb-mirror>
 
+
+
       <div class="paper-material selector back" elevation="1">
       <div class="wrap">
       <paper-dropdown-menu label="Select webcam">
@@ -253,8 +255,6 @@ class LiveCam extends PolymerElement {
         <b>Kamera ni dosegljiva</b> <paper-button on-click="camerastop" class="yellow-button">Stop</paper-button>
       </paper-toast>
 
-      <geo-location latitude="{{lat}}" longitude="{{lng}}"></geo-location>
-
     `;
   }
 
@@ -266,10 +266,12 @@ class LiveCam extends PolymerElement {
       },
       lat: {
         type: Number,
+        value: 0
       },
       lng: {
         observer: 'numberChanged',
         type: Number,
+        value: 0
       },
       town: {
         type: String,
@@ -729,9 +731,9 @@ class LiveCam extends PolymerElement {
   ready() {
     super.ready();
 
-    afterNextRender(this, function() {
-      import('../elements/geo-location.js').then(null);
-    });
+  //  afterNextRender(this, function() {
+  //    import('../elements/geo-location.js').then(null);
+  //  });
 
     window.addEventListener('geo-response', function(e) {
       console.log(e);
