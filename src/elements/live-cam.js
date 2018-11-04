@@ -15,7 +15,7 @@ import '@polymer/paper-listbox/paper-listbox.js';
 import '@polymer/paper-toast/paper-toast.js';
 import '@polymer/paper-button/paper-button.js';
 
-import '@polymer/app-storage/app-indexeddb-mirror/app-indexeddb-mirror.js';
+import '@polymer/app-storage/app-localstorage/app-localstorage-document.js';
 
 import firebase from 'firebase/app';
 import 'firebase/database';
@@ -139,94 +139,88 @@ class LiveCam extends PolymerElement {
 
       </style>
 
-      <app-indexeddb-mirror
-          key="cameras"
-          data="{{cameras}}"
-          persisted-data="{{persistedCameras}}">
-      </app-indexeddb-mirror>
-
-
+      <app-localstorage-document key="cameras" data="{{cameras}}"></app-localstorage-document>
 
       <div class="paper-material selector back" elevation="1">
       <div class="wrap">
       <paper-dropdown-menu label="Select webcam">
         <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="id" selected="{{tabselect}}">
-          <paper-item class="cont" hidden$="[[persistedCameras.sipiran04]]" id="sipiran04" on-tap="onTabSelect">
+          <paper-item class="cont" hidden$="[[cameras.sipiran04]]" id="sipiran04" on-tap="onTabSelect">
             Piran
           </paper-item>
-          <paper-item class="cont" hidden$="[[persistedCameras.sipiran03]]" id="sipiran03" on-tap="onTabSelect">
+          <paper-item class="cont" hidden$="[[cameras.sipiran03]]" id="sipiran03" on-tap="onTabSelect">
             Piran&nbsp;-&nbsp;Tartini
           </paper-item>
-          <paper-item class="cont" hidden$="[[persistedCameras.sipiranpunta]]" id="sipiranpunta" on-tap="onTabSelect">
+          <paper-item class="cont" hidden$="[[cameras.sipiranpunta]]" id="sipiranpunta" on-tap="onTabSelect">
             Piran&nbsp;-&nbsp;Panorama
           </paper-item>
-          <paper-item class="cont" hidden$="[[persistedCameras.podvodna]]" id="podvodna" on-tap="onTabSelect">
+          <paper-item class="cont" hidden$="[[cameras.podvodna]]" id="podvodna" on-tap="onTabSelect">
             Piran&nbsp;-&nbsp;Podvodna
           </paper-item>
-          <paper-item class="cont" hidden$="[[persistedCameras.siportoroz03]]" id="siportoroz03" on-tap="onTabSelect">
+          <paper-item class="cont" hidden$="[[cameras.siportoroz03]]" id="siportoroz03" on-tap="onTabSelect">
             Portorož
           </paper-item>
-          <paper-item class="cont" hidden$="[[persistedCameras.siportoroz05]]" id="siportoroz05" on-tap="onTabSelect">
+          <paper-item class="cont" hidden$="[[cameras.siportoroz05]]" id="siportoroz05" on-tap="onTabSelect">
             Portorož&nbsp;Panorama&nbsp;1
           </paper-item>
-          <paper-item class="cont" hidden$="[[persistedCameras.siportoroz04]]" id="siportoroz04" on-tap="onTabSelect">
+          <paper-item class="cont" hidden$="[[cameras.siportoroz04]]" id="siportoroz04" on-tap="onTabSelect">
             Portorož&nbsp;Panorama&nbsp;2
           </paper-item>
-          <paper-item class="cont" hidden$="[[persistedCameras.sifiesa01]]" id="sifiesa01" on-tap="onTabSelect">
+          <paper-item class="cont" hidden$="[[cameras.sifiesa01]]" id="sifiesa01" on-tap="onTabSelect">
             Fiesa
           </paper-item>
-          <paper-item class="cont" hidden$="[[persistedCameras.sistrunjan01]]" id="sistrunjan01" on-tap="onTabSelect">
+          <paper-item class="cont" hidden$="[[cameras.sistrunjan01]]" id="sistrunjan01" on-tap="onTabSelect">
             Strunjan
           </paper-item>
-          <paper-item class="cont" hidden$="[[persistedCameras.sisolinesecovlje]]" id="sisolinesecovlje" on-tap="onTabSelect">
+          <paper-item class="cont" hidden$="[[cameras.sisolinesecovlje]]" id="sisolinesecovlje" on-tap="onTabSelect">
             Seča&nbsp;Soline
           </paper-item>
-          <paper-item class="cont" hidden$="[[persistedCameras.siljpz1]]" id="siljpz1" on-tap="onTabSelect">
+          <paper-item class="cont" hidden$="[[cameras.siljpz1]]" id="siljpz1" on-tap="onTabSelect">
             AP&nbsp;Portorož
           </paper-item>
-          <paper-item class="cont" hidden$="[[persistedCameras.izola]]" id="izola" on-tap="onTabSelect">
+          <paper-item class="cont" hidden$="[[cameras.izola]]" id="izola" on-tap="onTabSelect">
             Izola
           </paper-item>
-          <paper-item class="cont" hidden$="[[persistedCameras.siizola1]]" id="siizola1" on-tap="onTabSelect">
+          <paper-item class="cont" hidden$="[[cameras.siizola1]]" id="siizola1" on-tap="onTabSelect">
             Izola&nbsp;San&nbsp;Simon
           </paper-item>
-          <paper-item class="cont" hidden$="[[persistedCameras.siizola3]]" id="siizola3" on-tap="onTabSelect">
+          <paper-item class="cont" hidden$="[[cameras.siizola3]]" id="siizola3" on-tap="onTabSelect">
             Izola&nbsp;Panorama
           </paper-item>
-          <paper-item class="cont" hidden$="[[persistedCameras.siwcKOPERMARKOVECn]]" id="siwcKOPERMARKOVECn" on-tap="onTabSelect">
+          <paper-item class="cont" hidden$="[[cameras.siwcKOPERMARKOVECn]]" id="siwcKOPERMARKOVECn" on-tap="onTabSelect">
             Markovec
           </paper-item>
-          <paper-item class="cont" hidden$="[[persistedCameras.siwcKOPERMARKOVECe]]" id="siwcKOPERMARKOVECe" on-tap="onTabSelect">
+          <paper-item class="cont" hidden$="[[cameras.siwcKOPERMARKOVECe]]" id="siwcKOPERMARKOVECe" on-tap="onTabSelect">
             Koper
           </paper-item>
-          <paper-item class="cont" hidden$="[[persistedCameras.trst]]" id="trst" on-tap="onTabSelect">
+          <paper-item class="cont" hidden$="[[cameras.trst]]" id="trst" on-tap="onTabSelect">
             Trst
           </paper-item>
-          <paper-item class="cont" hidden$="[[persistedCameras.kanegra]]" id="kanegra" on-tap="onTabSelect">
+          <paper-item class="cont" hidden$="[[cameras.kanegra]]" id="kanegra" on-tap="onTabSelect">
             Kanegra
           </paper-item>
-          <paper-item class="cont" hidden$="[[persistedCameras.hrgolfadriatic1]]" id="hrgolfadriatic1" on-tap="onTabSelect">
+          <paper-item class="cont" hidden$="[[cameras.hrgolfadriatic1]]" id="hrgolfadriatic1" on-tap="onTabSelect">
             Crveni Vrh
           </paper-item>
-          <paper-item class="cont" hidden$="[[persistedCameras.hrsavudrija1]]" id="hrsavudrija1" on-tap="onTabSelect">
+          <paper-item class="cont" hidden$="[[cameras.hrsavudrija1]]" id="hrsavudrija1" on-tap="onTabSelect">
             Savudrija
           </paper-item>
-          <paper-item class="cont" hidden$="[[persistedCameras.hrumag4]]" id="hrumag4" on-tap="onTabSelect">
+          <paper-item class="cont" hidden$="[[cameras.hrumag4]]" id="hrumag4" on-tap="onTabSelect">
             Umag
           </paper-item>
-          <paper-item class="cont" hidden$="[[persistedCameras.hrnovigrad1]]" id="hrnovigrad1" on-tap="onTabSelect">
+          <paper-item class="cont" hidden$="[[cameras.hrnovigrad1]]" id="hrnovigrad1" on-tap="onTabSelect">
             Novigrad
           </paper-item>
-          <paper-item class="cont" hidden$="[[persistedCameras.hrporec03]]" id="hrporec03" on-tap="onTabSelect">
+          <paper-item class="cont" hidden$="[[cameras.hrporec03]]" id="hrporec03" on-tap="onTabSelect">
             Poreč
           </paper-item>
-          <paper-item class="cont" hidden$="[[persistedCameras.hrporec1]]" id="hrporec1" on-tap="onTabSelect">
+          <paper-item class="cont" hidden$="[[cameras.hrporec1]]" id="hrporec1" on-tap="onTabSelect">
             Poreč Marina
           </paper-item>
-          <paper-item class="cont" hidden$="[[persistedCameras.hrrovinj2]]" id="hrrovinj2" on-tap="onTabSelect">
+          <paper-item class="cont" hidden$="[[cameras.hrrovinj2]]" id="hrrovinj2" on-tap="onTabSelect">
             Rovinj&nbsp;Panorama
           </paper-item>
-          <paper-item class="cont" hidden$="[[persistedCameras.hrrovinj3]]" id="hrrovinj3" on-tap="onTabSelect">
+          <paper-item class="cont" hidden$="[[cameras.hrrovinj3]]" id="hrrovinj3" on-tap="onTabSelect">
             Rovinj&nbsp;Center
           </paper-item>
         </paper-listbox>
@@ -299,7 +293,7 @@ class LiveCam extends PolymerElement {
         notify: true,
         reflectToAttribute: true
       },
-      persistedCameras: {
+      cameras: {
         type: Object,
       },
     };
@@ -361,34 +355,34 @@ class LiveCam extends PolymerElement {
 
 
     var cities = [
-      ["si_piran04", 0, 0, "001", "sipiran04", this.persistedCameras.sipiran04],
-      ["si_piranpunta", 46.0569, 14.5058, "001", "sipiranpunta", this.persistedCameras.sipiranpunta],
-      ["si_piran04", 45.524841, 13.567059, "001", "sipiran04", this.persistedCameras.sipiran04],
-      ["si_piran03", 45.528666, 13.568362, "001", "sipiran03", this.persistedCameras.sipiran03],
-      ["si_piranpunta", 45.5283129, 13.5659228, "001", "sipiranpunta", this.persistedCameras.sipiranpunta],
-      ["podvodna", 99, 99, "https://x.bazdara.com/mbss/mbss.stream/playlist.m3u8?DVR", "podvodna", this.persistedCameras.podvodna],
-      ["si_fiesa01", 45.525243, 13.582448, "003", "sifiesa01", this.persistedCameras.sifiesa01],
-      ["si_strunjan01", 45.527656, 13.603306, "003", "sistrunjan01", this.persistedCameras.sistrunjan01],
-      ["si_portoroz03", 45.512827, 13.5933043, "001", "siportoroz03", this.persistedCameras.siportoroz03],
-      ["si_portoroz05", 45.512260, 13.594525, "001", "siportoroz05", this.persistedCameras.siportoroz05],
-      ["si_portoroz04", 45.511023, 13.594466, "003", "siportoroz04", this.persistedCameras.siportoroz04],
-      ["si_ljpz1", 45.473511, 13.6139783, "002", "siljpz1", this.persistedCameras.siljpz1],
-      ["izola", 45.533596, 13.651651, "002", "izola", this.persistedCameras.izola],
-      ["si_izola3", 45.531197, 13.634514, "001", "siizola3", this.persistedCameras.siizola3],
-      ["si_izola1", 45.532097, 13.645430, "001", "siizola1", this.persistedCameras.siizola1],
-      ["siwc_KOPER_MARKOVEC_e", 45.546163, 13.709389, "002", "siwcKOPERMARKOVECe", this.persistedCameras.siwcKOPERMARKOVECe],
-      ["siwc_KOPER_MARKOVEC_n", 45.546729, 13.693094, "002", "siwcKOPERMARKOVECn", this.persistedCameras.siwcKOPERMARKOVECn],
-      ["hr_novigrad1", 45.318399, 13.562551, "002", "hrnovigrad1", this.persistedCameras.hrnovigrad1],
-      ["hr_umag4", 45.435882, 13.523732, "001", "hrumag4", this.persistedCameras.hrumag4],
-      ["hr_porec03", 45.227733, 13.589623, "001", "hrporec03", this.persistedCameras.hrporec03],
-      ["hr_porec1", 45.216387, 13.597995, "001", "hrporec1", this.persistedCameras.hrporec1],
-      ["hr_rovinj2", 45.084720, 13.634840, "002", "hrrovinj2", this.persistedCameras.hrrovinj2],
-      ["kanegra", 45.487442, 13.559213, "kanegra", "kanegra", this.persistedCameras.kanegra],
-      ["hr_savudrija1", 45.501171, 13.503542, "001", "hrsavudrija1", this.persistedCameras.hrsavudrija1],
-      ["trst", 45.692709, 13.749297, "002", "trst", this.persistedCameras.trst],
-      ["hr_golfadriatic1", 45.493339, 13.536247, "003", "hrgolfadriatic1", this.persistedCameras.hrgolfadriatic1],
-      ["si_solinesecovlje", 45.490140, 13.606183, "004", "sisolinesecovlje", this.persistedCameras.sisolinesecovlje],
-      ["hr_rovinj3", 45.080280, 13.635722, "001", "hrrovinj3", this.persistedCameras.hrrovinj3]
+      ["si_piran04", 0, 0, "001", "sipiran04", this.cameras.sipiran04],
+      ["si_piranpunta", 46.0569, 14.5058, "001", "sipiranpunta", this.cameras.sipiranpunta],
+      ["si_piran04", 45.524841, 13.567059, "001", "sipiran04", this.cameras.sipiran04],
+      ["si_piran03", 45.528666, 13.568362, "001", "sipiran03", this.cameras.sipiran03],
+      ["si_piranpunta", 45.5283129, 13.5659228, "001", "sipiranpunta", this.cameras.sipiranpunta],
+      ["podvodna", 99, 99, "https://x.bazdara.com/mbss/mbss.stream/playlist.m3u8?DVR", "podvodna", this.cameras.podvodna],
+      ["si_fiesa01", 45.525243, 13.582448, "003", "sifiesa01", this.cameras.sifiesa01],
+      ["si_strunjan01", 45.527656, 13.603306, "003", "sistrunjan01", this.cameras.sistrunjan01],
+      ["si_portoroz03", 45.512827, 13.5933043, "001", "siportoroz03", this.cameras.siportoroz03],
+      ["si_portoroz05", 45.512260, 13.594525, "001", "siportoroz05", this.cameras.siportoroz05],
+      ["si_portoroz04", 45.511023, 13.594466, "003", "siportoroz04", this.cameras.siportoroz04],
+      ["si_ljpz1", 45.473511, 13.6139783, "002", "siljpz1", this.cameras.siljpz1],
+      ["izola", 45.533596, 13.651651, "002", "izola", this.cameras.izola],
+      ["si_izola3", 45.531197, 13.634514, "001", "siizola3", this.cameras.siizola3],
+      ["si_izola1", 45.532097, 13.645430, "001", "siizola1", this.cameras.siizola1],
+      ["siwc_KOPER_MARKOVEC_e", 45.546163, 13.709389, "002", "siwcKOPERMARKOVECe", this.cameras.siwcKOPERMARKOVECe],
+      ["siwc_KOPER_MARKOVEC_n", 45.546729, 13.693094, "002", "siwcKOPERMARKOVECn", this.cameras.siwcKOPERMARKOVECn],
+      ["hr_novigrad1", 45.318399, 13.562551, "002", "hrnovigrad1", this.cameras.hrnovigrad1],
+      ["hr_umag4", 45.435882, 13.523732, "001", "hrumag4", this.cameras.hrumag4],
+      ["hr_porec03", 45.227733, 13.589623, "001", "hrporec03", this.cameras.hrporec03],
+      ["hr_porec1", 45.216387, 13.597995, "001", "hrporec1", this.cameras.hrporec1],
+      ["hr_rovinj2", 45.084720, 13.634840, "002", "hrrovinj2", this.cameras.hrrovinj2],
+      ["kanegra", 45.487442, 13.559213, "kanegra", "kanegra", this.cameras.kanegra],
+      ["hr_savudrija1", 45.501171, 13.503542, "001", "hrsavudrija1", this.cameras.hrsavudrija1],
+      ["trst", 45.692709, 13.749297, "002", "trst", this.cameras.trst],
+      ["hr_golfadriatic1", 45.493339, 13.536247, "003", "hrgolfadriatic1", this.cameras.hrgolfadriatic1],
+      ["si_solinesecovlje", 45.490140, 13.606183, "004", "sisolinesecovlje", this.cameras.sisolinesecovlje],
+      ["hr_rovinj3", 45.080280, 13.635722, "001", "hrrovinj3", this.cameras.hrrovinj3]
     ];
 
     for (index = 0; index < cities.length; ++index) {
