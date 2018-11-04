@@ -266,12 +266,12 @@ class LiveCam extends PolymerElement {
       },
       lat: {
         type: Number,
-        value: 0
+        value: 45.5283129
       },
       lng: {
         observer: 'fireload',
         type: Number,
-        value: 0
+        value: 13.5659228
       },
       town: {
         type: String,
