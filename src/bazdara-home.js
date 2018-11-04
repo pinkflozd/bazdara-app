@@ -29,7 +29,7 @@ class BazdaraHome extends PolymerElement {
         }
       </style>
 
-      <live-cam></live-cam>
+      <live-cam lat="[[latitude]]" lng="[[longitude]]"></live-cam>
     `;
   }
 

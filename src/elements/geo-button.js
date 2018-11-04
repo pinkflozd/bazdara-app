@@ -5,6 +5,7 @@ import {
 import '@polymer/paper-icon-button/paper-icon-button.js';
 import '@polymer/app-storage/app-localstorage/app-localstorage-document.js';
 import '../bazdara-icons.js';
+import './geo-location.js';
 
 
 class GeoButton extends PolymerElement {
@@ -18,7 +19,7 @@ class GeoButton extends PolymerElement {
       </style>
       <paper-icon-button icon="[[icon]]" disabled="[[disabled]]" on-tap="_click" aria-label="GPS Location"></paper-icon-button>
       <app-localstorage-document key="geo" data="{{data}}"></app-localstorage-document>
-      <geo-location></geo-location>
+      <geo-location latitude="{{latitude}}" longitude="{{longitude}}" idle="{{idle}}"></geo-location>
     `;
   }
 
@@ -34,6 +35,8 @@ class GeoButton extends PolymerElement {
   constructor() {
     super();
 
+    this.idle = true;
+
     if ("geolocation" in navigator) {
       this.disabled = false;
       this.icon = "bazdara-icons:location-off";
@@ -47,15 +50,14 @@ class GeoButton extends PolymerElement {
   changed() {
     if ("geolocation" in navigator) {
       if (this.data === true) {
-        import('./geo-location.js').then(null);
+        this.idle = false;
         this.icon = "bazdara-icons:location-on";
       }
     }
   }
 
   _click() {
-    if(this.disabled === false) {
-      import('./geo-location.js').then(null);
+    if (this.disabled === false) {
       this.data = true
     }
   }

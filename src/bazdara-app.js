@@ -135,14 +135,14 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
           </app-header>
 
           <iron-pages selected="[[page]]" attr-for-selected="name" role="main">
-            <bazdara-home name="home"></bazdara-home>
+            <bazdara-home latitude="[[latitude]]" longitude="[[longitude]]" name="home"></bazdara-home>
             <bazdara-view404 name="view404"></bazdara-view404>
           </iron-pages>
 
           <paper-dialog id="dialog">
             <firebase-login></firebase-login>
             <div class="buttons">
-              <paper-button dialog-confirm autofocus>Tap me to close</paper-button>
+              <paper-button dialog-confirm autofocus>Close</paper-button>
             </div>
           </paper-dialog>
 
@@ -213,7 +213,36 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
         break;
     }
   }
-}
 
+  ready() {
+    super.ready();
+
+    //  afterNextRender(this, function() {
+    //    import('../elements/geo-location.js').then(null);
+    //  });
+
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    window.addEventListener('geo-response', function(e) {
+      //console.log(e.detail.latitude);
+      //console.log(e.detail.longitude);
+      this.latitude = e.detail.latitude;
+      this.longitude = e.detail.longitude;
+    }.bind(this))
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    window.removeEventListener('geo-response', function(e) {
+      //console.log(e.detail.latitude);
+      //console.log(e.detail.longitude);
+      this.latitude = e.detail.latitude;
+      this.longitude = e.detail.longitude;
+    }.bind(this))
+  }
+
+}
 
 window.customElements.define('bazdara-app', BazdaraApp);

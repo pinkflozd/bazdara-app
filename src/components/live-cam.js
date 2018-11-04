@@ -728,19 +728,6 @@ class LiveCam extends PolymerElement {
     });
   }
 
-  ready() {
-    super.ready();
-
-  //  afterNextRender(this, function() {
-  //    import('../elements/geo-location.js').then(null);
-  //  });
-
-    window.addEventListener('geo-response', function(e) {
-      console.log(e);
-    })
-
-
-  }
 
 }
 

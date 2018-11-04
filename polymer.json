@@ -5,7 +5,8 @@
     "images/**/*",
     "node_modules/@polymer/app-storage/app-indexeddb-mirror/app-indexeddb-mirror-worker.js",
     "node_modules/@polymer/app-storage/app-indexeddb-mirror/common-worker-scope.js",
-    "src/elements/firebase-login.js"
+    "src/elements/firebase-login.js",
+    "src/elements/geo-location.js"
   ],
   "extraDependencies": [
     "favicon.ico",
