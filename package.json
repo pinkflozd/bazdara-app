@@ -9,13 +9,13 @@
     "start": "polymer serve --port 8000",
     "serve:static": "polymer serve --port 8000 build/es5-bundled",
     "serve:prpl-server": "prpl-server --root server/build --port 8001",
-    "build:static": "polymer build",
-    "build:prpl-server": "polymer build --auto-base-path && gulp prpl-server",
-    "build:firebase": "polymer build --auto-base-path && gulp firebase",
-    "deploy:firebase": "polymer build --auto-base-path && gulp firebase && firebase deploy --only functions,hosting,database",
+    "build:static": "NODE_OPTIONS='--max-old-space-size=8192' polymer build",
+    "build:prpl-server": "NODE_OPTIONS='--max-old-space-size=8192' polymer build --auto-base-path && gulp prpl-server",
+    "build:firebase": "NODE_OPTIONS='--max-old-space-size=8192' polymer build --auto-base-path && gulp firebase",
+    "deploy:firebase": "NODE_OPTIONS='--max-old-space-size=8192' polymer build --auto-base-path && gulp firebase && firebase deploy --only functions,hosting,database",
     "lint": "polymer lint",
     "test": "polymer test",
-    "test:integration": "polymer build # test that psk builds without error with the CLI",
+    "test:integration": "NODE_OPTIONS='--max-old-space-size=8192' polymer build # test that psk builds without error with the CLI",
     "postinstall": "cd server && npm install && cd ../functions && npm install"
   },
   "dependencies": {

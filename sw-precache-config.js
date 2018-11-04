@@ -17,8 +17,7 @@ module.exports = {
     'node_modules/web-animations-js/web-animations-next-lite.min.js'
   ],
 
-  navigateFallback: 'index.html',
-  navigateFallbackWhitelist: [ /^\/[^\_]+\/?/ ],
+  navigateFallbackWhitelist: [/^(?!\/__)/],
 
   runtimeCaching: [{
       urlPattern: /\/@webcomponents\/webcomponentsjs\//,
