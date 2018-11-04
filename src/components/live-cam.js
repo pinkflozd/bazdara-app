@@ -302,7 +302,7 @@ class LiveCam extends PolymerElement {
         notify: true,
         reflectToAttribute: true
       },
-      persistedCameras:{
+      persistedCameras: {
         type: Object,
       },
     };
@@ -709,10 +709,6 @@ class LiveCam extends PolymerElement {
 
   constructor() {
     super();
-  }
-
-  ready() {
-    super.ready();
 
     afterNextRender(this, function() {
 
@@ -721,15 +717,19 @@ class LiveCam extends PolymerElement {
         document.mozFullScreenEnabled ||
         document.msFullscreenEnabled) ? false : true;
 
-      cameraRef.on('value', function(camer) {
-        this.cameras = camer.val();
-      }.bind(this));
-
       const hlsjs = document.createElement('script');
       hlsjs.setAttribute('src', 'https://cdn.jsdelivr.net/npm/hls.js@0.11.0/dist/hls.light.min.js');
       document.head.appendChild(hlsjs);
 
+      cameraRef.on('value', function(camer) {
+        this.cameras = camer.val();
+      }.bind(this));
+
     });
+  }
+
+  ready() {
+    super.ready();
 
   }
 
