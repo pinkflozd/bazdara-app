@@ -17,6 +17,8 @@ import '@polymer/paper-button/paper-button.js';
 
 import '@polymer/app-storage/app-indexeddb-mirror/app-indexeddb-mirror.js';
 
+import '../elements/geo-location.js';
+
 import firebase from 'firebase/app';
 import 'firebase/database';
 import 'firebase/storage';
@@ -145,6 +147,9 @@ class LiveCam extends PolymerElement {
           persisted-data="{{persistedCameras}}">
       </app-indexeddb-mirror>
 
+      <geo-location latitude="{{lat}}" longitude="{{lng}}"></geo-location>
+
+
       <div class="paper-material selector back" elevation="1">
       <div class="wrap">
       <paper-dropdown-menu label="Select webcam">
@@ -252,8 +257,6 @@ class LiveCam extends PolymerElement {
       <paper-toast id="noVideo" duration="0">
         <b>Kamera ni dosegljiva</b> <paper-button on-click="camerastop" class="yellow-button">Stop</paper-button>
       </paper-toast>
-
-      <geo-location latitude="{{lat}}" longitude="{{lng}}"></geo-location>
 
     `;
   }
@@ -726,12 +729,13 @@ class LiveCam extends PolymerElement {
     });
   }
 
-  ready() {
-    super.ready();
+connectedCallback() {
 
-    afterNextRender(this, function() {
-    import('../elements/geo-location.js').then(null);
-    });
+    window.addEventListener('geo-response', function (e) {
+        console.log(e);
+    })
+
+
 
   }
 

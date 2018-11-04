@@ -181,11 +181,14 @@ class GeoLocation extends PolymerElement {
     this._setLatitude(pos.coords.latitude);
     this._setLongitude(pos.coords.longitude);
 
-    this.dispatchEvent(new CustomEvent('geo-response', {
-      latitude: this.latitude,
-      longitude: this.longitude,
-      position: pos
+    window.dispatchEvent(new CustomEvent('geo-response', {
+      detail: {
+        latitude: this.latitude,
+        longitude: this.longitude,
+        position: pos
+      }
     }));
+
   }
 
   /**
@@ -194,9 +197,11 @@ class GeoLocation extends PolymerElement {
    * @param {Position} err The error that was returned.
    */
   _onError(err) {
-    this.dispatchEvent(new CustomEvent('geo-error', {
-      error: err.code + ': ' + err.message,
-      code: err.code
+    window.dispatchEvent(new CustomEvent('geo-error', {
+      detail: {
+        error: err.code + ': ' + err.message,
+        code: err.code
+      }
     }));
   }
 
