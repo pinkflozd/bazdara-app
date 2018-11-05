@@ -29,6 +29,17 @@ class GeoButton extends PolymerElement {
         observer: 'changed',
         type: Boolean,
       },
+      latitude: {
+        type: Number,
+        notify: true
+      },
+      /**
+       * The longitude of the current position.
+       */
+      longitude: {
+        type: Number,
+        notify: true
+      },
     };
   }
 

@@ -158,7 +158,7 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
             <app-toolbar>
               <paper-icon-button class="button-width" icon="bazdara-icons:menu" drawer-toggle="" aria-label="Menu"></paper-icon-button>
               <div class="title" main-title="Bazdara">Bazdara</div>
-              <geo-button class="button-width"></geo-button>
+              <geo-button class="button-width" latitude="{{latitude}}" longitude="{{longitude}}"></geo-button>
             </app-toolbar>
           </app-header>
 
@@ -249,26 +249,6 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
     //    import('../elements/geo-location.js').then(null);
     //  });
 
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-    window.addEventListener('geo-response', function(e) {
-      //console.log(e.detail.latitude);
-      //console.log(e.detail.longitude);
-      this.latitude = e.detail.latitude;
-      this.longitude = e.detail.longitude;
-    }.bind(this))
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    window.removeEventListener('geo-response', function(e) {
-      //console.log(e.detail.latitude);
-      //console.log(e.detail.longitude);
-      this.latitude = e.detail.latitude;
-      this.longitude = e.detail.longitude;
-    }.bind(this))
   }
 
 }

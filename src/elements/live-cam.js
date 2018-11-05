@@ -354,6 +354,10 @@ class LiveCam extends PolymerElement {
     var closest;
     var index;
 
+    if (latitude == null){
+        var latitude = 46.0569;
+        var longitude = 14.5058;
+    }
 
     var cities = [
       ["si_piran04", 0, 0, "001", "sipiran04", this.cameras.sipiran04],
