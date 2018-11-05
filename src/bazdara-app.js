@@ -67,6 +67,34 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
         app-header {
           color: #fff;
           background-color: var(--primary-color);
+          --app-header-background-rear-layer: {
+            /* The header is blue when condensed */
+            background-color: var(--primary-color);
+          };
+        }
+
+        app-header.home {
+          color: #fff;
+          background-color: transparent;
+          --app-header-background-rear-layer: {
+            /* The header is blue when condensed */
+            background-color: var(--primary-color);
+          };
+        }
+
+        @media only screen and (min-width: 768px) {
+          app-header.home {
+            color: #fff;
+            background-color: var(--primary-color);
+            --app-header-background-rear-layer: {
+              /* The header is blue when condensed */
+              background-color: var(--primary-color);
+            };
+          }
+        }
+
+        iron-pages.home {
+          margin-top:-64px
         }
 
         app-header paper-icon-button {
@@ -126,7 +154,7 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
         <!-- Main content -->
         <app-header-layout has-scrolling-region="">
 
-          <app-header slot="header" condenses="" reveals="" effects="waterfall">
+          <app-header slot="header" class$="[[page]]" condenses="" reveals="" fixed effects="waterfall fade-background">
             <app-toolbar>
               <paper-icon-button class="button-width" icon="bazdara-icons:menu" drawer-toggle="" aria-label="Menu"></paper-icon-button>
               <div class="title" main-title="Bazdara">Bazdara</div>
@@ -134,7 +162,7 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
             </app-toolbar>
           </app-header>
 
-          <iron-pages selected="[[page]]" attr-for-selected="name" role="main">
+          <iron-pages selected="[[page]]" class$="[[page]]" attr-for-selected="name" role="main">
             <bazdara-home latitude="[[latitude]]" longitude="[[longitude]]" name="home"></bazdara-home>
             <bazdara-view404 name="view404"></bazdara-view404>
           </iron-pages>

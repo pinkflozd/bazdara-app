@@ -15,6 +15,10 @@ import {
 
 import './shared-styles.js';
 
+import './elements/firebase-live.js';
+import './elements/firebase-trenutno.js';
+
+import './elements/live-current.js';
 import './elements/live-cam.js';
 
 class BazdaraHome extends PolymerElement {
@@ -24,11 +28,12 @@ class BazdaraHome extends PolymerElement {
       <style include="shared-styles">
         :host {
           display: block;
-
-          padding: 10px;
         }
       </style>
+      <firebase-live live="{{live}}"></firebase-live>
+      <firebase-trenutno trenutno="{{trenutno}}"></firebase-trenutno>
 
+      <live-current live="[[live]]" trenutno="[[trenutno]]"></live-current>
       <live-cam lat="[[latitude]]" lng="[[longitude]]"></live-cam>
     `;
   }
