@@ -15,8 +15,11 @@
     "prpl-server": "^1.2.0",
     "rendertron-middleware": "^0.1.3"
   },
+  "devDependencies": {
+    "firebase-tools": "^6.0.1"
+  },
   "engines": {
-     "node": "8"
- },
+    "node": "8"
+  },
   "private": true
 }
