@@ -38,6 +38,6 @@ class BazdaraHome extends PolymerElement {
     `;
   }
 
-}
+} 
 
 window.customElements.define('bazdara-home', BazdaraHome);

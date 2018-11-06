@@ -17,7 +17,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <title>Bazdara</title>
-  <meta name="description" content="My App description">
+  <meta name="description" content="Vreme Piran, Podatki iz oceanografske boje Vide, Plimovanje morja">
 
   <!--
       The `<base>` tag below is present to support two advanced deployment options:
@@ -87,6 +87,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <!-- Add any global styles for body, document, etc. -->
   <style>
+    @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&subset=latin-ext');
+
     html.loading {
       overflow: hidden;
     }
@@ -98,7 +100,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     body {
       margin: 0;
-      font-family: "Roboto", "Noto", sans-serif;
+      font-family: "Roboto", sans-serif;
       line-height: 1.5;
     }
 
@@ -123,6 +125,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
 
     #nojs {
+      font-family: 'Roboto Condensed', sans-serif;
       z-index: 2000;
       display: block;
       position: absolute;
@@ -141,6 +144,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       font-size:32px;
       padding:100px 10px;
       text-align: center
+    }
+
+    #nojs img {
+      width:96px;
+      margin-left:auto;
+      margin-right:auto;
+      margin-top:30px;
     }
 
     #loadingScreen.ready {
@@ -258,7 +268,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <bazdara-app></bazdara-app>
   <noscript>
     <div id="nojs">
-    <div class="text">Please enable JavaScript to view this website.</div>
+      <div class="text">Please enable JavaScript to view this website.</div>
+      <img src="images/icons/bazdara-icon-192.png" alt="Bazdara.com">
     </div>
   </noscript>
   <!-- Built with love using Polymer Starter Kit -->
