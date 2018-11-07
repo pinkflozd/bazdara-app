@@ -31,12 +31,13 @@ class MeteogramYrno extends PolymerElement {
       <style include="paper-material-styles">
         :host {
           display: block;
-          padding:10px 10px 0 10px;
+          padding:5px 10px 10px 10px;
         }
         #meteogram {
-          height:310px
+          height:300px
         }
       </style>
+      <app-localstorage-document key="portoroz" data="{{meteograms}}"></app-localstorage-document>
       <div id="meteogram" class="paper-material" elevation="1"></div>
     `;
   }
@@ -346,7 +347,7 @@ class MeteogramYrno extends PolymerElement {
           if (sprite) {
 
             // Create a group element that is positioned and clipped at 30 pixels width and height
-            this.group = chart.renderer.g('WeatherSymbols')
+            var group = chart.renderer.g('WeatherSymbols')
               .attr({
                 translateX: point.plotX + chart.plotLeft - 12,
                 translateY: point.plotY + chart.plotTop - 40,
@@ -357,19 +358,19 @@ class MeteogramYrno extends PolymerElement {
 
             // Position the image inside it at the sprite position
             chart.renderer.image(
-                '/images/vreme/' + sprite.x + '.png', 0, 0,
+                '../../esm-bundled/images/vreme/' + sprite.x + '.png', 0, 0,
                 32,
                 32
               )
-              .add(this.group);
+              .add(group);
 
             // Position the image inside it at the sprite position
             chart.renderer.image(
-                '/images/vreme/pojavi/' + sprite.y + '.png', 0, 9,
+                '../../esm-bundled/images/vreme/pojavi/' + sprite.y + '.png', 0, 9,
                 32,
                 32
               )
-              .add(this.group);
+              .add(group);
           }
         }
       }
@@ -549,9 +550,9 @@ class MeteogramYrno extends PolymerElement {
       return {
         chart: {
           renderTo: this.meteogram,
-          marginBottom: 70,
-          marginRight: 40,
-          marginTop: 50,
+          marginBottom: 60,
+          marginRight: 30,
+          marginTop: 30,
           plotBorderWidth: 1,
           style: {
             fontFamily: 'Roboto, sans-serif'
