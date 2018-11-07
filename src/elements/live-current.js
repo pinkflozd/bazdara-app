@@ -8,13 +8,19 @@ import {
 import '@polymer/paper-styles/typography.js';
 import '@polymer/iron-icon/iron-icon.js';
 import '@polymer/iron-flex-layout/iron-flex-layout-classes.js';
+import '@polymer/paper-tooltip/paper-tooltip.js';
+
 
 import '../bazdara-icons.js';
 import '../shared-styles.js';
 import './weather-icons.js';
+import './weather.js';
 import './live-wind-name.js';
 import './live-wind-speed-name.js';
+import './live-wind-speed-beufort.js';
 import './live-wind-direction.js';
+
+import './live-sea-name.js';
 
 
 class LiveCurrent extends PolymerElement {
@@ -34,7 +40,7 @@ class LiveCurrent extends PolymerElement {
         display: flex;
         align-items: center;
         justify-content: center;
-        height:90px
+        height:100px
       }
 
       blockquote, q{
@@ -53,26 +59,86 @@ class LiveCurrent extends PolymerElement {
         content:none;
       }
 
+
       .container {
+        height: 100vh;
         text-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-        padding:10px;
         color: #ffffff;
-        padding-top: 64px;
-        height: calc(100vh - 138px);
+        padding: 64px 10px 10px 10px;
         background-color: var(--primary-color);
-        background-image: url("../../images/background/xxxhdpi/illustration_broken_clouds_day.png");
         background-repeat: no-repeat;
         background-size: cover;
         background-position: bottom;
       }
 
-      .container {
-        @supports (-webkit-appearance:none) {
-          .os-android & {
-            height: calc(100vh - 194px);
-          }
-        }
+      .container, .container.clear, .container.mostClear {
+        background-image: url("../../images/background/xxxhdpi/illustration_clear_sky_day.png");
       }
+
+      .container.clear_n, .container.mostClear_n  {
+        background-image: url("../../images/background/xxxhdpi/illustration_clear_sky_night.png");
+      }
+
+.container.slightCloudy  {
+  background-image: url("../../images/background/xxxhdpi/illustration_few_clouds_day.png");
+}
+.container.slightCloudy_n  {
+  background-image: url("../../images/background/xxxhdpi/illustration_few_clouds_night.png");
+}
+.container.modCloudy, .container.partCloudy {
+  background-image: url("../../images/background/xxxhdpi/illustration_broken_clouds_day.png");
+}
+.container.modCloudy_n, .container.partCloudy_n {
+  background-image: url("../../images/background/xxxhdpi/illustration_broken_clouds_night.png");
+}
+.container.overcast, .container.prevCloudy  {
+  background-image: url("../../images/background/xxxhdpi/illustration_scattered_clouds_day.png");
+}
+.container.overcast_n, .container.prevCloudy_n  {
+  background-image: url("../../images/background/xxxhdpi/illustration_scattered_clouds_night.png");
+}
+.container.FG  {
+  background-image: url("../../images/background/xxxhdpi/illustration_mist_day.png");
+}
+.container.FG_n  {
+  background-image: url("../../images/background/xxxhdpi/illustration_mist_night.png");
+}
+.container.TS  {
+  background-image: url("../../images/background/xxxhdpi/illustration_thunderstorm_day.png");
+}
+.container.TS_n  {
+  background-image: url("../../images/background/xxxhdpi/illustration_thunderstorm_night.png");
+}
+.container.DZ , .container.lightDZ , .container.RA , .container.lightRA , .container.FZDZ , .container.lightFZDZ {
+  background-image: url("../../images/background/xxxhdpi/illustration_rain_day.png");
+}
+.container.DZ_n , .container.lightDZ_n , .container.RA_n , .container.lightRA_n , .container.FZDZ_n , .container.lightFZDZ_n  {
+  background-image: url("../../images/background/xxxhdpi/illustration_rain_night.png");
+}
+.container.modDZ , .container.heavyDZ , .container.modRA , .container.heavyRA , .container.modFZDZ , .container.heavyFZDZ  {
+  background-image: url("../../images/background/xxxhdpi/illustration_shower_rain_day.png");
+}
+.container.modDZ_n , .container.heavyDZ_n , .container.modRA_n , .container.heavyRA_n , .container.modFZDZ_n , .container.heavyFZDZ_n  {
+  background-image: url("../../images/background/xxxhdpi/illustration_shower_rain_night.png");
+}
+.container.ggg  {
+  background-image: url("../../images/background/xxxhdpi/illustration_sleet_day.png");
+}
+.container.ggg  {
+  background-image: url("../../images/background/xxxhdpi/illustration_sleet_night.png");
+}
+.container.ggg  {
+  background-image: url("../../images/background/xxxhdpi/illustration_snow_day.png");
+}
+.container.ggg  {
+  background-image: url("../../images/background/xxxhdpi/illustration_snow_night.png");
+}
+.container.ggg  {
+  background-image: url("../../images/background/xxxhdpi/illustration_heavy_snow_day.png");
+}
+.container.ggg  {
+  background-image: url("../../images/background/xxxhdpi/illustration_heavy_snow_night.png");
+}
 
       .icons{
         position: relative;
@@ -102,7 +168,18 @@ class LiveCurrent extends PolymerElement {
       iron-icon.wind {
         height: 24px;
         width:24px;
-        margin-top: -3px
+        margin-top: -3px;
+        margin-left:-26px
+      }
+
+      iron-icon.weather {
+        height: 128px;
+        width: 128px;
+      }
+
+
+      iron-icon.wave {
+        margin-left:-26px
       }
 
       .flex {
@@ -116,6 +193,16 @@ class LiveCurrent extends PolymerElement {
 
       .flexchild {
         @apply --layout-flex;
+      }
+
+      paper-tooltip {
+        --paper-tooltip: {
+          font-size: 14px;
+        }
+      }
+
+      .temper {
+        margin: 30px 0 0 0;
       }
 
       @media (-webkit-min-device-pixel-ratio: 0.75),
@@ -155,7 +242,7 @@ class LiveCurrent extends PolymerElement {
 
       </style>
       <weather-icons></weather-icons>
-      <div class="paper-material container" elevation="2">
+      <div class$="paper-material container paper-font-subhead [[trenutno.vreme.zdaj_slika_new]] [[trenutno.vreme.zdaj_pojav_new]]" id="container" elevation="2">
         <div class="aligner">
           <blockquote class="paper-font-title">[[trenutno.pregovor]]</blockquote>
         </div>
@@ -167,31 +254,28 @@ class LiveCurrent extends PolymerElement {
           </div>
           </div>
           <div class="flexchild">
-          <div class="text-center paper-font-subhead">
+          <div class="text-center">
             [[trenutno.vreme.zdaj]] [[trenutno.vreme.zdaj2]]
           </div>
           </div>
         </div>
 
         <div class="flex2">
-          <div class="flexchild">
-          <live-wind-direction direction$="[[live.currentWindDirection]]"></live-wind-direction>
-            <div class="text-center paper-font-display3">[[live.temperatureAir]]°<span class="paper-font-headline">C</span></div>
+          <div class="flexchild text-center">
+            <live-wind-speed-name id="speedname" speed$="[[live.currentWindSpeed]]"></live-wind-speed-name>
+            <div class="text-center temper paper-font-display3">[[live.temperatureAir]]°<span class="paper-font-headline">C</span></div>
+
           </div>
           <div class="flexchild">
             <div class="icons">
-              <iron-icon icon$="[[trenutno.vreme.zdaj_slika_new]]:0" class="vreme_zdaj1"></iron-icon>
+              <iron-icon icon$="[[trenutno.vreme.zdaj_slika_new]]:0"  class="vreme_zdaj1"></iron-icon>
               <iron-icon icon$="[[trenutno.vreme.zdaj_pojav_new]]:0" class="vreme_zdaj2"></iron-icon>
             </div>
           </div>
         </div>
-        <div class="text-center">
-          <iron-icon icon="bazdara-icons:wind"></iron-icon> <strong><live-wind-name name$="[[live.currentWindDirection]]"></live-wind-name></strong>
+        <div class="text-center paper-font-title">
+        <iron-icon icon="bazdara-icons:wave"></iron-icon> <live-sea-name name$="[[live.wavesHeight]]"></live-sea-name>
         </div>
-
-        <iron-icon icon="bazdara-icons:barometer"></iron-icon> <live-wind-direction direction$="[[live.currentWindDirection]]"></live-wind-direction>
-        <iron-icon icon="bazdara-icons:waterdrop"></iron-icon>
-        <live-wind-speed-name speed$="[[live.currentWindSpeed]]"></live-wind-speed-name>
 
       </div>
     `;
@@ -204,12 +288,13 @@ class LiveCurrent extends PolymerElement {
   }
 
   static get observers() {
-    return [
-    ];
+    return [];
   }
 
   ready() {
     super.ready();
+
+
   }
 
 }

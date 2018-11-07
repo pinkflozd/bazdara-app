@@ -123,21 +123,6 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
       text-rendering: optimizeLegibility;
     }
 
-    /*
-    "Line wrapping only applies to Body, Subhead, Headline, and the smaller Display
-    styles. All other styles should exist as single lines."
-    */
-    .paper-font-display4,
-    .paper-font-display3,
-    .paper-font-title,
-    .paper-font-caption,
-    .paper-font-menu,
-    .paper-font-button {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
     .paper-font-display4 {
       font-size: 112px;
       font-weight: 300;

@@ -12,6 +12,13 @@ import {
   PolymerElement,
   html
 } from '@polymer/polymer/polymer-element.js';
+import {
+  afterNextRender
+} from '@polymer/polymer/lib/utils/render-status.js';
+
+import {
+  GestureEventListeners
+} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 
 import './shared-styles.js';
 
@@ -21,7 +28,9 @@ import './elements/firebase-trenutno.js';
 import './elements/live-current.js';
 import './elements/live-cam.js';
 
-class BazdaraHome extends PolymerElement {
+import './elements/meteogram-yrno.js';
+
+class BazdaraHome extends GestureEventListeners(PolymerElement) {
   static get template() {
     return html `
 
@@ -32,12 +41,64 @@ class BazdaraHome extends PolymerElement {
       </style>
       <firebase-live live="{{live}}"></firebase-live>
       <firebase-trenutno trenutno="{{trenutno}}"></firebase-trenutno>
-
-      <live-current live="[[live]]" trenutno="[[trenutno]]"></live-current>
+      <div id="top"></div>
+      <live-current on-track="handleTrack" live="[[live]]" trenutno="[[trenutno]]"></live-current>
+      <div id="scroll" style="padding-top:64px;margin-top:-64px"></div>
+      <meteogram-yrno></meteogram-yrno>
       <live-cam lat="[[latitude]]" lng="[[longitude]]"></live-cam>
+      <br><br><br><br><br><br><br><br><br><br><br><br>
+<div id="test"></div>
+
+      <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
     `;
   }
 
-} 
+  handleTrack(e) {
+    switch (e.detail.state) {
+      case 'start':
+        // start
+        break;
+      case 'track':
+      if (this.stoper == null && this.oldScroll !== null) {
+
+        if (this.oldScroll > e.detail.y) {
+
+          this.$.scroll.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+          if (this.oldScroll !== null) {
+          this.stoper = true;
+          }
+        } else if (this.oldScroll < e.detail.y) {
+
+          this.$.top.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+          if (this.oldScroll !== null) {
+          this.stoper = true;
+          }
+
+        }
+
+      }
+
+        this.oldScroll = e.detail.y;
+
+        break;
+      case 'end':
+        this.stoper = null;
+        this.oldScroll = null;
+        break;
+    }
+  }
+
+  ready() {
+    super.ready();
+  }
+
+}
 
 window.customElements.define('bazdara-home', BazdaraHome);

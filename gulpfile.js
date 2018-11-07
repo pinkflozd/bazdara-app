@@ -42,6 +42,11 @@ gulp.task('prpl-server', gulp.series(
   'prpl-server:build'
 ));
 
+
+gulp.task('copy', () => {
+  return gulp.src(['images/vreme/**/*']).pipe(gulp.dest('build/images/vreme'));
+});
+
 /**
  * Builds the Firebase-ready version of the PWA, moving the necessary
  * files to the functions folder to be used by PRPL Server

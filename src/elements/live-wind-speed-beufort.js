@@ -3,10 +3,10 @@ import {
   html
 } from '@polymer/polymer/polymer-element.js';
 
-class LiveWindSpeedName extends PolymerElement {
+class LiveWindSpeedBeufort extends PolymerElement {
   static get template() {
     return html `
-    [[_speed]]
+    [[_speed2]]
     `;
   }
 
@@ -125,4 +125,4 @@ class LiveWindSpeedName extends PolymerElement {
 
 }
 
-window.customElements.define('live-wind-speed-name', LiveWindSpeedName);
+window.customElements.define('live-wind-speed-beufort', LiveWindSpeedBeufort);

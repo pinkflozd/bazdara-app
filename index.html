@@ -253,7 +253,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         });
       });
     }
-  </script>
+
+  // Force all polyfills on
+  if (window.customElements) window.customElements.forcePolyfill = true;
+  ShadyDOM = { force: true };
+  ShadyCSS = { shimcssproperties: true};
+</script>
 
   <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
   <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
