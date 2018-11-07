@@ -38,13 +38,21 @@ class BazdaraHome extends GestureEventListeners(PolymerElement) {
         :host {
           display: block;
         }
+        .over {
+          overflow-x: scroll
+        }
+        .meteogram {
+          width: 200vw
+        }
       </style>
       <firebase-live live="{{live}}"></firebase-live>
       <firebase-trenutno trenutno="{{trenutno}}"></firebase-trenutno>
       <div id="top"></div>
       <live-current on-track="handleTrack" live="[[live]]" trenutno="[[trenutno]]"></live-current>
       <div id="scroll" style="padding-top:64px;margin-top:-64px"></div>
-      <meteogram-yrno></meteogram-yrno>
+      <div class="over">
+      <meteogram-yrno class="meteogram" full="true"></meteogram-yrno>
+      </div>
       <live-cam lat="[[latitude]]" lng="[[longitude]]"></live-cam>
       <br><br><br><br><br><br><br><br><br><br><br><br>
 <div id="test"></div>

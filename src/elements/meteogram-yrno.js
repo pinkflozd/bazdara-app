@@ -16,6 +16,9 @@ import {
   afterNextRender
 } from '@polymer/polymer/lib/utils/render-status.js';
 
+import '@polymer/paper-styles/typography.js';
+import '@polymer/app-storage/app-localstorage/app-localstorage-document.js';
+
 import firebase from 'firebase/app';
 import 'firebase/database';
 
@@ -25,15 +28,16 @@ import 'firebase/database';
 class MeteogramYrno extends PolymerElement {
   static get template() {
     return html `
-      <style>
+      <style include="paper-material-styles">
         :host {
           display: block;
+          padding:10px 10px 0 10px;
         }
         #meteogram {
-          height:250px
+          height:310px
         }
       </style>
-      <div id="meteogram" class="meteo"></div>
+      <div id="meteogram" class="paper-material" elevation="1"></div>
     `;
   }
 
@@ -42,6 +46,9 @@ class MeteogramYrno extends PolymerElement {
       meteograms: {
         type: Object,
         notify: true
+      },
+      full: {
+        type: Boolean
       }
     };
   }
@@ -76,7 +83,7 @@ class MeteogramYrno extends PolymerElement {
 
 
 
-    Meteogram(xml, container) {
+    Meteogram() {
       // Parallel arrays for the chart data, these are populated as the XML/JSON file
       // is loaded
       this.symbols = [];
@@ -329,6 +336,9 @@ class MeteogramYrno extends PolymerElement {
         } else if (screen.width > 769) {
           deljenje = i % 2;
         }
+        if (this.full) {
+          deljenje = i % 2;
+        }
 
         if (meteogram.resolution > 36e5 || deljenje === 0) {
 
@@ -336,7 +346,7 @@ class MeteogramYrno extends PolymerElement {
           if (sprite) {
 
             // Create a group element that is positioned and clipped at 30 pixels width and height
-            group = chart.renderer.g('WeatherSymbols')
+            this.group = chart.renderer.g('WeatherSymbols')
               .attr({
                 translateX: point.plotX + chart.plotLeft - 12,
                 translateY: point.plotY + chart.plotTop - 40,
@@ -351,7 +361,7 @@ class MeteogramYrno extends PolymerElement {
                 32,
                 32
               )
-              .add(group);
+              .add(this.group);
 
             // Position the image inside it at the sprite position
             chart.renderer.image(
@@ -359,7 +369,7 @@ class MeteogramYrno extends PolymerElement {
                 32,
                 32
               )
-              .add(group);
+              .add(this.group);
           }
         }
       }
@@ -447,6 +457,11 @@ class MeteogramYrno extends PolymerElement {
           deljenje2 = 7;
         }
 
+        if (this.full) {
+          deljenje = i % 2;
+          deljenje2 = 7;
+        }
+
         if (meteogram.resolution > 36e5 || deljenje === 0) {
 
           // Draw the wind arrows
@@ -508,6 +523,9 @@ class MeteogramYrno extends PolymerElement {
           } else if (screen.width > 769) {
             deljenje = i % 2;
           }
+          if (this.full) {
+            deljenje = i % 2;
+          }
           isLong = deljenje === 0;
         }
         chart.renderer.path(['M', x, chart.plotTop + chart.plotHeight + (isLong ? 0 : 28),
@@ -519,13 +537,6 @@ class MeteogramYrno extends PolymerElement {
             class: 'myPath'
           })
           .add();
-      }
-    }
-
-    removeElementsByClass(className) {
-      var elements = document.getElementsByClassName(className);
-      while (elements.length > 0) {
-        elements[0].parentNode.removeChild(elements[0]);
       }
     }
 
@@ -547,13 +558,8 @@ class MeteogramYrno extends PolymerElement {
           },
           events: {
             redraw: function() {
-              // remove chart annotations
-              removeElementsByClass('highcharts-WeatherSymbols');
-              removeElementsByClass('myPath');
-              //$('.highcharts-WeatherSymbols').remove();
-              //$('.myPath').remove();
-              meteogram.onChartLoad(meteogram.chart);
-            }
+              this.Meteogram();
+            }.bind(this)
           }
         },
 
