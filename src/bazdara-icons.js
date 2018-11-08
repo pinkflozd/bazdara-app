@@ -16,6 +16,9 @@ $_documentContainer.innerHTML = `<iron-iconset-svg name="bazdara-icons" size="24
       <g id="arrow-back">
         <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path>
       </g>
+      <g id="arrow-down">
+        <path d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"></path>
+      </g>
       <g id="menu">
         <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path>
       </g>

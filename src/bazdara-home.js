@@ -51,7 +51,7 @@ class BazdaraHome extends GestureEventListeners(PolymerElement) {
       <live-current on-track="handleTrack" live="[[live]]" trenutno="[[trenutno]]"></live-current>
       <div id="scroll" style="padding-top:64px;margin-top:-64px"></div>
       <div class="over">
-      <meteogram-yrno class="meteogram" full="true"></meteogram-yrno>
+      <meteogram-yrno class="meteogram" lat="[[latitude]]" lng="[[longitude]]" full="true"></meteogram-yrno>
       </div>
       <live-cam lat="[[latitude]]" lng="[[longitude]]"></live-cam>
       <br><br><br><br><br><br><br><br><br><br><br><br>

@@ -40,7 +40,7 @@ class LiveCurrent extends PolymerElement {
         display: flex;
         align-items: center;
         justify-content: center;
-        height:100px
+        height:120px
       }
 
       blockquote, q{
@@ -172,6 +172,12 @@ class LiveCurrent extends PolymerElement {
         margin-left:-26px
       }
 
+      iron-icon.arrow {
+        height: 36px;
+        width:36px;
+      }
+
+
       iron-icon.weather {
         height: 128px;
         width: 128px;
@@ -240,6 +246,26 @@ class LiveCurrent extends PolymerElement {
        // XXXHDPI CSS HERE
       }
 
+      @keyframes bounce {
+        from { transform: translate3d(0, 0, 0);     }
+        to   { transform: translate3d(0, 30px, 0); }
+      }
+
+      @-webkit-keyframes bounce {
+        from { transform: translate3d(0, 0, 0);     }
+        to   { transform: translate3d(0, 30px, 0); }
+      }
+
+      .arrow {
+        -webkit-animation: bounce 2s;
+        -webkit-animation-direction: alternate;
+        -webkit-animation-iteration-count: infinite;
+
+        animation: bounce 2s;
+        animation-direction: alternate;
+        animation-iteration-count: infinite;
+      }
+
       </style>
       <weather-icons></weather-icons>
       <div class$="paper-material container paper-font-subhead [[trenutno.vreme.zdaj_slika_new]] [[trenutno.vreme.zdaj_pojav_new]]" id="container" elevation="2">
@@ -275,6 +301,9 @@ class LiveCurrent extends PolymerElement {
         </div>
         <div class="text-center paper-font-title">
         <iron-icon icon="bazdara-icons:wave"></iron-icon> <live-sea-name name$="[[live.wavesHeight]]"></live-sea-name>
+        </div>
+        <div class="flex" style="height:150px">
+          <iron-icon class="flexchild arrow" icon="bazdara-icons:arrow-down"></iron-icon>
         </div>
 
       </div>
