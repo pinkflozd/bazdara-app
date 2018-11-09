@@ -26,9 +26,11 @@ import './elements/firebase-live.js';
 import './elements/firebase-trenutno.js';
 
 import './elements/live-current.js';
-import './elements/live-cam.js';
+import './elements/live-details.js';
 
 import './elements/meteogram-yrno.js';
+import './elements/live-cam.js';
+
 
 class BazdaraHome extends GestureEventListeners(PolymerElement) {
   static get template() {
@@ -44,14 +46,11 @@ class BazdaraHome extends GestureEventListeners(PolymerElement) {
       <div id="top"></div>
       <live-current on-track="handleTrack" live="[[live]]" trenutno="[[trenutno]]"></live-current>
       <div id="scroll" style="padding-top:64px;margin-top:-64px"></div>
+      <live-details live="[[live]]" trenutno="[[trenutno]]"></live-details>
       <div class="over">
       <meteogram-yrno lat="[[latitude]]" lng="[[longitude]]" full="true"></meteogram-yrno>
       </div>
       <live-cam lat="[[latitude]]" lng="[[longitude]]"></live-cam>
-      <br><br><br><br><br><br><br><br><br><br><br><br>
-<div id="test"></div>
-
-      <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
     `;
   }

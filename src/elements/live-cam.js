@@ -27,7 +27,7 @@ class LiveCam extends PolymerElement {
     return html `
       <style include="paper-material-styles">
       :host {
-        padding:10px;
+        padding: 5px 10px 10px 10px;
         display: block;
         box-sizing: border-box;
         --paper-toolbar-background: var(--paper-blue-600);

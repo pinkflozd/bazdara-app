@@ -155,7 +155,7 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
           <app-header slot="header" class$="[[page]]" condenses="" reveals="" fixed effects="waterfall fade-background">
             <app-toolbar>
               <paper-icon-button class="button-width" icon="bazdara-icons:menu" drawer-toggle="" aria-label="Menu"></paper-icon-button>
-              <div class="title paper-font-display1" main-title="Bazdara">Bazdara</div>
+              <div class="title" main-title="Bazdara"><h1 class="paper-font-display1">Bazdara</h1></div>
               <geo-button class="button-width" latitude="{{latitude}}" longitude="{{longitude}}"></geo-button>
             </app-toolbar>
           </app-header>

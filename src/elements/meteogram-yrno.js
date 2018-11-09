@@ -42,7 +42,7 @@ class MeteogramYrno extends PolymerElement {
         }
         .over {
           overflow-x: scroll;
-          padding:10px 10px 10px 10px;
+          padding:10px 10px 5px 10px;
         }
         .outer {
           width:830px
@@ -927,6 +927,7 @@ class MeteogramYrno extends PolymerElement {
     this.chart = new Highcharts.Chart(this.getChartOptions(), function(chart) {
       meteogram.onChartLoad(chart);
     });
+
   }
 
   /**

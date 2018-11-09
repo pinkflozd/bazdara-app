@@ -73,7 +73,7 @@ class LiveCurrent extends PolymerElement {
 
 
       .container {
-        height: 100vh;
+        height: calc(100vh - 64px);
         text-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
         color: #ffffff;
         padding: 64px 10px 10px 10px;
@@ -98,16 +98,16 @@ class LiveCurrent extends PolymerElement {
   background-image: url("../../images/background/xxxhdpi/illustration_few_clouds_night.png");
 }
 .container.modCloudy, .container.partCloudy {
-  background-image: url("../../images/background/xxxhdpi/illustration_broken_clouds_day.png");
-}
-.container.modCloudy_n, .container.partCloudy_n {
-  background-image: url("../../images/background/xxxhdpi/illustration_broken_clouds_night.png");
-}
-.container.overcast, .container.prevCloudy  {
   background-image: url("../../images/background/xxxhdpi/illustration_scattered_clouds_day.png");
 }
-.container.overcast_n, .container.prevCloudy_n  {
+.container.modCloudy_n, .container.partCloudy_n {
   background-image: url("../../images/background/xxxhdpi/illustration_scattered_clouds_night.png");
+}
+.container.overcast, .container.prevCloudy  {
+  background-image: url("../../images/background/xxxhdpi/illustration_broken_clouds_day.png");
+}
+.container.overcast_n, .container.prevCloudy_n  {
+  background-image: url("../../images/background/xxxhdpi/illustration_broken_clouds_night.png");
 }
 .container.FG  {
   background-image: url("../../images/background/xxxhdpi/illustration_mist_day.png");
