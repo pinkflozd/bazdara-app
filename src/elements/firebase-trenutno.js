@@ -27,10 +27,10 @@ class FirebaseTrenutno extends PolymerElement {
     };
   }
 
-  ready() {
-    super.ready();
+  constructor() {
+    super();
 
-    afterNextRender(this, function() {
+    //afterNextRender(this, function() {
 
       var databaseRef = firebase.database().ref();
       var trenutnoRef = databaseRef.child("trenutno");
@@ -39,7 +39,7 @@ class FirebaseTrenutno extends PolymerElement {
         this.trenutno = trenutno.val();
       }.bind(this));
 
-    });
+    //});
 
   }
 }

@@ -27,10 +27,10 @@ class FirebaseLive extends PolymerElement {
     };
   }
 
-  ready() {
-    super.ready();
+  constructor() {
+    super();
 
-    afterNextRender(this, function() {
+  //  afterNextRender(this, function() {
 
       var databaseRef = firebase.database().ref();
       var liveRef = databaseRef.child("live");
@@ -39,7 +39,7 @@ class FirebaseLive extends PolymerElement {
         this.live = live.val();
       }.bind(this));
 
-    });
+//    });
 
   }
 }

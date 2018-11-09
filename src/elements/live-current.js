@@ -5,6 +5,8 @@ import {
 import {
   afterNextRender
 } from '@polymer/polymer/lib/utils/render-status.js';
+import {} from '@polymer/polymer/lib/elements/dom-if.js';
+import '@polymer/paper-spinner/paper-spinner.js';
 import '@polymer/paper-styles/typography.js';
 import '@polymer/iron-icon/iron-icon.js';
 import '@polymer/iron-flex-layout/iron-flex-layout-classes.js';
@@ -34,6 +36,16 @@ class LiveCurrent extends PolymerElement {
       <style include="paper-material-styles iron-flex iron-flex-alignment shared-styles">
       :host {
         display: block;
+      }
+
+      paper-spinner {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        z-index:1;
       }
 
       .aligner {
@@ -267,12 +279,13 @@ class LiveCurrent extends PolymerElement {
       }
 
       </style>
+      <paper-spinner active$="[[loading]]"></paper-spinner>
       <weather-icons></weather-icons>
       <div class$="paper-material container paper-font-subhead [[trenutno.vreme.zdaj_slika_new]] [[trenutno.vreme.zdaj_pojav_new]]" id="container" elevation="2">
         <div class="aligner">
           <blockquote class="paper-font-title">[[trenutno.pregovor]]</blockquote>
         </div>
-
+        <template is="dom-if" if="{{trenutno.vreme.zdaj}}">
         <div class="flex">
           <div class="flexchild">
           <div class="text-center paper-font-title">
@@ -302,28 +315,32 @@ class LiveCurrent extends PolymerElement {
         <div class="text-center paper-font-title">
         <iron-icon icon="bazdara-icons:wave"></iron-icon> <live-sea-name name$="[[live.wavesHeight]]"></live-sea-name>
         </div>
-        <div class="flex" style="height:150px">
-          <iron-icon class="flexchild arrow" icon="bazdara-icons:arrow-down"></iron-icon>
-        </div>
-
+        </template>
       </div>
     `;
   }
 
   static get properties() {
     return {
-
+      loading: {
+        type: Boolean,
+        value: true
+      },
     };
   }
 
   static get observers() {
-    return [];
+    return [
+      'loader(trenutno.vreme.zdaj)'
+    ];
   }
 
   ready() {
     super.ready();
+  }
 
-
+  loader() {
+    this.loading = false;
   }
 
 }

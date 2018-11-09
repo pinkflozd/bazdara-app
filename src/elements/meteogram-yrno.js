@@ -19,10 +19,15 @@ import {
 import '@polymer/paper-styles/typography.js';
 import '@polymer/app-storage/app-localstorage/app-localstorage-document.js';
 
+import '@polymer/paper-spinner/paper-spinner.js';
+import '@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
+import '@polymer/paper-item/paper-item.js';
+import '@polymer/paper-listbox/paper-listbox.js';
+
 import firebase from 'firebase/app';
 import 'firebase/database';
 
-//import * as Highcharts from 'highcharts'
+//import * as Highcharts from 'highcharts/highstock'
 //import * as HighchartsMore from 'highcharts/highcharts-more.src.js'
 
 class MeteogramYrno extends PolymerElement {
@@ -31,16 +36,65 @@ class MeteogramYrno extends PolymerElement {
       <style include="paper-material-styles">
         :host {
           display: block;
-          padding:5px 10px 10px 10px;
+        }
+        paper-dropdown-menu {
+          z-index-2;
+        }
+        .over {
+          overflow-x: scroll;
+          padding:10px 10px 10px 10px;
+        }
+        .outer {
+          width:830px
         }
         #meteogram {
           height:280px;
+          width: 820px;
           background-color: #FFFFFF;
         }
+
+        .selector {
+          margin:10px 10px 0px 10px;
+          padding: 0 10px;
+          background-color:#FFFFFF;
+        }
+
+        paper-dropdown-menu {
+          width: 100%;
+          z-index:1
+        }
       </style>
-      <app-localstorage-document key="portoroz" data="{{meteograms}}"></app-localstorage-document>
-      [[town]]
+      <app-localstorage-document key="[[town]]" data="{{meteograms}}"></app-localstorage-document>
+
+      <div class="paper-material selector" elevation="1">
+      <paper-dropdown-menu label="Vremenska napoved">
+        <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="id" selected="{{townname}}">
+          <paper-item class="cont" id="Piran" on-tap="onTabSelect">
+            Piran
+          </paper-item>
+          <paper-item class="cont" id="Portorož" on-tap="onTabSelect">
+            Portorož
+          </paper-item>
+          <paper-item class="cont" id="Izola" on-tap="onTabSelect">
+            Izola
+          </paper-item>
+          <paper-item class="cont" id="Koper" on-tap="onTabSelect">
+            Koper
+          </paper-item>
+          <paper-item class="cont" id="Trst" on-tap="onTabSelect">
+            Trst
+          </paper-item>
+          <paper-item class="cont" id="Umag" on-tap="onTabSelect">
+            Umag
+          </paper-item>
+        </paper-listbox>
+      </paper-dropdown-menu>
+      </div>
+      <div class="over">
+      <div class="outer">
       <div id="meteogram" class="paper-material" elevation="1"></div>
+      </div>
+      </div>
     `;
   }
 
@@ -82,16 +136,47 @@ class MeteogramYrno extends PolymerElement {
     highchartsjs.setAttribute('src', 'https://cdn.jsdelivr.net/npm/highstock-release@6.0.4/highstock.min.js');
     document.head.appendChild(highchartsjs);
 
-    this.location()
+    this.databaseRef = firebase.database().ref();
+
+    this.location();
 
   }
 
-  location() {
+  onTabSelect(e) {
+    var button = e.target;
+    this.townname = button.id;
+
+    this.location(true);
+    }
+
+  location(e) {
+
+    if (e) {
+      if (this.townname == "Piran") {
+        this.lat = "45.528666";
+        this.lng = "13.568362";
+      } else if (this.townname == "Portorož") {
+        this.lat = "45.512827";
+        this.lng = "13.5933043";
+      } else if (this.townname == "Izola") {
+        this.lat = "45.533596";
+        this.lng = "13.651651";
+      } else if (this.townname == "Koper") {
+        this.lat = "45.525243";
+        this.lng = "13.582448";
+      } else if (this.townname == "Trst") {
+        this.lat = "45.692709";
+        this.lng = "13.749297";
+      } else if (this.townname == "Umag") {
+        this.lat = "45.435882";
+        this.lng = "13.523732";
+      }
+    }
 
     this.town = this.NearestCity(this.lat, this.lng, 0);
+    this.townname = this.NearestCity(this.lat, this.lng, 3);
 
-    var databaseRef = firebase.database().ref();
-    var meteoRef = databaseRef.child("/meteogram/" + this.town);
+    var meteoRef = this.databaseRef.child("/meteogram/" + this.town);
 
     meteoRef.on('value', function(met) {
       this.meteograms = met.val();
@@ -126,13 +211,15 @@ class MeteogramYrno extends PolymerElement {
     }
 
     var cities = [
-      ["portoroz", 0, 0],
-      ["portoroz", 46.0569, 14.5058],
-      ["portoroz", 45.524841, 13.567059],
-      ["izola", 45.533596, 13.651651],
-      ["koper", 45.546729, 13.693094],
-      ["umag", 45.435882, 13.523732],
-      ["trst", 45.692709, 13.749297]
+      ["portoroz", 0, 0, "Piran"],
+      ["portoroz", 46.0569, 14.5058, "Piran"],
+      ["portoroz", 45.524841, 13.567059, "Piran"],
+      ["portoroz", 45.512827, 13.5933043, "Portorož"],
+      ["portoroz", 45.473511, 13.6139783, "Portorož"],
+      ["izola", 45.533596, 13.651651, "Izola"],
+      ["koper", 45.546729, 13.693094, "Koper"],
+      ["umag", 45.435882, 13.523732, "Umag"],
+      ["trst", 45.692709, 13.749297, "Trst"]
     ];
 
     for (index = 0; index < cities.length; ++index) {
@@ -547,7 +634,7 @@ class MeteogramYrno extends PolymerElement {
           });
         }
         arrow.attr({
-            stroke: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black',
+            stroke: '#333333',
             'stroke-width': 1.5,
             zIndex: 5,
             class: 'myPath'
@@ -733,7 +820,7 @@ class MeteogramYrno extends PolymerElement {
           rotation: 0,
           style: {
             fontSize: '10px',
-            color: '#333'
+            color: '#333333'
           },
           textAlign: 'left',
           x: 3
@@ -741,7 +828,7 @@ class MeteogramYrno extends PolymerElement {
         labels: {
           style: {
             fontSize: '8px',
-            color: '#333'
+            color: '#333333'
           },
           y: 2,
           x: 3
@@ -778,13 +865,13 @@ class MeteogramYrno extends PolymerElement {
           valueSuffix: '°C'
         },
         zIndex: 1,
-        color: '#FF3333',
-        negativeColor: '#48AFE8'
+        color: '#E57373',
+        negativeColor: '#2196F3'
       }, {
         name: 'Precipitation',
         data: this.precipitations,
         type: 'column',
-        color: '#68CFE8',
+        color: '#64B5F6',
         yAxis: 1,
         groupPadding: 0,
         pointPadding: 0,
@@ -806,7 +893,7 @@ class MeteogramYrno extends PolymerElement {
         }
       }, {
         name: 'Air pressure',
-        color: '#333',
+        color: '#80CBC4',
         data: this.pressures,
         marker: {
           enabled: false
@@ -918,7 +1005,6 @@ class MeteogramYrno extends PolymerElement {
     // Create the chart when the data is loaded
     this.createChart();
   }
-
 
 }
 

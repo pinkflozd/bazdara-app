@@ -144,7 +144,7 @@ class LiveCam extends PolymerElement {
 
       <div class="paper-material selector back" elevation="1">
       <div class="wrap">
-      <paper-dropdown-menu label="Select webcam">
+      <paper-dropdown-menu label="Spletna kamera">
         <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="id" selected="{{tabselect}}">
           <paper-item class="cont" hidden$="[[cameras.sipiran04]]" id="sipiran04" on-tap="onTabSelect">
             Piran
