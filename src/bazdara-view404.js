@@ -8,7 +8,7 @@
  * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 
-import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+import {PolymerElement, html} from "@polymer/polymer/polymer-element.js";
 
 class BazdaraView404 extends PolymerElement {
   static get template() {
@@ -26,4 +26,4 @@ class BazdaraView404 extends PolymerElement {
   }
 }
 
-window.customElements.define('bazdara-view404', BazdaraView404);
+window.customElements.define("bazdara-view404", BazdaraView404);

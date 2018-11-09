@@ -8,36 +8,31 @@
  * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 
-import {
-  PolymerElement,
-  html
-} from '@polymer/polymer/polymer-element.js';
-import {
-  afterNextRender
-} from '@polymer/polymer/lib/utils/render-status.js';
+import {PolymerElement, html} from "@polymer/polymer/polymer-element.js";
+import {afterNextRender} from "@polymer/polymer/lib/utils/render-status.js";
 import {
   setPassiveTouchGestures,
   setRootPath
-} from '@polymer/polymer/lib/utils/settings.js';
-import '@polymer/app-layout/app-drawer/app-drawer.js';
-import '@polymer/app-layout/app-drawer-layout/app-drawer-layout.js';
-import '@polymer/app-layout/app-header/app-header.js';
-import '@polymer/app-layout/app-header-layout/app-header-layout.js';
-import '@polymer/app-layout/app-scroll-effects/app-scroll-effects.js';
-import '@polymer/app-layout/app-toolbar/app-toolbar.js';
-import '@polymer/app-route/app-location.js';
-import '@polymer/app-route/app-route.js';
-import '@polymer/iron-pages/iron-pages.js';
-import '@polymer/iron-selector/iron-selector.js';
-import '@polymer/paper-icon-button/paper-icon-button.js';
-import '@polymer/paper-dialog/paper-dialog.js';
+} from "@polymer/polymer/lib/utils/settings.js";
+import "@polymer/app-layout/app-drawer/app-drawer.js";
+import "@polymer/app-layout/app-drawer-layout/app-drawer-layout.js";
+import "@polymer/app-layout/app-header/app-header.js";
+import "@polymer/app-layout/app-header-layout/app-header-layout.js";
+import "@polymer/app-layout/app-scroll-effects/app-scroll-effects.js";
+import "@polymer/app-layout/app-toolbar/app-toolbar.js";
+import "@polymer/app-route/app-location.js";
+import "@polymer/app-route/app-route.js";
+import "@polymer/iron-pages/iron-pages.js";
+import "@polymer/iron-selector/iron-selector.js";
+import "@polymer/paper-icon-button/paper-icon-button.js";
+import "@polymer/paper-dialog/paper-dialog.js";
 
-import './bazdara-icons.js';
-import './shared-styles.js';
+import "./bazdara-icons.js";
+import "./shared-styles.js";
 
-import './elements/firebase-app.js';
-import './elements/geo-button.js';
-import '@fabricelements/skeleton-auth/auth-mixin.js';
+import "./elements/firebase-app.js";
+import "./elements/geo-button.js";
+import "@fabricelements/skeleton-auth/auth-mixin.js";
 
 // Gesture events like tap and track generated from touch will not be
 // preventable, allowing for better scrolling performance.
@@ -49,7 +44,7 @@ setRootPath(BazdaraAppGlobals.rootPath);
 
 class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
   static get template() {
-    return html `
+    return html`
       <style include="shared-styles">
         :host {
           --app-drawer-width: 256px;
@@ -98,7 +93,7 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
         }
 
         app-header paper-icon-button {
-          --paper-icon-button-ink-color: white;
+          --paper-icon-button-ink-color: #ffffff;
         }
 
         .drawer-list {
@@ -183,7 +178,7 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
       page: {
         type: String,
         reflectToAttribute: true,
-        observer: '_pageChanged'
+        observer: "_pageChanged"
       },
       routeData: Object,
       subroute: Object
@@ -191,19 +186,18 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
   }
 
   static get observers() {
-    return [
-      '_routePageChanged(routeData.page)'
-    ];
+    return ["_routePageChanged(routeData.page)"];
   }
 
   _openDialog() {
-    import('./elements/firebase-login.js').then(function() {
-      if (!this.$.drawer.persistent) {
-        this.$.drawer.close();
-      }
-      this.$.dialog.open();
-    }.bind(this));
-
+    import("./elements/firebase-login.js").then(
+      function() {
+        if (!this.$.drawer.persistent) {
+          this.$.drawer.close();
+        }
+        this.$.dialog.open();
+      }.bind(this)
+    );
   }
 
   _routePageChanged(page) {
@@ -212,11 +206,11 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
     // If no page was found in the route data, page will be an empty string.
     // Show 'home' in that case. And if the page doesn't exist, show 'view404'.
     if (!page) {
-      this.page = 'home';
-    } else if (['home'].indexOf(page) !== -1) {
+      this.page = "home";
+    } else if (["home"].indexOf(page) !== -1) {
       this.page = page;
     } else {
-      this.page = 'view404';
+      this.page = "view404";
     }
 
     // Close a non-persistent drawer when the page & route are changed.
@@ -231,11 +225,11 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
     // Note: `polymer build` doesn't like string concatenation in the import
     // statement, so break it up.
     switch (page) {
-      case 'home':
-        import('./bazdara-home.js');
+      case "home":
+        import("./bazdara-home.js");
         break;
-      case 'view404':
-        import('./bazdara-view404.js');
+      case "view404":
+        import("./bazdara-view404.js");
         break;
     }
   }
@@ -246,9 +240,7 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
     //  afterNextRender(this, function() {
     //    import('../elements/geo-location.js').then(null);
     //  });
-
   }
-
 }
 
-window.customElements.define('bazdara-app', BazdaraApp);
+window.customElements.define("bazdara-app", BazdaraApp);

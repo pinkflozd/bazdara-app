@@ -20,13 +20,9 @@ TODO: change the API key to your own.
 </google-map>
 ```
 */
-import {
-  PolymerElement,
-  html
-} from '@polymer/polymer/polymer-element.js';
+import {PolymerElement, html} from "@polymer/polymer/polymer-element.js";
 
 class GeoLocation extends PolymerElement {
-
   static get properties() {
     return {
       /**
@@ -105,9 +101,7 @@ class GeoLocation extends PolymerElement {
   }
 
   static get observers() {
-    return [
-      'fetch(idle, watchPos, highAccuracy, timeout, maximumAge)'
-    ];
+    return ["fetch(idle, watchPos, highAccuracy, timeout, maximumAge)"];
   }
 
   /**
@@ -165,7 +159,11 @@ class GeoLocation extends PolymerElement {
     };
 
     if (this.watchPos) {
-      this._watch = navigator.geolocation.watchPosition(success, error, options);
+      this._watch = navigator.geolocation.watchPosition(
+        success,
+        error,
+        options
+      );
     } else {
       navigator.geolocation.getCurrentPosition(success, error, options);
     }
@@ -181,14 +179,15 @@ class GeoLocation extends PolymerElement {
     this._setLatitude(pos.coords.latitude);
     this._setLongitude(pos.coords.longitude);
 
-    window.dispatchEvent(new CustomEvent('geo-response', {
-      detail: {
-        latitude: this.latitude,
-        longitude: this.longitude,
-        position: pos
-      }
-    }));
-
+    window.dispatchEvent(
+      new CustomEvent("geo-response", {
+        detail: {
+          latitude: this.latitude,
+          longitude: this.longitude,
+          position: pos
+        }
+      })
+    );
   }
 
   /**
@@ -197,14 +196,15 @@ class GeoLocation extends PolymerElement {
    * @param {Position} err The error that was returned.
    */
   _onError(err) {
-    window.dispatchEvent(new CustomEvent('geo-error', {
-      detail: {
-        error: err.code + ': ' + err.message,
-        code: err.code
-      }
-    }));
+    window.dispatchEvent(
+      new CustomEvent("geo-error", {
+        detail: {
+          error: err.code + ": " + err.message,
+          code: err.code
+        }
+      })
+    );
   }
-
 }
 
-window.customElements.define('geo-location', GeoLocation);
+window.customElements.define("geo-location", GeoLocation);

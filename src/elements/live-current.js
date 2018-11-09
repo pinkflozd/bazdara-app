@@ -1,38 +1,30 @@
-import {
-  PolymerElement,
-  html
-} from '@polymer/polymer/polymer-element.js';
-import {
-  afterNextRender
-} from '@polymer/polymer/lib/utils/render-status.js';
-import {} from '@polymer/polymer/lib/elements/dom-if.js';
-import '@polymer/paper-spinner/paper-spinner.js';
-import '@polymer/paper-styles/typography.js';
-import '@polymer/iron-icon/iron-icon.js';
-import '@polymer/iron-flex-layout/iron-flex-layout-classes.js';
-import '@polymer/paper-tooltip/paper-tooltip.js';
+import {PolymerElement, html} from "@polymer/polymer/polymer-element.js";
+import {afterNextRender} from "@polymer/polymer/lib/utils/render-status.js";
+import {} from "@polymer/polymer/lib/elements/dom-if.js";
+import "@polymer/paper-spinner/paper-spinner.js";
+import "@polymer/paper-styles/typography.js";
+import "@polymer/iron-icon/iron-icon.js";
+import "@polymer/iron-flex-layout/iron-flex-layout-classes.js";
+import "@polymer/paper-tooltip/paper-tooltip.js";
 
+import "../bazdara-icons.js";
+import "../shared-styles.js";
+import "./weather-icons.js";
+import "./weather.js";
+import "./live-wind-name.js";
+import "./live-wind-speed-name.js";
+import "./live-wind-speed-beufort.js";
+import "./live-wind-direction.js";
 
-import '../bazdara-icons.js';
-import '../shared-styles.js';
-import './weather-icons.js';
-import './weather.js';
-import './live-wind-name.js';
-import './live-wind-speed-name.js';
-import './live-wind-speed-beufort.js';
-import './live-wind-direction.js';
-
-import './live-sea-name.js';
-
+import "./live-sea-name.js";
 
 class LiveCurrent extends PolymerElement {
-
   static get importMeta() {
     return import.meta;
   }
 
   static get template() {
-    return html `
+    return html`
       <style include="paper-material-styles iron-flex iron-flex-alignment shared-styles">
       :host {
         display: block;
@@ -325,14 +317,12 @@ class LiveCurrent extends PolymerElement {
       loading: {
         type: Boolean,
         value: true
-      },
+      }
     };
   }
 
   static get observers() {
-    return [
-      'loader(trenutno.vreme.zdaj)'
-    ];
+    return ["loader(trenutno.vreme.zdaj)"];
   }
 
   ready() {
@@ -342,7 +332,6 @@ class LiveCurrent extends PolymerElement {
   loader() {
     this.loading = false;
   }
-
 }
 
-window.customElements.define('live-current', LiveCurrent);
+window.customElements.define("live-current", LiveCurrent);

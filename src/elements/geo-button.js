@@ -1,17 +1,12 @@
-import {
-  PolymerElement,
-  html
-} from '@polymer/polymer/polymer-element.js';
-import '@polymer/paper-icon-button/paper-icon-button.js';
-import '@polymer/app-storage/app-localstorage/app-localstorage-document.js';
-import '../bazdara-icons.js';
-import './geo-location.js';
-
+import {PolymerElement, html} from "@polymer/polymer/polymer-element.js";
+import "@polymer/paper-icon-button/paper-icon-button.js";
+import "@polymer/app-storage/app-localstorage/app-localstorage-document.js";
+import "../bazdara-icons.js";
+import "./geo-location.js";
 
 class GeoButton extends PolymerElement {
-
   static get template() {
-    return html `
+    return html`
       <style>
       :host {
         display: block;
@@ -26,8 +21,8 @@ class GeoButton extends PolymerElement {
   static get properties() {
     return {
       data: {
-        observer: 'changed',
-        type: Boolean,
+        observer: "changed",
+        type: Boolean
       },
       latitude: {
         type: Number,
@@ -39,7 +34,7 @@ class GeoButton extends PolymerElement {
       longitude: {
         type: Number,
         notify: true
-      },
+      }
     };
   }
 
@@ -55,7 +50,6 @@ class GeoButton extends PolymerElement {
       this.disabled = true;
       this.icon = "bazdara-icons:location-off";
     }
-
   }
 
   changed() {
@@ -69,14 +63,13 @@ class GeoButton extends PolymerElement {
 
   _click() {
     if (this.disabled === false) {
-      this.data = true
+      this.data = true;
     }
   }
 
   ready() {
     super.ready();
   }
-
 }
 
-window.customElements.define('geo-button', GeoButton);
+window.customElements.define("geo-button", GeoButton);

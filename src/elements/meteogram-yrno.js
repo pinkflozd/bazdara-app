@@ -8,31 +8,26 @@
  * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 
-import {
-  PolymerElement,
-  html
-} from '@polymer/polymer/polymer-element.js';
-import {
-  afterNextRender
-} from '@polymer/polymer/lib/utils/render-status.js';
+import {PolymerElement, html} from "@polymer/polymer/polymer-element.js";
+import {afterNextRender} from "@polymer/polymer/lib/utils/render-status.js";
 
-import '@polymer/paper-styles/typography.js';
-import '@polymer/app-storage/app-localstorage/app-localstorage-document.js';
+import "@polymer/paper-styles/typography.js";
+import "@polymer/app-storage/app-localstorage/app-localstorage-document.js";
 
-import '@polymer/paper-spinner/paper-spinner.js';
-import '@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
-import '@polymer/paper-item/paper-item.js';
-import '@polymer/paper-listbox/paper-listbox.js';
+import "@polymer/paper-spinner/paper-spinner.js";
+import "@polymer/paper-dropdown-menu/paper-dropdown-menu.js";
+import "@polymer/paper-item/paper-item.js";
+import "@polymer/paper-listbox/paper-listbox.js";
 
-import firebase from 'firebase/app';
-import 'firebase/database';
+import firebase from "firebase/app";
+import "firebase/database";
 
 //import * as Highcharts from 'highcharts/highstock'
 //import * as HighchartsMore from 'highcharts/highcharts-more.src.js'
 
 class MeteogramYrno extends PolymerElement {
   static get template() {
-    return html `
+    return html`
       <style include="paper-material-styles">
         :host {
           display: block;
@@ -50,19 +45,32 @@ class MeteogramYrno extends PolymerElement {
         #meteogram {
           height:280px;
           width: 820px;
-          background-color: #FFFFFF;
+          background-color: var(--primary-background-color);
         }
 
         .selector {
           margin:10px 10px 0px 10px;
           padding: 0 10px;
-          background-color:#FFFFFF;
+          background-color: var(--primary-background-color);
         }
 
         paper-dropdown-menu {
           width: 100%;
           z-index:1
         }
+        paper-item {
+        --paper-item-selected: {
+            background-color: var(--light-primary-color);
+        };
+
+        --paper-item-focused: {
+            background-color: var(--light-primary-color);
+        };
+
+        --paper-item-focused-before: {
+            background-color: var(--light-primary-color);
+        };
+       }
       </style>
       <app-localstorage-document key="[[town]]" data="{{meteograms}}"></app-localstorage-document>
 
@@ -112,17 +120,15 @@ class MeteogramYrno extends PolymerElement {
         value: 45.5283129
       },
       lng: {
-        observer: 'location',
+        observer: "location",
         type: Number,
         value: 13.5659228
-      },
+      }
     };
   }
 
   static get observers() {
-    return [
-      'Meteogram(meteograms.meta.lastupdate)',
-    ];
+    return ["Meteogram(meteograms.meta.lastupdate)"];
   }
 
   ready() {
@@ -132,14 +138,16 @@ class MeteogramYrno extends PolymerElement {
   constructor() {
     super();
 
-    const highchartsjs = document.createElement('script');
-    highchartsjs.setAttribute('src', 'https://cdn.jsdelivr.net/npm/highstock-release@6.0.4/highstock.min.js');
+    const highchartsjs = document.createElement("script");
+    highchartsjs.setAttribute(
+      "src",
+      "https://cdn.jsdelivr.net/npm/highstock-release@6.0.4/highstock.min.js"
+    );
     document.head.appendChild(highchartsjs);
 
     this.databaseRef = firebase.database().ref();
 
     this.location();
-
   }
 
   onTabSelect(e) {
@@ -147,10 +155,9 @@ class MeteogramYrno extends PolymerElement {
     this.townname = button.id;
 
     this.location(true);
-    }
+  }
 
   location(e) {
-
     if (e) {
       if (this.townname == "Piran") {
         this.lat = "45.528666";
@@ -178,14 +185,16 @@ class MeteogramYrno extends PolymerElement {
 
     var meteoRef = this.databaseRef.child("/meteogram/" + this.town);
 
-    meteoRef.on('value', function(met) {
-      this.meteograms = met.val();
-    }.bind(this));
-
+    meteoRef.on(
+      "value",
+      function(met) {
+        this.meteograms = met.val();
+      }.bind(this)
+    );
   }
 
   Deg2Rad(deg) {
-    return deg * Math.PI / 180;
+    return (deg * Math.PI) / 180;
   }
 
   PythagorasEquirectangular(lat1, lon1, lat2, lon2) {
@@ -195,7 +204,7 @@ class MeteogramYrno extends PolymerElement {
     lon2 = this.Deg2Rad(lon2);
     var R = 6371; // km
     var x = (lon2 - lon1) * Math.cos((lat1 + lat2) / 2);
-    var y = (lat2 - lat1);
+    var y = lat2 - lat1;
     var d = Math.sqrt(x * x + y * y) * R;
     return d;
   }
@@ -223,18 +232,21 @@ class MeteogramYrno extends PolymerElement {
     ];
 
     for (index = 0; index < cities.length; ++index) {
-      var dif = this.PythagorasEquirectangular(latitude, longitude, cities[index][1], cities[index][2]);
+      var dif = this.PythagorasEquirectangular(
+        latitude,
+        longitude,
+        cities[index][1],
+        cities[index][2]
+      );
       if (dif < mindif) {
         closest = index;
         mindif = dif;
       }
-
     }
 
     // echo the nearest city
     return cities[closest][cdn];
   }
-
 
   Meteogram() {
     // Parallel arrays for the chart data, these are populated as the XML/JSON file
@@ -263,151 +275,148 @@ class MeteogramYrno extends PolymerElement {
   getSymbolSprites(symbolSize) {
     return {
       "01d": {
-        x: 'clear',
-        y: 'prazna'
+        x: "clear",
+        y: "prazna"
       },
       "01n": {
-        x: 'clear_n',
-        y: 'prazna'
+        x: "clear_n",
+        y: "prazna"
       },
       "02d": {
-        x: 'mostClear',
-        y: 'prazna'
+        x: "mostClear",
+        y: "prazna"
       },
       "02n": {
-        x: 'mostClear_n',
-        y: 'prazna'
+        x: "mostClear_n",
+        y: "prazna"
       },
       "03d": {
-        x: 'modCloudy',
-        y: 'prazna'
+        x: "modCloudy",
+        y: "prazna"
       },
       "03n": {
-        x: 'modCloudy_n',
-        y: 'prazna'
+        x: "modCloudy_n",
+        y: "prazna"
       },
       "04": {
-        x: 'overcast',
-        y: 'prazna'
+        x: "overcast",
+        y: "prazna"
       },
       "40d": {
-        x: 'clear',
-        y: 'lightDZ'
+        x: "clear",
+        y: "lightDZ"
       },
       "40n": {
-        x: 'clear_n',
-        y: 'lightDZ'
+        x: "clear_n",
+        y: "lightDZ"
       },
       "05d": {
-        x: 'mostClear',
-        y: 'lightRA'
+        x: "mostClear",
+        y: "lightRA"
       },
       "05n": {
-        x: 'mostClear_n',
-        y: 'lightRA'
+        x: "mostClear_n",
+        y: "lightRA"
       },
 
       "41d": {
-        x: 'modCloudy',
-        y: 'lightSHRA'
+        x: "modCloudy",
+        y: "lightSHRA"
       },
 
       "41n": {
-        x: 'modCloudy_n',
-        y: 'lightSHRA'
+        x: "modCloudy_n",
+        y: "lightSHRA"
       },
 
       "24d": {
-        x: 'clear',
-        y: 'TS'
+        x: "clear",
+        y: "TS"
       },
       "24n": {
-        x: 'clear_n',
-        y: 'TS'
+        x: "clear_n",
+        y: "TS"
       },
 
       "06d": {
-        x: 'clear',
-        y: 'modTSGR'
+        x: "clear",
+        y: "modTSGR"
       },
       "06n": {
-        x: 'clear_n',
-        y: 'modTSGR'
+        x: "clear_n",
+        y: "modTSGR"
       },
 
       "25d": {
-        x: 'clear',
-        y: 'modTSRA'
+        x: "clear",
+        y: "modTSRA"
       },
       "25n": {
-        x: 'clear_n',
-        y: 'modTSRA'
+        x: "clear_n",
+        y: "modTSRA"
       },
 
       "46": {
-        x: 'prazna',
-        y: 'lightDZ'
+        x: "prazna",
+        y: "lightDZ"
       },
 
       "09": {
-        x: 'prazna',
-        y: 'lightRA'
+        x: "prazna",
+        y: "lightRA"
       },
 
       "10": {
-        x: 'prazna',
-        y: 'lightSHRA'
+        x: "prazna",
+        y: "lightSHRA"
       },
 
-
       "30": {
-        x: 'prazna',
-        y: 'TS'
+        x: "prazna",
+        y: "TS"
       },
 
       "22": {
-        x: 'prazna',
-        y: 'modTSGR'
+        x: "prazna",
+        y: "modTSGR"
       },
 
       "11": {
-        x: 'prazna',
-        y: 'modTSRA'
+        x: "prazna",
+        y: "modTSRA"
       },
 
       "12": {
-        x: 'prazna',
-        y: 'RASN'
+        x: "prazna",
+        y: "RASN"
       },
 
       "47": {
-        x: 'prazna',
-        y: 'modRASN'
+        x: "prazna",
+        y: "modRASN"
       },
 
       "13": {
-        x: 'prazna',
-        y: 'SN'
+        x: "prazna",
+        y: "SN"
       },
 
       "50": {
-        x: 'prazna',
-        y: 'TSSN'
+        x: "prazna",
+        y: "TSSN"
       },
 
       "49": {
-        x: 'prazna',
-        y: 'lightSN'
+        x: "prazna",
+        y: "lightSN"
       },
 
       "15": {
-        x: 'FG',
-        y: 'prazna'
+        x: "FG",
+        y: "prazna"
       }
-
     };
   }
-
 
   /**
    * Function to smooth the temperature line. The original data provides only whole degrees,
@@ -434,33 +443,48 @@ class MeteogramYrno extends PolymerElement {
    * HTML for the tooltip.
    */
   tooltipFormatter(tooltip) {
-
     // Create the header with reference to the time interval
     var index = tooltip.points[0].point.index,
-      ret = '<small>' + Highcharts.dateFormat('%A, %b %e, %H:%M', tooltip.x) + '-' +
-      Highcharts.dateFormat('%H:%M', tooltip.points[0].point.to) + '</small><br>';
+      ret =
+        "<small>" +
+        Highcharts.dateFormat("%A, %b %e, %H:%M", tooltip.x) +
+        "-" +
+        Highcharts.dateFormat("%H:%M", tooltip.points[0].point.to) +
+        "</small><br>";
 
     // Symbol text
-    ret += '<b>' + this.symbolNames[index] + '</b>';
+    ret += "<b>" + this.symbolNames[index] + "</b>";
 
-    ret += '<table>';
+    ret += "<table>";
 
     // Add all series
     Highcharts.each(tooltip.points, function(point) {
       var series = point.series;
-      ret += '<tr><td><span style="color:' + series.color + '">\u25CF</span> ' + series.name +
-        ': </td><td style="white-space:nowrap">' + Highcharts.pick(point.point.value, point.y) +
-        series.options.tooltip.valueSuffix + '</td></tr>';
+      ret +=
+        '<tr><td><span style="color:' +
+        series.color +
+        '">\u25CF</span> ' +
+        series.name +
+        ': </td><td style="white-space:nowrap">' +
+        Highcharts.pick(point.point.value, point.y) +
+        series.options.tooltip.valueSuffix +
+        "</td></tr>";
     });
 
     // Add wind
-    ret += '<tr><td style="vertical-align: top">\u25CF Wind</td><td style="white-space:nowrap">' + this.windDirectionNames[index] +
-      '<br>' + this.windSpeedNames[index] + '<br>' +
-      Highcharts.numberFormat(this.windSpeeds[index], 1) + ' m/s (' + Highcharts.numberFormat(this.windSpeeds[index] * 3.6, 1) + ' km/h)</td></tr>';
+    ret +=
+      '<tr><td style="vertical-align: top">\u25CF Wind</td><td style="white-space:nowrap">' +
+      this.windDirectionNames[index] +
+      "<br>" +
+      this.windSpeedNames[index] +
+      "<br>" +
+      Highcharts.numberFormat(this.windSpeeds[index], 1) +
+      " m/s (" +
+      Highcharts.numberFormat(this.windSpeeds[index] * 3.6, 1) +
+      " km/h)</td></tr>";
 
     // Close
-    ret += '</table>';
-
+    ret += "</table>";
 
     return ret;
   }
@@ -474,13 +498,11 @@ class MeteogramYrno extends PolymerElement {
       symbolSprites = this.getSymbolSprites(32);
 
     for (var i = 0; i < chart.series[0].data.length; i++) {
-
       var point = chart.series[0].data[i];
 
-      var sprite,
-        group;
+      var sprite, group;
 
-      var deljenje
+      var deljenje;
 
       if (screen.width < 480) {
         deljenje = i % 4;
@@ -494,12 +516,11 @@ class MeteogramYrno extends PolymerElement {
       }
 
       if (meteogram.resolution > 36e5 || deljenje === 0) {
-
         sprite = symbolSprites[meteogram.symbols[i]];
         if (sprite) {
-
           // Create a group element that is positioned and clipped at 30 pixels width and height
-          var group = chart.renderer.g('WeatherSymbols')
+          var group = chart.renderer
+            .g("WeatherSymbols")
             .attr({
               translateX: point.plotX + chart.plotLeft - 12,
               translateY: point.plotY + chart.plotTop - 40,
@@ -509,16 +530,22 @@ class MeteogramYrno extends PolymerElement {
             .add();
 
           // Position the image inside it at the sprite position
-          chart.renderer.image(
-              '../../esm-bundled/images/vreme/' + sprite.x + '.png', 0, 0,
+          chart.renderer
+            .image(
+              "../../esm-bundled/images/vreme/" + sprite.x + ".png",
+              0,
+              0,
               32,
               32
             )
             .add(group);
 
           // Position the image inside it at the sprite position
-          chart.renderer.image(
-              '../../esm-bundled/images/vreme/pojavi/' + sprite.y + '.png', 0, 9,
+          chart.renderer
+            .image(
+              "../../esm-bundled/images/vreme/pojavi/" + sprite.y + ".png",
+              0,
+              9,
               32,
               32
             )
@@ -533,22 +560,40 @@ class MeteogramYrno extends PolymerElement {
    * around the zero centerpoint.
    */
   windArrow(name) {
-    var level,
-      path;
+    var level, path;
 
     // The stem and the arrow head
     path = [
-      'M', 0, 7, // base of arrow
-      'L', -1.5, 7,
-      0, 10,
-      1.5, 7,
-      0, 7,
-      0, -10 // top
+      "M",
+      0,
+      7, // base of arrow
+      "L",
+      -1.5,
+      7,
+      0,
+      10,
+      1.5,
+      7,
+      0,
+      7,
+      0,
+      -10 // top
     ];
 
-    var array = ['Calm', 'Light air', 'Light breeze', 'Gentle breeze', 'Moderate breeze',
-      'Fresh breeze', 'Strong breeze', 'Near gale', 'Gale', 'Strong gale', 'Storm',
-      'Violent storm', 'Hurricane'
+    var array = [
+      "Calm",
+      "Light air",
+      "Light breeze",
+      "Gentle breeze",
+      "Moderate breeze",
+      "Fresh breeze",
+      "Strong breeze",
+      "Near gale",
+      "Gale",
+      "Strong gale",
+      "Storm",
+      "Violent storm",
+      "Hurricane"
     ];
 
     level = array.indexOf(name);
@@ -558,27 +603,27 @@ class MeteogramYrno extends PolymerElement {
     }
 
     if (level === 2) {
-      path.push('M', 0, -8, 'L', 4, -8); // short line
+      path.push("M", 0, -8, "L", 4, -8); // short line
     } else if (level >= 3) {
       path.push(0, -10, 7, -10); // long line
     }
 
     if (level === 4) {
-      path.push('M', 0, -7, 'L', 4, -7);
+      path.push("M", 0, -7, "L", 4, -7);
     } else if (level >= 5) {
-      path.push('M', 0, -7, 'L', 7, -7);
+      path.push("M", 0, -7, "L", 7, -7);
     }
 
     if (level === 5) {
-      path.push('M', 0, -4, 'L', 4, -4);
+      path.push("M", 0, -4, "L", 4, -4);
     } else if (level >= 6) {
-      path.push('M', 0, -4, 'L', 7, -4);
+      path.push("M", 0, -4, "L", 7, -4);
     }
 
     if (level === 7) {
-      path.push('M', 0, -1, 'L', 4, -1);
+      path.push("M", 0, -1, "L", 4, -1);
     } else if (level >= 8) {
-      path.push('M', 0, -1, 'L', 7, -1);
+      path.push("M", 0, -1, "L", 7, -1);
     }
 
     return path;
@@ -591,13 +636,12 @@ class MeteogramYrno extends PolymerElement {
     var meteogram = this;
 
     for (var i = 0; i < chart.series[0].data.length; i++) {
-
       var point = chart.series[0].data[i];
 
       var sprite, arrow, x, y;
 
-      var deljenje
-      var deljenje2
+      var deljenje;
+      var deljenje2;
 
       if (screen.width < 480) {
         deljenje = i % 4;
@@ -616,31 +660,30 @@ class MeteogramYrno extends PolymerElement {
       }
 
       if (meteogram.resolution > 36e5 || deljenje === 0) {
-
         // Draw the wind arrows
         x = point.plotX + chart.plotLeft + deljenje2;
         y = 235;
-        if (meteogram.windSpeedNames[i] === 'Calm') {
+        if (meteogram.windSpeedNames[i] === "Calm") {
           arrow = chart.renderer.circle(x, y, 10).attr({
-            fill: 'none'
+            fill: "none"
           });
         } else {
-          arrow = chart.renderer.path(
-            meteogram.windArrow(meteogram.windSpeedNames[i])
-          ).attr({
-            rotation: parseInt(meteogram.windDirections[i], 10),
-            translateX: x, // rotation center
-            translateY: y // rotation center
-          });
+          arrow = chart.renderer
+            .path(meteogram.windArrow(meteogram.windSpeedNames[i]))
+            .attr({
+              rotation: parseInt(meteogram.windDirections[i], 10),
+              translateX: x, // rotation center
+              translateY: y // rotation center
+            });
         }
-        arrow.attr({
-            stroke: '#333333',
-            'stroke-width': 1.5,
+        arrow
+          .attr({
+            stroke: "#333333",
+            "stroke-width": 1.5,
             zIndex: 5,
-            class: 'myPath'
+            class: "myPath"
           })
           .add();
-
       }
     }
   }
@@ -657,13 +700,16 @@ class MeteogramYrno extends PolymerElement {
       isLast,
       i;
 
-    for (pos = xAxis.min, max = xAxis.max, i = 0; pos <= max + 36e5; pos += 36e5, i += 1) {
-
+    for (
+      pos = xAxis.min, max = xAxis.max, i = 0;
+      pos <= max + 36e5;
+      pos += 36e5, i += 1
+    ) {
       // Get the X position
       isLast = pos === max + 36e5;
       x = Math.round(xAxis.toPixels(pos)) + (isLast ? 0.5 : -0.5);
 
-      var deljenje
+      var deljenje;
 
       // Draw the vertical dividers and ticks
       if (this.resolution > 36e5) {
@@ -681,13 +727,20 @@ class MeteogramYrno extends PolymerElement {
         }
         isLong = deljenje === 0;
       }
-      chart.renderer.path(['M', x, chart.plotTop + chart.plotHeight + (isLong ? 0 : 28),
-          'L', x, chart.plotTop + chart.plotHeight + 32, 'Z'
+      chart.renderer
+        .path([
+          "M",
+          x,
+          chart.plotTop + chart.plotHeight + (isLong ? 0 : 28),
+          "L",
+          x,
+          chart.plotTop + chart.plotHeight + 32,
+          "Z"
         ])
         .attr({
-          'stroke': chart.options.chart.plotBorderColor,
-          'stroke-width': 1,
-          class: 'myPath'
+          stroke: chart.options.chart.plotBorderColor,
+          "stroke-width": 1,
+          class: "myPath"
         })
         .add();
     }
@@ -707,7 +760,7 @@ class MeteogramYrno extends PolymerElement {
         marginTop: 30,
         plotBorderWidth: 1,
         style: {
-          fontFamily: 'Roboto, sans-serif'
+          fontFamily: "Roboto, sans-serif"
         },
         events: {
           redraw: function() {
@@ -721,8 +774,7 @@ class MeteogramYrno extends PolymerElement {
       },
 
       credits: {
-        text: '',
-
+        text: ""
       },
 
       tooltip: {
@@ -733,110 +785,126 @@ class MeteogramYrno extends PolymerElement {
         }
       },
 
-      xAxis: [{ // Bottom X axis
-        type: 'datetime',
-        tickInterval: 2 * 36e5, // two hours
-        minorTickInterval: 36e5, // one hour
-        tickLength: 0,
-        gridLineWidth: 1,
-        gridLineColor: (Highcharts.theme && Highcharts.theme.background2) || '#F0F0F0',
-        startOnTick: false,
-        endOnTick: false,
-        minPadding: 0,
-        maxPadding: 0,
-        offset: 30,
-        showLastLabel: true,
-        labels: {
-          format: '{value:%H}'
+      xAxis: [
+        {
+          // Bottom X axis
+          type: "datetime",
+          tickInterval: 2 * 36e5, // two hours
+          minorTickInterval: 36e5, // one hour
+          tickLength: 0,
+          gridLineWidth: 1,
+          gridLineColor:
+            (Highcharts.theme && Highcharts.theme.background2) || "#F0F0F0",
+          startOnTick: false,
+          endOnTick: false,
+          minPadding: 0,
+          maxPadding: 0,
+          offset: 30,
+          showLastLabel: true,
+          labels: {
+            format: "{value:%H}"
+          }
+        },
+        {
+          // Top X axis
+          linkedTo: 0,
+          type: "datetime",
+          tickInterval: 24 * 3600 * 1000,
+          labels: {
+            format:
+              '{value:<span style="font-size: 12px; font-weight: bold">%a</span> %b %e}',
+            align: "left",
+            x: 3,
+            y: -5
+          },
+          opposite: true,
+          tickLength: 20,
+          gridLineWidth: 1
         }
-      }, { // Top X axis
-        linkedTo: 0,
-        type: 'datetime',
-        tickInterval: 24 * 3600 * 1000,
-        labels: {
-          format: '{value:<span style="font-size: 12px; font-weight: bold">%a</span> %b %e}',
-          align: 'left',
-          x: 3,
-          y: -5
-        },
-        opposite: true,
-        tickLength: 20,
-        gridLineWidth: 1
-      }],
+      ],
 
-      yAxis: [{ // temperature axis
-        title: {
-          text: null
-        },
-        labels: {
-          format: '{value}°',
-          style: {
-            fontSize: '10px'
+      yAxis: [
+        {
+          // temperature axis
+          title: {
+            text: null
           },
-          x: -3
-        },
-        plotLines: [{ // zero plane
-          value: 0,
-          color: '#BBBBBB',
-          width: 1,
-          zIndex: 2
-        }],
-        // Custom positioner to provide even temperature ticks from top down
-        tickPositioner: function() {
-          var max = Math.ceil(this.max) + 1,
-            pos = max - 12, // start
-            ret;
-
-          if (pos < this.min) {
-            ret = [];
-            while (pos <= max) {
-              ret.push(pos += 1);
+          labels: {
+            format: "{value}°",
+            style: {
+              fontSize: "10px"
+            },
+            x: -3
+          },
+          plotLines: [
+            {
+              // zero plane
+              value: 0,
+              color: "#BBBBBB",
+              width: 1,
+              zIndex: 2
             }
-          } // else return undefined and go auto
+          ],
+          // Custom positioner to provide even temperature ticks from top down
+          tickPositioner: function() {
+            var max = Math.ceil(this.max) + 1,
+              pos = max - 12, // start
+              ret;
 
-          return ret;
+            if (pos < this.min) {
+              ret = [];
+              while (pos <= max) {
+                ret.push((pos += 1));
+              }
+            } // else return undefined and go auto
 
-        },
-        maxPadding: 0.3,
-        tickInterval: 1,
-        gridLineColor: (Highcharts.theme && Highcharts.theme.background2) || '#F0F0F0'
-
-      }, { // precipitation axis
-        title: {
-          text: null
-        },
-        labels: {
-          enabled: false
-        },
-        gridLineWidth: 0,
-        tickLength: 0
-
-      }, { // Air pressure
-        allowDecimals: false,
-        title: { // Title on top of axis
-          text: 'hPa',
-          offset: 0,
-          align: 'high',
-          rotation: 0,
-          style: {
-            fontSize: '10px',
-            color: '#333333'
+            return ret;
           },
-          textAlign: 'left',
-          x: 3
+          maxPadding: 0.3,
+          tickInterval: 1,
+          gridLineColor:
+            (Highcharts.theme && Highcharts.theme.background2) || "#F0F0F0"
         },
-        labels: {
-          style: {
-            fontSize: '8px',
-            color: '#333333'
+        {
+          // precipitation axis
+          title: {
+            text: null
           },
-          y: 2,
-          x: 3
+          labels: {
+            enabled: false
+          },
+          gridLineWidth: 0,
+          tickLength: 0
         },
-        gridLineWidth: 0,
-        opposite: true,
-        showLastLabel: false
-      }],
+        {
+          // Air pressure
+          allowDecimals: false,
+          title: {
+            // Title on top of axis
+            text: "hPa",
+            offset: 0,
+            align: "high",
+            rotation: 0,
+            style: {
+              fontSize: "10px",
+              color: "#333333"
+            },
+            textAlign: "left",
+            x: 3
+          },
+          labels: {
+            style: {
+              fontSize: "8px",
+              color: "#333333"
+            },
+            y: 2,
+            x: 3
+          },
+          gridLineWidth: 0,
+          opposite: true,
+          showLastLabel: false
+        }
+      ],
 
       legend: {
         enabled: false
@@ -844,79 +912,80 @@ class MeteogramYrno extends PolymerElement {
 
       plotOptions: {
         series: {
-          pointPlacement: 'between'
+          pointPlacement: "between"
         }
       },
 
-
-      series: [{
-        name: 'Temperature',
-        data: this.temperatures,
-        type: 'spline',
-        marker: {
-          enabled: false,
-          states: {
-            hover: {
-              enabled: true
-            }
-          }
-        },
-        tooltip: {
-          valueSuffix: '°C'
-        },
-        zIndex: 1,
-        color: '#E57373',
-        negativeColor: '#2196F3'
-      }, {
-        name: 'Precipitation',
-        data: this.precipitations,
-        type: 'column',
-        color: '#64B5F6',
-        yAxis: 1,
-        groupPadding: 0,
-        pointPadding: 0,
-        borderWidth: 0,
-        shadow: false,
-        dataLabels: {
-          enabled: true,
-          formatter: function() {
-            if (this.y > 0) {
-              return this.y;
+      series: [
+        {
+          name: "Temperature",
+          data: this.temperatures,
+          type: "spline",
+          marker: {
+            enabled: false,
+            states: {
+              hover: {
+                enabled: true
+              }
             }
           },
-          style: {
-            fontSize: '8px'
+          tooltip: {
+            valueSuffix: "°C"
+          },
+          zIndex: 1,
+          color: "#E57373",
+          negativeColor: "#2196F3"
+        },
+        {
+          name: "Precipitation",
+          data: this.precipitations,
+          type: "column",
+          color: "#64B5F6",
+          yAxis: 1,
+          groupPadding: 0,
+          pointPadding: 0,
+          borderWidth: 0,
+          shadow: false,
+          dataLabels: {
+            enabled: true,
+            formatter: function() {
+              if (this.y > 0) {
+                return this.y;
+              }
+            },
+            style: {
+              fontSize: "8px"
+            }
+          },
+          tooltip: {
+            valueSuffix: "mm"
           }
         },
-        tooltip: {
-          valueSuffix: 'mm'
+        {
+          name: "Air pressure",
+          color: "#80CBC4",
+          data: this.pressures,
+          marker: {
+            enabled: false
+          },
+          shadow: false,
+          tooltip: {
+            valueSuffix: " hPa"
+          },
+          dashStyle: "shortdot",
+          yAxis: 2
         }
-      }, {
-        name: 'Air pressure',
-        color: '#80CBC4',
-        data: this.pressures,
-        marker: {
-          enabled: false
-        },
-        shadow: false,
-        tooltip: {
-          valueSuffix: ' hPa'
-        },
-        dashStyle: 'shortdot',
-        yAxis: 2
-      }]
-    }
+      ]
+    };
   }
 
   /**
    * Post-process the chart from the callback function, the second argument to Highcharts.Chart.
    */
   onChartLoad(chart) {
-
     this.drawWeatherSymbols(chart);
     this.drawWindArrows(chart);
     this.drawBlocksForWindArrows(chart);
-
   }
 
   /**
@@ -927,7 +996,6 @@ class MeteogramYrno extends PolymerElement {
     this.chart = new Highcharts.Chart(this.getChartOptions(), function(chart) {
       meteogram.onChartLoad(chart);
     });
-
   }
 
   /**
@@ -935,7 +1003,6 @@ class MeteogramYrno extends PolymerElement {
    * specific data format
    */
   parseYrData() {
-
     var meteogram = this,
       xml = this.xml,
       pointStart;
@@ -948,16 +1015,15 @@ class MeteogramYrno extends PolymerElement {
     // generated on the server by running PHP simple_load_xml and converting it to
     // JavaScript by json_encode.
     for (var i = 0; i < xml.forecast.tabular.time.length; i++) {
-
       var time = xml.forecast.tabular.time[i];
 
       // Get the times - only Safari can't parse ISO8601 so we need to do some replacements
-      var from = time['@attributes'].from + ' UTC',
-        to = time['@attributes'].to + ' UTC';
+      var from = time["@attributes"].from + " UTC",
+        to = time["@attributes"].to + " UTC";
 
-      from = from.replace(/-/g, '/').replace('T', ' ');
+      from = from.replace(/-/g, "/").replace("T", " ");
       from = Date.parse(from);
-      to = to.replace(/-/g, '/').replace('T', ' ');
+      to = to.replace(/-/g, "/").replace("T", " ");
       to = Date.parse(to);
 
       if (to > pointStart + 4 * 24 * 36e5) {
@@ -970,12 +1036,14 @@ class MeteogramYrno extends PolymerElement {
       }
 
       // Populate the parallel arrays
-      meteogram.symbols.push(time.symbol['@attributes']['var'].match(/[0-9]{2}[dnm]?/)[0]);
-      meteogram.symbolNames.push(time.symbol['@attributes'].name);
+      meteogram.symbols.push(
+        time.symbol["@attributes"]["var"].match(/[0-9]{2}[dnm]?/)[0]
+      );
+      meteogram.symbolNames.push(time.symbol["@attributes"].name);
 
       meteogram.temperatures.push({
         x: from,
-        y: parseInt(time.temperature['@attributes'].value),
+        y: parseInt(time.temperature["@attributes"].value),
         // custom options used in the tooltip formatter
         to: to,
         index: i
@@ -983,16 +1051,18 @@ class MeteogramYrno extends PolymerElement {
 
       meteogram.precipitations.push({
         x: from,
-        y: parseFloat(time.precipitation['@attributes'].value)
+        y: parseFloat(time.precipitation["@attributes"].value)
       });
-      meteogram.windDirections.push(parseFloat(time.windDirection['@attributes'].deg));
-      meteogram.windDirectionNames.push(time.windDirection['@attributes'].name);
-      meteogram.windSpeeds.push(parseFloat(time.windSpeed['@attributes'].mps));
-      meteogram.windSpeedNames.push(time.windSpeed['@attributes'].name);
+      meteogram.windDirections.push(
+        parseFloat(time.windDirection["@attributes"].deg)
+      );
+      meteogram.windDirectionNames.push(time.windDirection["@attributes"].name);
+      meteogram.windSpeeds.push(parseFloat(time.windSpeed["@attributes"].mps));
+      meteogram.windSpeedNames.push(time.windSpeed["@attributes"].name);
 
       meteogram.pressures.push({
         x: from,
-        y: parseFloat(time.pressure['@attributes'].value)
+        y: parseFloat(time.pressure["@attributes"].value)
       });
 
       if (i == 0) {
@@ -1006,7 +1076,6 @@ class MeteogramYrno extends PolymerElement {
     // Create the chart when the data is loaded
     this.createChart();
   }
-
 }
 
-window.customElements.define('meteogram-yrno', MeteogramYrno);
+window.customElements.define("meteogram-yrno", MeteogramYrno);

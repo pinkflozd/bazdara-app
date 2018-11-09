@@ -1,8 +1,5 @@
-import {
-  PolymerElement,
-  html
-} from '@polymer/polymer/polymer-element.js';
-import '@polymer/paper-icon-button/paper-icon-button.js';
+import {PolymerElement, html} from "@polymer/polymer/polymer-element.js";
+import "@polymer/paper-icon-button/paper-icon-button.js";
 
 /*
 A simple Polymer based `paper-icon-button` Web Component that wraps the HTML5 full screen API.
@@ -60,7 +57,6 @@ style mixins and custom properties to style this button.
 @demo demo/index.html
 */
 class FullscreenIconButton extends PolymerElement {
-
   static get template() {
     return html`
     <style>
@@ -96,7 +92,7 @@ class FullscreenIconButton extends PolymerElement {
       icon: {
         type: String,
         value: undefined,
-        observer: '_updateIcon'
+        observer: "_updateIcon"
       },
 
       /**
@@ -107,7 +103,7 @@ class FullscreenIconButton extends PolymerElement {
       iconExit: {
         type: String,
         value: undefined,
-        observer: '_updateIcon'
+        observer: "_updateIcon"
       },
 
       /**
@@ -161,7 +157,7 @@ class FullscreenIconButton extends PolymerElement {
        * @attribute fullscreen
        * @type {boolean}
        */
-      fullscreen:  {
+      fullscreen: {
         type: Boolean,
         value: false,
         notify: true,
@@ -176,7 +172,7 @@ class FullscreenIconButton extends PolymerElement {
        * @attribute fullscreenAvailable
        * @type {boolean}
        */
-      fullscreenAvailable:  {
+      fullscreenAvailable: {
         type: Boolean,
         value: false,
         notify: true,
@@ -187,14 +183,13 @@ class FullscreenIconButton extends PolymerElement {
   }
 
   static get observers() {
-    return [
-      '_updateIcon(fullscreen)'
-    ];
+    return ["_updateIcon(fullscreen)"];
   }
 
   _updateIcon() {
-    this._icon = this.fullscreen ? this.iconExit || 'bazdara-icons:fullscreen-exit' :
-      this.icon || 'bazdara-icons:fullscreen';
+    this._icon = this.fullscreen
+      ? this.iconExit || "bazdara-icons:fullscreen-exit"
+      : this.icon || "bazdara-icons:fullscreen";
   }
 
   _altChanged(newValue, oldValue) {
@@ -213,28 +208,30 @@ class FullscreenIconButton extends PolymerElement {
       if (!this.fullscreen) {
         // We are not in full screen mode, let's request it
         // But first let's grad a hold on the target
-        var targetElement = typeof this.target !== "string" ? this.target :
-          document.querySelector(this.target);
+        var targetElement =
+          typeof this.target !== "string"
+            ? this.target
+            : document.querySelector(this.target);
         targetElement = targetElement || document.documentElement;
         if (targetElement.requestFullscreen) {
-            targetElement.requestFullscreen();
+          targetElement.requestFullscreen();
         } else if (targetElement.webkitRequestFullscreen) {
-            targetElement.webkitRequestFullscreen();
+          targetElement.webkitRequestFullscreen();
         } else if (targetElement.mozRequestFullScreen) {
-            targetElement.mozRequestFullScreen();
+          targetElement.mozRequestFullScreen();
         } else if (targetElement.msRequestFullscreen) {
-            targetElement.msRequestFullscreen();
+          targetElement.msRequestFullscreen();
         }
       } else {
         // We are in full screen mode, let's exit
         if (document.exitFullscreen) {
-            document.exitFullscreen();
+          document.exitFullscreen();
         } else if (document.webkitExitFullscreen) {
-            document.webkitExitFullscreen();
+          document.webkitExitFullscreen();
         } else if (document.mozCancelFullScreen) {
-            document.mozCancelFullScreen();
+          document.mozCancelFullScreen();
         } else if (document.msExitFullscreen) {
-            document.msExitFullscreen();
+          document.msExitFullscreen();
         }
       }
     }
@@ -256,21 +253,47 @@ class FullscreenIconButton extends PolymerElement {
 
     this._setFullscreenAvailable(this._isFullscreenAvailable());
     if (this.fullscreenAvailable) {
-      this._boundFullscreenChangedHandler = this._fullscreenChangedHandler.bind(this);
-      document.addEventListener('fullscreenchange', this._boundFullscreenChangedHandler);
-      document.addEventListener('webkitfullscreenchange', this._boundFullscreenChangedHandler);
-      document.addEventListener('mozfullscreenchange', this._boundFullscreenChangedHandler);
-      document.addEventListener('MSFullscreenChange', this._boundFullscreenChangedHandler);
+      this._boundFullscreenChangedHandler = this._fullscreenChangedHandler.bind(
+        this
+      );
+      document.addEventListener(
+        "fullscreenchange",
+        this._boundFullscreenChangedHandler
+      );
+      document.addEventListener(
+        "webkitfullscreenchange",
+        this._boundFullscreenChangedHandler
+      );
+      document.addEventListener(
+        "mozfullscreenchange",
+        this._boundFullscreenChangedHandler
+      );
+      document.addEventListener(
+        "MSFullscreenChange",
+        this._boundFullscreenChangedHandler
+      );
     }
     this._fullscreenChangedHandler();
   }
 
   detached() {
     if (this._boundFullscreenChangedHandler) {
-      document.removeEventListener('fullscreenchange', this._boundFullscreenChangedHandler);
-      document.removeEventListener('webkitfullscreenchange', this._boundFullscreenChangedHandler);
-      document.removeEventListener('mozfullscreenchange', this._boundFullscreenChangedHandler);
-      document.removeEventListener('MSFullscreenChange', this._boundFullscreenChangedHandler);
+      document.removeEventListener(
+        "fullscreenchange",
+        this._boundFullscreenChangedHandler
+      );
+      document.removeEventListener(
+        "webkitfullscreenchange",
+        this._boundFullscreenChangedHandler
+      );
+      document.removeEventListener(
+        "mozfullscreenchange",
+        this._boundFullscreenChangedHandler
+      );
+      document.removeEventListener(
+        "MSFullscreenChange",
+        this._boundFullscreenChangedHandler
+      );
     }
   }
 
@@ -279,19 +302,22 @@ class FullscreenIconButton extends PolymerElement {
   }
 
   _isFullscreenAvailable() {
-    return (document.fullscreenEnabled ||
-        document.webkitFullscreenEnabled ||
-        document.mozFullScreenEnabled ||
-        document.msFullscreenEnabled) ? true : false;
+    return document.fullscreenEnabled ||
+      document.webkitFullscreenEnabled ||
+      document.mozFullScreenEnabled ||
+      document.msFullscreenEnabled
+      ? true
+      : false;
   }
 
   _isFullscreenToggled() {
-    return (document.fullscreenElement ||
-        document.webkitFullscreenElement ||
-        document.mozFullScreenElement ||
-        document.msFullscreenElement) ? true : false;
+    return document.fullscreenElement ||
+      document.webkitFullscreenElement ||
+      document.mozFullScreenElement ||
+      document.msFullscreenElement
+      ? true
+      : false;
   }
-
 }
 
-window.customElements.define('fullscreen-icon-button', FullscreenIconButton);
+window.customElements.define("fullscreen-icon-button", FullscreenIconButton);

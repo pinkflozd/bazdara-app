@@ -1,13 +1,10 @@
-import {
-  PolymerElement,
-  html
-} from '@polymer/polymer/polymer-element.js';
+import {PolymerElement, html} from "@polymer/polymer/polymer-element.js";
 
-import '@polymer/iron-iconset/iron-iconset.js';
+import "@polymer/iron-iconset/iron-iconset.js";
 
 class WeatherIcons extends PolymerElement {
   static get template() {
-    return html `
+    return html`
 <iron-iconset name="clear" size="128" src="../../esm-bundled/images/vreme/clear.png" width="128" icons="clear"></iron-iconset>
 
 <iron-iconset name="clear_n" size="128" src="../../esm-bundled/images/vreme/clear_n.png" width="128" icons="clear_n"></iron-iconset>
@@ -191,4 +188,4 @@ class WeatherIcons extends PolymerElement {
   }
 }
 
-customElements.define('weather-icons', WeatherIcons);
+customElements.define("weather-icons", WeatherIcons);

@@ -8,22 +8,17 @@
  * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 
-import {
-  PolymerElement,
-  html
-} from '@polymer/polymer/polymer-element.js';
-import {
-  afterNextRender
-} from '@polymer/polymer/lib/utils/render-status.js';
-import '@polymer/paper-styles/typography.js';
-import '@polymer/iron-iconset-svg/iron-iconset-svg.js';
-import '@polymer/iron-icon/iron-icon.js';
+import {PolymerElement, html} from "@polymer/polymer/polymer-element.js";
+import {afterNextRender} from "@polymer/polymer/lib/utils/render-status.js";
+import "@polymer/paper-styles/typography.js";
+import "@polymer/iron-iconset-svg/iron-iconset-svg.js";
+import "@polymer/iron-icon/iron-icon.js";
 
-import '../shared-styles.js';
+import "../shared-styles.js";
 
 class LiveDetails extends PolymerElement {
   static get template() {
-    return html `
+    return html`
 
       <style include="paper-material-styles iron-flex iron-flex-alignment shared-styles">
         :host {
@@ -31,7 +26,7 @@ class LiveDetails extends PolymerElement {
           padding:10px 10px 0px 10px
         }
         .paper-material {
-          background-color:#FFFFFF;
+          background-color:var(--primary-background-color);
           padding:10px;
         }
         .flex-horizontal-with-ratios {
@@ -90,42 +85,42 @@ class LiveDetails extends PolymerElement {
 
       <div class="flex-horizontal-with-ratios">
         <div class="flexchild paper-font-body1">
-        <iron-icon icon="details:eye"></iron-icon> Vidljivost:
+          <iron-icon icon="details:eye"></iron-icon> Vidljivost:
         </div>
         <div class="flex2child paper-font-body1">
-        [[trenutno.vis]]<span class="metric">km</span>
+          [[trenutno.vis]]<span class="metric">km</span>
         </div>
       </div>
       <div class="flex-horizontal-with-ratios">
         <div class="flexchild paper-font-body1">
-        <iron-icon icon="details:barometer"></iron-icon>  Tlak:
+          <iron-icon icon="details:barometer"></iron-icon>  Tlak:
         </div>
         <div class="flex2child paper-font-body1">
-        [[trenutno.tlak]]<span class="metric">mBar</span>
+          [[trenutno.tlak]]<span class="metric">mBar</span>
         </div>
       </div>
       <div class="flex-horizontal-with-ratios">
         <div class="flexchild paper-font-body1">
-        <iron-icon icon="details:waterdrop"></iron-icon> Vlaga:
+          <iron-icon icon="details:waterdrop"></iron-icon> Vlaga:
         </div>
         <div class="flex2child paper-font-body1">
-        [[trenutno.vlaga]]<span class="metric">%</span>
+          [[trenutno.vlaga]]<span class="metric">%</span>
         </div>
       </div>
       <div class="flex-horizontal-with-ratios">
         <div class="flexchild paper-font-body1">
-        <iron-icon icon="details:sunrise"></iron-icon> Vzhod:
+          <iron-icon icon="details:sunrise"></iron-icon> Vzhod:
         </div>
         <div class="flex2child paper-font-body1">
-        [[trenutno.soncni.vzhod]]
+          [[trenutno.soncni.vzhod]]
         </div>
       </div>
       <div class="flex-horizontal-with-ratios">
         <div class="flexchild paper-font-body1">
-        <iron-icon icon="details:sunset"></iron-icon> Zahod:
+          <iron-icon icon="details:sunset"></iron-icon> Zahod:
         </div>
         <div class="flex2child paper-font-body1">
-        [[trenutno.soncni.zahod]]
+          [[trenutno.soncni.zahod]]
         </div>
       </div>
 
@@ -136,7 +131,6 @@ class LiveDetails extends PolymerElement {
   ready() {
     super.ready();
   }
-
 }
 
-window.customElements.define('live-details', LiveDetails);
+window.customElements.define("live-details", LiveDetails);

@@ -8,33 +8,28 @@
  * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 
-import {
-  PolymerElement,
-  html
-} from '@polymer/polymer/polymer-element.js';
-import {
-  afterNextRender
-} from '@polymer/polymer/lib/utils/render-status.js';
+import {PolymerElement, html} from "@polymer/polymer/polymer-element.js";
+import {afterNextRender} from "@polymer/polymer/lib/utils/render-status.js";
 
-import {
-  GestureEventListeners
-} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {GestureEventListeners} from "@polymer/polymer/lib/mixins/gesture-event-listeners.js";
 
-import './shared-styles.js';
+import "./shared-styles.js";
 
-import './elements/firebase-live.js';
-import './elements/firebase-trenutno.js';
+import "./elements/firebase-live.js";
+import "./elements/firebase-trenutno.js";
 
-import './elements/live-current.js';
-import './elements/live-details.js';
+import "./elements/live-current.js";
+import "./elements/live-details.js";
 
-import './elements/meteogram-yrno.js';
-import './elements/live-cam.js';
+import "./elements/gauge-wind-speed.js";
+import "./elements/gauge-wind-direction.js";
 
+import "./elements/meteogram-yrno.js";
+import "./elements/live-cam.js";
 
 class BazdaraHome extends GestureEventListeners(PolymerElement) {
   static get template() {
-    return html `
+    return html`
 
       <style include="shared-styles">
         :host {
@@ -47,6 +42,8 @@ class BazdaraHome extends GestureEventListeners(PolymerElement) {
       <live-current on-track="handleTrack" live="[[live]]" trenutno="[[trenutno]]"></live-current>
       <div id="scroll" style="padding-top:64px;margin-top:-64px"></div>
       <live-details live="[[live]]" trenutno="[[trenutno]]"></live-details>
+      <gauge-wind-speed speed="[[live.currentWindSpeed]]"></gauge-wind-speed>
+      <gauge-wind-direction direction="[[live.currentWindDirection]]" name="[[live.currentWindDirection]]"></gauge-wind-direction>
       <div class="over">
       <meteogram-yrno lat="[[latitude]]" lng="[[longitude]]" full="true"></meteogram-yrno>
       </div>
@@ -57,39 +54,34 @@ class BazdaraHome extends GestureEventListeners(PolymerElement) {
 
   handleTrack(e) {
     switch (e.detail.state) {
-      case 'start':
+      case "start":
         // start
         break;
-      case 'track':
-      if (this.stoper == null && this.oldScroll !== null) {
-
-        if (this.oldScroll > e.detail.y) {
-
-          this.$.scroll.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-          if (this.oldScroll !== null) {
-          this.stoper = true;
+      case "track":
+        if (this.stoper == null && this.oldScroll !== null) {
+          if (this.oldScroll > e.detail.y) {
+            this.$.scroll.scrollIntoView({
+              behavior: "smooth",
+              block: "start"
+            });
+            if (this.oldScroll !== null) {
+              this.stoper = true;
+            }
+          } else if (this.oldScroll < e.detail.y) {
+            this.$.top.scrollIntoView({
+              behavior: "smooth",
+              block: "start"
+            });
+            if (this.oldScroll !== null) {
+              this.stoper = true;
+            }
           }
-        } else if (this.oldScroll < e.detail.y) {
-
-          this.$.top.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-          if (this.oldScroll !== null) {
-          this.stoper = true;
-          }
-
         }
-
-      }
 
         this.oldScroll = e.detail.y;
 
         break;
-      case 'end':
+      case "end":
         this.stoper = null;
         this.oldScroll = null;
         break;
@@ -99,7 +91,6 @@ class BazdaraHome extends GestureEventListeners(PolymerElement) {
   ready() {
     super.ready();
   }
-
 }
 
-window.customElements.define('bazdara-home', BazdaraHome);
+window.customElements.define("bazdara-home", BazdaraHome);

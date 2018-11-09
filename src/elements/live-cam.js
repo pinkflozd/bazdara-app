@@ -1,30 +1,24 @@
-import {
-  PolymerElement,
-  html
-} from '@polymer/polymer/polymer-element.js';
-import {
-  afterNextRender
-} from '@polymer/polymer/lib/utils/render-status.js';
+import {PolymerElement, html} from "@polymer/polymer/polymer-element.js";
+import {afterNextRender} from "@polymer/polymer/lib/utils/render-status.js";
 
-import '@polymer/paper-styles/typography.js';
-import '@polymer/paper-spinner/paper-spinner.js';
-import '@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
-import '@polymer/paper-item/paper-item.js';
-import '@polymer/paper-icon-button/paper-icon-button.js';
-import '@polymer/paper-listbox/paper-listbox.js';
-import '@polymer/paper-toast/paper-toast.js';
-import '@polymer/paper-button/paper-button.js';
+import "@polymer/paper-styles/typography.js";
+import "@polymer/paper-spinner/paper-spinner.js";
+import "@polymer/paper-dropdown-menu/paper-dropdown-menu.js";
+import "@polymer/paper-item/paper-item.js";
+import "@polymer/paper-icon-button/paper-icon-button.js";
+import "@polymer/paper-listbox/paper-listbox.js";
+import "@polymer/paper-toast/paper-toast.js";
+import "@polymer/paper-button/paper-button.js";
 
-import '@polymer/app-storage/app-localstorage/app-localstorage-document.js';
+import "@polymer/app-storage/app-localstorage/app-localstorage-document.js";
 
-import firebase from 'firebase/app';
-import 'firebase/database';
-import 'firebase/storage';
+import firebase from "firebase/app";
+import "firebase/database";
+import "firebase/storage";
 
 class LiveCam extends PolymerElement {
-
   static get template() {
-    return html `
+    return html`
       <style include="paper-material-styles">
       :host {
         padding: 5px 10px 10px 10px;
@@ -50,23 +44,23 @@ class LiveCam extends PolymerElement {
      }
 
      paper-icon-button{
-       color: #000;
+       color: var(--primary-text-color);
        margin-bottom: 10px;
-       --paper-icon-button-ink-color: #000;
+       --paper-icon-button-ink-color: var(--primary-text-color);
        border-radius: 50%;
        width: 36px;
        height: 36px;
-       background-color: #fff;
+       background-color: var(--primary-background-color);
      }
 
      fullscreen-icon-button {
        color: #000;
-       --paper-icon-button-ink-color: #000;
+       --paper-icon-button-ink-color: var(--primary-text-color);
        border-radius: 50%;
        width: 36px;
        height: 36px;
        padding: 0;
-       background-color: #fff
+       background-color: var(--primary-background-color)
      }
 
      .cam {
@@ -82,8 +76,8 @@ class LiveCam extends PolymerElement {
      }
 
      paper-icon-button.play {
-       color: #F44336;
-       --paper-icon-button-ink-color: #F44336;
+       color: var(--accent-color);
+       --paper-icon-button-ink-color: var(--accent-color);
      }
 
      .wrap {
@@ -96,15 +90,15 @@ class LiveCam extends PolymerElement {
 
      paper-item {
      --paper-item-selected: {
-         background-color: #90CAF9;
+         background-color: var(--light-primary-color);
      };
 
      --paper-item-focused: {
-         background-color: #1e88e5;
+         background-color: var(--light-primary-color);
      };
 
      --paper-item-focused-before: {
-         background-color: #1e88e5;
+         background-color: var(--light-primary-color);
      };
     }
 
@@ -264,13 +258,13 @@ class LiveCam extends PolymerElement {
         value: 45.5283129
       },
       lng: {
-        observer: 'fireload',
+        observer: "fireload",
         type: Number,
         value: 13.5659228
       },
       town: {
         type: String,
-        value: ''
+        value: ""
       },
       poster: {
         type: String,
@@ -286,7 +280,7 @@ class LiveCam extends PolymerElement {
       },
       custcam: {
         type: String,
-        observer: 'camera',
+        observer: "camera",
         reflectToAttribute: true
       },
       cams: {
@@ -295,15 +289,13 @@ class LiveCam extends PolymerElement {
         reflectToAttribute: true
       },
       cameras: {
-        type: Object,
-      },
+        type: Object
+      }
     };
   }
 
   static get observers() {
-    return [
-      'fireload(cameras.loaded)'
-    ];
+    return ["fireload(cameras.loaded)"];
   }
 
   fireload() {
@@ -313,7 +305,7 @@ class LiveCam extends PolymerElement {
   }
 
   Deg2Rad(deg) {
-    return deg * Math.PI / 180;
+    return (deg * Math.PI) / 180;
   }
 
   onTabSelect(e) {
@@ -326,7 +318,7 @@ class LiveCam extends PolymerElement {
         this.hls.destroy();
       }
       try {
-        this.video.load()
+        this.video.load();
       } catch (e) {
         console.log("Camera offline");
       }
@@ -336,7 +328,6 @@ class LiveCam extends PolymerElement {
     }
   }
 
-
   PythagorasEquirectangular(lat1, lon1, lat2, lon2) {
     lat1 = this.Deg2Rad(lat1);
     lat2 = this.Deg2Rad(lat2);
@@ -344,7 +335,7 @@ class LiveCam extends PolymerElement {
     lon2 = this.Deg2Rad(lon2);
     var R = 6371; // km
     var x = (lon2 - lon1) * Math.cos((lat1 + lat2) / 2);
-    var y = (lat2 - lat1);
+    var y = lat2 - lat1;
     var d = Math.sqrt(x * x + y * y) * R;
     return d;
   }
@@ -354,51 +345,230 @@ class LiveCam extends PolymerElement {
     var closest;
     var index;
 
-    if (latitude == null){
-        var latitude = 46.0569;
-        var longitude = 14.5058;
+    if (latitude == null) {
+      var latitude = 46.0569;
+      var longitude = 14.5058;
     }
 
     var cities = [
       ["si_piran04", 0, 0, "001", "sipiran04", this.cameras.sipiran04],
-      ["si_piranpunta", 46.0569, 14.5058, "001", "sipiranpunta", this.cameras.sipiranpunta],
-      ["si_piran04", 45.524841, 13.567059, "001", "sipiran04", this.cameras.sipiran04],
-      ["si_piran03", 45.528666, 13.568362, "001", "sipiran03", this.cameras.sipiran03],
-      ["si_piranpunta", 45.5283129, 13.5659228, "001", "sipiranpunta", this.cameras.sipiranpunta],
-      ["podvodna", 99, 99, "https://x.bazdara.com/mbss/mbss.stream/playlist.m3u8?DVR", "podvodna", this.cameras.podvodna],
-      ["si_fiesa01", 45.525243, 13.582448, "003", "sifiesa01", this.cameras.sifiesa01],
-      ["si_strunjan01", 45.527656, 13.603306, "003", "sistrunjan01", this.cameras.sistrunjan01],
-      ["si_portoroz03", 45.512827, 13.5933043, "001", "siportoroz03", this.cameras.siportoroz03],
-      ["si_portoroz05", 45.512260, 13.594525, "001", "siportoroz05", this.cameras.siportoroz05],
-      ["si_portoroz04", 45.511023, 13.594466, "003", "siportoroz04", this.cameras.siportoroz04],
-      ["si_ljpz1", 45.473511, 13.6139783, "002", "siljpz1", this.cameras.siljpz1],
+      [
+        "si_piranpunta",
+        46.0569,
+        14.5058,
+        "001",
+        "sipiranpunta",
+        this.cameras.sipiranpunta
+      ],
+      [
+        "si_piran04",
+        45.524841,
+        13.567059,
+        "001",
+        "sipiran04",
+        this.cameras.sipiran04
+      ],
+      [
+        "si_piran03",
+        45.528666,
+        13.568362,
+        "001",
+        "sipiran03",
+        this.cameras.sipiran03
+      ],
+      [
+        "si_piranpunta",
+        45.5283129,
+        13.5659228,
+        "001",
+        "sipiranpunta",
+        this.cameras.sipiranpunta
+      ],
+      [
+        "podvodna",
+        99,
+        99,
+        "https://x.bazdara.com/mbss/mbss.stream/playlist.m3u8?DVR",
+        "podvodna",
+        this.cameras.podvodna
+      ],
+      [
+        "si_fiesa01",
+        45.525243,
+        13.582448,
+        "003",
+        "sifiesa01",
+        this.cameras.sifiesa01
+      ],
+      [
+        "si_strunjan01",
+        45.527656,
+        13.603306,
+        "003",
+        "sistrunjan01",
+        this.cameras.sistrunjan01
+      ],
+      [
+        "si_portoroz03",
+        45.512827,
+        13.5933043,
+        "001",
+        "siportoroz03",
+        this.cameras.siportoroz03
+      ],
+      [
+        "si_portoroz05",
+        45.51226,
+        13.594525,
+        "001",
+        "siportoroz05",
+        this.cameras.siportoroz05
+      ],
+      [
+        "si_portoroz04",
+        45.511023,
+        13.594466,
+        "003",
+        "siportoroz04",
+        this.cameras.siportoroz04
+      ],
+      [
+        "si_ljpz1",
+        45.473511,
+        13.6139783,
+        "002",
+        "siljpz1",
+        this.cameras.siljpz1
+      ],
       ["izola", 45.533596, 13.651651, "002", "izola", this.cameras.izola],
-      ["si_izola3", 45.531197, 13.634514, "001", "siizola3", this.cameras.siizola3],
-      ["si_izola1", 45.532097, 13.645430, "001", "siizola1", this.cameras.siizola1],
-      ["siwc_KOPER_MARKOVEC_e", 45.546163, 13.709389, "002", "siwcKOPERMARKOVECe", this.cameras.siwcKOPERMARKOVECe],
-      ["siwc_KOPER_MARKOVEC_n", 45.546729, 13.693094, "002", "siwcKOPERMARKOVECn", this.cameras.siwcKOPERMARKOVECn],
-      ["hr_novigrad1", 45.318399, 13.562551, "002", "hrnovigrad1", this.cameras.hrnovigrad1],
-      ["hr_umag4", 45.435882, 13.523732, "001", "hrumag4", this.cameras.hrumag4],
-      ["hr_porec03", 45.227733, 13.589623, "001", "hrporec03", this.cameras.hrporec03],
-      ["hr_porec1", 45.216387, 13.597995, "001", "hrporec1", this.cameras.hrporec1],
-      ["hr_rovinj2", 45.084720, 13.634840, "002", "hrrovinj2", this.cameras.hrrovinj2],
-      ["kanegra", 45.487442, 13.559213, "kanegra", "kanegra", this.cameras.kanegra],
-      ["hr_savudrija1", 45.501171, 13.503542, "001", "hrsavudrija1", this.cameras.hrsavudrija1],
+      [
+        "si_izola3",
+        45.531197,
+        13.634514,
+        "001",
+        "siizola3",
+        this.cameras.siizola3
+      ],
+      [
+        "si_izola1",
+        45.532097,
+        13.64543,
+        "001",
+        "siizola1",
+        this.cameras.siizola1
+      ],
+      [
+        "siwc_KOPER_MARKOVEC_e",
+        45.546163,
+        13.709389,
+        "002",
+        "siwcKOPERMARKOVECe",
+        this.cameras.siwcKOPERMARKOVECe
+      ],
+      [
+        "siwc_KOPER_MARKOVEC_n",
+        45.546729,
+        13.693094,
+        "002",
+        "siwcKOPERMARKOVECn",
+        this.cameras.siwcKOPERMARKOVECn
+      ],
+      [
+        "hr_novigrad1",
+        45.318399,
+        13.562551,
+        "002",
+        "hrnovigrad1",
+        this.cameras.hrnovigrad1
+      ],
+      [
+        "hr_umag4",
+        45.435882,
+        13.523732,
+        "001",
+        "hrumag4",
+        this.cameras.hrumag4
+      ],
+      [
+        "hr_porec03",
+        45.227733,
+        13.589623,
+        "001",
+        "hrporec03",
+        this.cameras.hrporec03
+      ],
+      [
+        "hr_porec1",
+        45.216387,
+        13.597995,
+        "001",
+        "hrporec1",
+        this.cameras.hrporec1
+      ],
+      [
+        "hr_rovinj2",
+        45.08472,
+        13.63484,
+        "002",
+        "hrrovinj2",
+        this.cameras.hrrovinj2
+      ],
+      [
+        "kanegra",
+        45.487442,
+        13.559213,
+        "kanegra",
+        "kanegra",
+        this.cameras.kanegra
+      ],
+      [
+        "hr_savudrija1",
+        45.501171,
+        13.503542,
+        "001",
+        "hrsavudrija1",
+        this.cameras.hrsavudrija1
+      ],
       ["trst", 45.692709, 13.749297, "002", "trst", this.cameras.trst],
-      ["hr_golfadriatic1", 45.493339, 13.536247, "003", "hrgolfadriatic1", this.cameras.hrgolfadriatic1],
-      ["si_solinesecovlje", 45.490140, 13.606183, "004", "sisolinesecovlje", this.cameras.sisolinesecovlje],
-      ["hr_rovinj3", 45.080280, 13.635722, "001", "hrrovinj3", this.cameras.hrrovinj3]
+      [
+        "hr_golfadriatic1",
+        45.493339,
+        13.536247,
+        "003",
+        "hrgolfadriatic1",
+        this.cameras.hrgolfadriatic1
+      ],
+      [
+        "si_solinesecovlje",
+        45.49014,
+        13.606183,
+        "004",
+        "sisolinesecovlje",
+        this.cameras.sisolinesecovlje
+      ],
+      [
+        "hr_rovinj3",
+        45.08028,
+        13.635722,
+        "001",
+        "hrrovinj3",
+        this.cameras.hrrovinj3
+      ]
     ];
 
     for (index = 0; index < cities.length; ++index) {
-      var dif = this.PythagorasEquirectangular(latitude, longitude, cities[index][1], cities[index][2]);
+      var dif = this.PythagorasEquirectangular(
+        latitude,
+        longitude,
+        cities[index][1],
+        cities[index][2]
+      );
       if (cities[index][5] == null) {
         if (dif < mindif) {
           closest = index;
           mindif = dif;
         }
       }
-
     }
 
     // echo the nearest city
@@ -406,7 +576,6 @@ class LiveCam extends PolymerElement {
   }
 
   camera() {
-
     this.video = this.$.video;
 
     if (this.custcam == "sipiran04") {
@@ -515,64 +684,76 @@ class LiveCam extends PolymerElement {
       this.disa();
     }
 
-    this.town = this.NearestCity(this.lat, this.lng, 0)
-    this.cdn = this.NearestCity(this.lat, this.lng, 3)
-    this.tabselect = this.NearestCity(this.lat, this.lng, 4)
+    this.town = this.NearestCity(this.lat, this.lng, 0);
+    this.cdn = this.NearestCity(this.lat, this.lng, 3);
+    this.tabselect = this.NearestCity(this.lat, this.lng, 4);
 
-    if (this.tabselect == "kanegra" || this.tabselect == "izola" || this.tabselect == "siwcKOPERMARKOVECe" || this.tabselect == "siwcKOPERMARKOVECn" || this.tabselect == "trst") {
+    if (
+      this.tabselect == "kanegra" ||
+      this.tabselect == "izola" ||
+      this.tabselect == "siwcKOPERMARKOVECe" ||
+      this.tabselect == "siwcKOPERMARKOVECn" ||
+      this.tabselect == "trst"
+    ) {
       this.disabled = true;
     }
 
-    this.video.addEventListener("contextmenu", function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }, false);
+    this.video.addEventListener(
+      "contextmenu",
+      function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+      },
+      false
+    );
 
     // hide the controls if they're visible
     if (this.video.hasAttribute("controls")) {
-      this.video.removeAttribute("controls")
+      this.video.removeAttribute("controls");
     }
 
     var storageRef = firebase.storage().ref();
 
-    storageRef.child('camera/' + this.town + '.jpg').getDownloadURL().then(function(url) {
-      //var xhr = new XMLHttpRequest();
-      //xhr.responseType = 'blob';
-      //xhr.onload = function(event) {
-      //  var blob = xhr.response;
-      //};
-      //xhr.open('GET', url);
-      //xhr.send();
-      this.loadin = false;
-      this.video.poster = url;
+    storageRef
+      .child("camera/" + this.town + ".jpg")
+      .getDownloadURL()
+      .then(
+        function(url) {
+          //var xhr = new XMLHttpRequest();
+          //xhr.responseType = 'blob';
+          //xhr.onload = function(event) {
+          //  var blob = xhr.response;
+          //};
+          //xhr.open('GET', url);
+          //xhr.send();
+          this.loadin = false;
+          this.video.poster = url;
 
-
-      if (Hls.isSupported() || this.video.canPlayType('application/vnd.apple.mpegurl')) {
-
-      } else {
-        this.disabled = true;
-      };
-
-
-
-    }.bind(this)).catch(function(error) {
-      this.camera();
-    });
-
+          if (
+            Hls.isSupported() ||
+            this.video.canPlayType("application/vnd.apple.mpegurl")
+          ) {
+          } else {
+            this.disabled = true;
+          }
+        }.bind(this)
+      )
+      .catch(function(error) {
+        this.camera();
+      });
   }
 
   camerastop() {
-
     this.video = this.$.video;
     this.$.noVideo.close();
 
     this.loadin = true;
     this.video.pause();
-    this.video.load()
+    this.video.load();
     if (Hls.isSupported()) {
       this.hls.destroy();
     } else {
-      this.video.src = '';
+      this.video.src = "";
     }
     this.videoClass = "";
     this.active = false;
@@ -580,20 +761,19 @@ class LiveCam extends PolymerElement {
   }
 
   numberChanged() {
-
     this.camera();
-
   }
 
   disa() {
-    if (Hls.isSupported() || this.video.canPlayType('application/vnd.apple.mpegurl')) {
+    if (
+      Hls.isSupported() ||
+      this.video.canPlayType("application/vnd.apple.mpegurl")
+    ) {
       this.disabled = false;
     } else {
       this.disabled = true;
-    };
+    }
   }
-
-
 
   videoFull() {
     this.video = this.$.video;
@@ -607,7 +787,6 @@ class LiveCam extends PolymerElement {
     } else if (this.video.msRequestFullscreen) {
       this.video.msRequestFullscreen();
     }
-
   }
 
   videoClick() {
@@ -620,126 +799,142 @@ class LiveCam extends PolymerElement {
       });
 
       if (this.video.paused) {
-
-        if (this.cdn.indexOf('http') > -1) {
+        if (this.cdn.indexOf("http") > -1) {
           this.hls.loadSource(this.cdn);
-        } else if (this.cdn.indexOf('kanegra') > -1) {
+        } else if (this.cdn.indexOf("kanegra") > -1) {
           this.hls.loadSource(this.cameras.ytkanegra);
         } else {
-          this.hls.loadSource('https://cdn-' + this.cdn + '.whatsupcams.com/hls/' + this.town + '.m3u8');
+          this.hls.loadSource(
+            "https://cdn-" +
+              this.cdn +
+              ".whatsupcams.com/hls/" +
+              this.town +
+              ".m3u8"
+          );
         }
 
         this.hls.attachMedia(this.video);
-        this.hls.on(Hls.Events.MANIFEST_PARSED, function() {
+        this.hls.on(Hls.Events.MANIFEST_PARSED, function() {});
 
-        });
-
-
-        this.hls.on(Hls.Events.ERROR, function(event, data) {
-          if (data.fatal) {
-            switch (data.type) {
-              case Hls.ErrorTypes.NETWORK_ERROR:
-                this.$.noVideo.show();
-                break;
-              case Hls.ErrorTypes.MEDIA_ERROR:
-                this.$.noVideo.show();
-                break;
-              default:
-                // cannot recover
-                break;
+        this.hls.on(
+          Hls.Events.ERROR,
+          function(event, data) {
+            if (data.fatal) {
+              switch (data.type) {
+                case Hls.ErrorTypes.NETWORK_ERROR:
+                  this.$.noVideo.show();
+                  break;
+                case Hls.ErrorTypes.MEDIA_ERROR:
+                  this.$.noVideo.show();
+                  break;
+                default:
+                  // cannot recover
+                  break;
+              }
             }
-          }
-        }.bind(this));
+          }.bind(this)
+        );
 
         this.video.play();
         this.videoClass = "play";
         this.active = true;
         this.loadin = false;
-
       } else {
         this.loadin = true;
         this.video.pause();
         this.hls.destroy();
-        this.video.load()
+        this.video.load();
         this.videoClass = "";
         this.active = false;
 
         this.camera();
-
-      };
-    } else if (this.video.canPlayType('application/vnd.apple.mpegurl')) {
-
+      }
+    } else if (this.video.canPlayType("application/vnd.apple.mpegurl")) {
       if (this.video.paused) {
-        if (this.cdn.indexOf('http') > -1) {
+        if (this.cdn.indexOf("http") > -1) {
           this.video.src = this.cdn;
-        } else if (this.cdn.indexOf('kanegra') > -1) {
+        } else if (this.cdn.indexOf("kanegra") > -1) {
           this.video.src = this.cameras.ytkanegra;
         } else {
-          this.video.src = 'https://cdn-' + this.cdn + '.whatsupcams.com/hls/' + this.town + '.m3u8';
+          this.video.src =
+            "https://cdn-" +
+            this.cdn +
+            ".whatsupcams.com/hls/" +
+            this.town +
+            ".m3u8";
         }
 
         this.videoClass = "play";
         this.active = true;
         this.video.play();
         this.loadin = false;
-
       } else {
         this.loadin = true;
         this.video.pause();
-        this.video.src = '';
-        this.video.load()
-        if (this.cdn.indexOf('http') > -1) {
+        this.video.src = "";
+        this.video.load();
+        if (this.cdn.indexOf("http") > -1) {
           this.video.src = this.cdn;
-        } else if (this.cdn.indexOf('kanegra') > -1) {
+        } else if (this.cdn.indexOf("kanegra") > -1) {
           this.video.src = this.cameras.ytkanegra;
         } else {
-          this.video.src = 'https://cdn-' + this.cdn + '.whatsupcams.com/hls/' + this.town + '.m3u8';
+          this.video.src =
+            "https://cdn-" +
+            this.cdn +
+            ".whatsupcams.com/hls/" +
+            this.town +
+            ".m3u8";
         }
         //this.video.load()
         this.videoClass = "";
         this.active = false;
 
         this.camera();
-
-      };
-
-    };
-
+      }
+    }
   }
 
   constructor() {
     super();
 
     afterNextRender(this, function() {
-
-      this.fullscreenAvailable = (document.fullscreenEnabled ||
+      this.fullscreenAvailable =
+        document.fullscreenEnabled ||
         document.webkitFullscreenEnabled ||
         document.mozFullScreenEnabled ||
-        document.msFullscreenEnabled) ? false : true;
+        document.msFullscreenEnabled
+          ? false
+          : true;
 
-      const hlsjs = document.createElement('script');
-      hlsjs.setAttribute('src', 'https://cdn.jsdelivr.net/npm/hls.js@0.11.0/dist/hls.light.min.js');
+      const hlsjs = document.createElement("script");
+      hlsjs.setAttribute(
+        "src",
+        "https://cdn.jsdelivr.net/npm/hls.js@0.11.0/dist/hls.light.min.js"
+      );
       document.head.appendChild(hlsjs);
 
       var databaseRef = firebase.database().ref();
       var cameraRef = databaseRef.child("camera");
 
-      cameraRef.on('value', function(camer) {
-        this.cameras = camer.val();
-      }.bind(this));
-
+      cameraRef.on(
+        "value",
+        function(camer) {
+          this.cameras = camer.val();
+        }.bind(this)
+      );
     });
   }
 
   ready() {
     super.ready();
 
-    setInterval(function() {
-      this.camera();
-    }.bind(this), 300000);
-
+    setInterval(
+      function() {
+        this.camera();
+      }.bind(this),
+      300000
+    );
   }
-
 }
 
-window.customElements.define('live-cam', LiveCam);
+window.customElements.define("live-cam", LiveCam);

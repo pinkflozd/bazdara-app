@@ -8,10 +8,10 @@
  * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 
-import '@polymer/polymer/polymer-element.js';
-import '@polymer/paper-styles/color.js';
+import "@polymer/polymer/polymer-element.js";
+import "@polymer/paper-styles/color.js";
 
-const $_documentContainer = document.createElement('template');
+const $_documentContainer = document.createElement("template");
 $_documentContainer.innerHTML = `<dom-module id="shared-styles">
   <template>
     <style>
@@ -35,9 +35,9 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
       --primary-color: var(--paper-blue-500);
       --light-primary-color: var(--paper-blue-100);
       --dark-primary-color: var(--paper-blue-700);
-      --accent-color: var(--paper-pink-a200);
-      --light-accent-color: var(--paper-pink-a100);
-      --dark-accent-color: var(--paper-pink-a400);
+      --accent-color: var(--paper-red-a200);
+      --light-accent-color: var(--paper-red-a100);
+      --dark-accent-color: var(--paper-red-a400);
       /*
        * Material Design Light background theme
        */
