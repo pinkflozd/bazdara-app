@@ -16,6 +16,8 @@ import firebase from "firebase/app";
 import "firebase/database";
 import "firebase/storage";
 
+/*global Hls*/
+
 class LiveCam extends PolymerElement {
   static get template() {
     return html`
@@ -343,8 +345,8 @@ class LiveCam extends PolymerElement {
     var index;
 
     if (latitude == null) {
-      var latitude = 46.0569;
-      var longitude = 14.5058;
+      latitude = 46.0569;
+      longitude = 14.5058;
     }
 
     var cities = [
@@ -735,7 +737,7 @@ class LiveCam extends PolymerElement {
           }
         }.bind(this)
       )
-      .catch(function(error) {
+      .catch(function() {
         this.camera();
       });
   }

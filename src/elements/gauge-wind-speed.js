@@ -31,7 +31,7 @@ class GaugeWindSpeed extends PolymerElement {
     };
   }
 
-  _speedChange(e) {
+  _speedChange() {
     var gaugeSpeed = document.gauges.get("gaugeSpeed");
     gaugeSpeed.value = this.speed;
   }
@@ -39,6 +39,7 @@ class GaugeWindSpeed extends PolymerElement {
   ready() {
     super.ready();
 
+    // eslint-disable-next-line no-undef
     var gaugeSpeed = new RadialGauge({
       renderTo: this.$.gaugeSpeed,
       height: 200,

@@ -8,10 +8,14 @@
  * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 
-import {PolymerElement, html} from "@polymer/polymer/polymer-element.js";
-import {afterNextRender} from "@polymer/polymer/lib/utils/render-status.js";
+import {
+  PolymerElement,
+  html
+} from "@polymer/polymer/polymer-element.js";
 
-import {GestureEventListeners} from "@polymer/polymer/lib/mixins/gesture-event-listeners.js";
+import {
+  GestureEventListeners
+} from "@polymer/polymer/lib/mixins/gesture-event-listeners.js";
 
 import "./shared-styles.js";
 
@@ -29,7 +33,7 @@ import "./elements/live-cam.js";
 
 class BazdaraHome extends GestureEventListeners(PolymerElement) {
   static get template() {
-    return html`
+    return html `
 
       <style include="shared-styles">
         :host {

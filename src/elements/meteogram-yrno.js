@@ -9,7 +9,6 @@
  */
 
 import {PolymerElement, html} from "@polymer/polymer/polymer-element.js";
-import {afterNextRender} from "@polymer/polymer/lib/utils/render-status.js";
 
 import "@polymer/paper-styles/typography.js";
 import "@polymer/app-storage/app-localstorage/app-localstorage-document.js";
@@ -22,8 +21,8 @@ import "@polymer/paper-listbox/paper-listbox.js";
 import firebase from "firebase/app";
 import "firebase/database";
 
-import * as highcharts from 'highcharts/highstock';
-//import * as HighchartsMore from 'highcharts/highcharts-more.src.js'
+/*global Highcharts*/
+import 'highcharts/highstock';
 
 class MeteogramYrno extends PolymerElement {
   static get template() {
@@ -33,7 +32,7 @@ class MeteogramYrno extends PolymerElement {
           display: block;
         }
         paper-dropdown-menu {
-          z-index-2;
+          z-index:2;
         }
         .over {
           overflow-x: scroll;
@@ -215,8 +214,8 @@ class MeteogramYrno extends PolymerElement {
     var index;
 
     if (latitude == null) {
-      var latitude = 46.0569;
-      var longitude = 14.5058;
+      latitude = 46.0569;
+      longitude = 14.5058;
     }
 
     var cities = [
@@ -272,7 +271,7 @@ class MeteogramYrno extends PolymerElement {
   /**
    * Return weather symbol sprites as laid out at http://om.yr.no/forklaring/symbol/
    */
-  getSymbolSprites(symbolSize) {
+  getSymbolSprites() {
     return {
       "01d": {
         x: "clear",
@@ -495,7 +494,7 @@ class MeteogramYrno extends PolymerElement {
    */
   drawWeatherSymbols(chart) {
     var meteogram = this,
-      symbolSprites = this.getSymbolSprites(32);
+      symbolSprites = this.getSymbolSprites();
 
     for (var i = 0; i < chart.series[0].data.length; i++) {
       var point = chart.series[0].data[i];
@@ -519,7 +518,7 @@ class MeteogramYrno extends PolymerElement {
         sprite = symbolSprites[meteogram.symbols[i]];
         if (sprite) {
           // Create a group element that is positioned and clipped at 30 pixels width and height
-          var group = chart.renderer
+          group = chart.renderer
             .g("WeatherSymbols")
             .attr({
               translateX: point.plotX + chart.plotLeft - 12,
@@ -638,7 +637,7 @@ class MeteogramYrno extends PolymerElement {
     for (var i = 0; i < chart.series[0].data.length; i++) {
       var point = chart.series[0].data[i];
 
-      var sprite, arrow, x, y;
+      var arrow, x, y;
 
       var deljenje;
       var deljenje2;
@@ -793,8 +792,7 @@ class MeteogramYrno extends PolymerElement {
           minorTickInterval: 36e5, // one hour
           tickLength: 0,
           gridLineWidth: 1,
-          gridLineColor:
-            (Highcharts.theme && Highcharts.theme.background2) || "#F0F0F0",
+          gridLineColor: "#F0F0F0",
           startOnTick: false,
           endOnTick: false,
           minPadding: 0,
@@ -862,8 +860,7 @@ class MeteogramYrno extends PolymerElement {
           },
           maxPadding: 0.3,
           tickInterval: 1,
-          gridLineColor:
-            (Highcharts.theme && Highcharts.theme.background2) || "#F0F0F0"
+          gridLineColor: "#F0F0F0"
         },
         {
           // precipitation axis

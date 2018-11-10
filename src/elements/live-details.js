@@ -9,7 +9,6 @@
  */
 
 import {PolymerElement, html} from "@polymer/polymer/polymer-element.js";
-import {afterNextRender} from "@polymer/polymer/lib/utils/render-status.js";
 import "@polymer/paper-styles/typography.js";
 import "@polymer/iron-iconset-svg/iron-iconset-svg.js";
 import "@polymer/iron-icon/iron-icon.js";

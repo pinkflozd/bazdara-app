@@ -243,6 +243,7 @@ class GaugeWindDirection extends PolymerElement {
   ready() {
     super.ready();
 
+    // eslint-disable-next-line no-undef
     var gaugeDirection1 = new RadialGauge({
       renderTo: this.$.gaugeDirection,
       height: 230,

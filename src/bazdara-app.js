@@ -8,8 +8,10 @@
  * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 
-import {PolymerElement, html} from "@polymer/polymer/polymer-element.js";
-import {afterNextRender} from "@polymer/polymer/lib/utils/render-status.js";
+import {
+  PolymerElement,
+  html
+} from "@polymer/polymer/polymer-element.js";
 import {
   setPassiveTouchGestures,
   setRootPath
@@ -40,11 +42,13 @@ setPassiveTouchGestures(true);
 
 // Set Polymer's root path to the same value we passed to our service worker
 // in `index.html`.
+// eslint-disable-next-line no-undef
 setRootPath(BazdaraAppGlobals.rootPath);
 
+// eslint-disable-next-line no-undef
 class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
   static get template() {
-    return html`
+    return html `
       <style include="shared-styles">
         :host {
           --app-drawer-width: 256px;
@@ -191,7 +195,7 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
 
   _openDialog() {
     import("./elements/firebase-login.js").then(
-      function() {
+      function () {
         if (!this.$.drawer.persistent) {
           this.$.drawer.close();
         }

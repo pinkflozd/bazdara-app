@@ -1,5 +1,4 @@
 import {PolymerElement, html} from "@polymer/polymer/polymer-element.js";
-import {afterNextRender} from "@polymer/polymer/lib/utils/render-status.js";
 import {} from "@polymer/polymer/lib/elements/dom-if.js";
 import "@polymer/paper-spinner/paper-spinner.js";
 import "@polymer/paper-styles/typography.js";
@@ -10,7 +9,6 @@ import "@polymer/paper-tooltip/paper-tooltip.js";
 import "../bazdara-icons.js";
 import "../shared-styles.js";
 import "./weather-icons.js";
-import "./weather.js";
 import "./live-wind-name.js";
 import "./live-wind-speed-name.js";
 import "./live-wind-speed-beufort.js";

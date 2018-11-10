@@ -1,7 +1,5 @@
 import {html, PolymerElement} from "@polymer/polymer/polymer-element";
 
-import firebase from "firebase/app";
-import "firebase/auth";
 import "@fabricelements/skeleton-auth/skeleton-auth.js";
 
 // Create an element with the ReduxMixin

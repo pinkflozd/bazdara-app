@@ -17,7 +17,8 @@
     "lint": "polymer lint",
     "test": "polymer test",
     "test:integration": "NODE_OPTIONS='--max-old-space-size=8192' polymer build # test that psk builds without error with the CLI",
-    "postinstall": "cd server && npm install && cd ../functions && npm install"
+    "postinstall": "cd server && npm install && cd ../functions && npm install",
+    "generate-typings": "gen-typescript-declarations"
   },
   "dependencies": {
     "@fabricelements/skeleton-auth": "https://github.com/pinkflozd/skeleton-auth/tarball/master",
@@ -58,6 +59,7 @@
     "web-animations-js": "^2.3.1"
   },
   "devDependencies": {
+    "@polymer/gen-typescript-declarations": "^1.5.1",
     "axe-core": "^3.1.2",
     "babel-eslint": "^10.0.1",
     "chai": "^4.2.0",
@@ -68,6 +70,7 @@
     "gulp": "^4.0.0",
     "gulp-rename": "^1.4.0",
     "gulp-replace": "^1.0.0",
+    "jshint": "^2.9.6",
     "mocha": "^5.2.0",
     "pixelmatch": "^4.0.2",
     "polymer-cli": "^1.9.0-pre.2",
