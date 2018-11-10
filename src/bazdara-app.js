@@ -200,6 +200,7 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
   }
 
   _openDialog() {
+    /* jshint ignore:start */
     import("./elements/firebase-login.js").then(
       function () {
         if (!this.$.drawer.persistent) {
@@ -208,6 +209,7 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
         this.$.dialog.open();
       }.bind(this)
     );
+    /* jshint ignore:end */
   }
 
   _routePageChanged(page) {
@@ -234,6 +236,7 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
     //
     // Note: `polymer build` doesn't like string concatenation in the import
     // statement, so break it up.
+    /* jshint ignore:start */
     switch (page) {
       case "home":
         import("./bazdara-home.js");
@@ -245,6 +248,7 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
         import("./bazdara-view404.js");
         break;
     }
+    /* jshint ignore:end */
   }
 
   ready() {
