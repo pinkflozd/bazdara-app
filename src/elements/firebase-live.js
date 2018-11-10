@@ -1,5 +1,5 @@
 import {PolymerElement, html} from "@polymer/polymer/polymer-element.js";
-import {afterNextRender} from "@polymer/polymer/lib/utils/render-status.js";
+//import {afterNextRender} from "@polymer/polymer/lib/utils/render-status.js";
 
 import firebase from "firebase/app";
 import "firebase/database";

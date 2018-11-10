@@ -287,9 +287,6 @@ class LiveCam extends PolymerElement {
         type: Object,
         notify: true,
         reflectToAttribute: true
-      },
-      cameras: {
-        type: Object
       }
     };
   }
@@ -732,7 +729,7 @@ class LiveCam extends PolymerElement {
           if (
             Hls.isSupported() ||
             this.video.canPlayType("application/vnd.apple.mpegurl")
-          ) {
+          ) { // do nothing
           } else {
             this.disabled = true;
           }

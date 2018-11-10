@@ -20,7 +20,7 @@ TODO: change the API key to your own.
 </google-map>
 ```
 */
-import {PolymerElement, html} from "@polymer/polymer/polymer-element.js";
+import {PolymerElement} from "@polymer/polymer/polymer-element.js";
 
 class GeoLocation extends PolymerElement {
   static get properties() {

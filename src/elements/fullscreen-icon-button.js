@@ -72,8 +72,7 @@ class FullscreenIconButton extends PolymerElement {
         width: 100%;
         height: 100%;
         border-radius: 50%;
-        background-color: #fff
-        @apply(--)
+        background-color: #fff;
       }
 
     </style>
