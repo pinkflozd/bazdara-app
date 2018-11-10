@@ -4,6 +4,10 @@ import "@polymer/app-storage/app-localstorage/app-localstorage-document.js";
 import "../bazdara-icons.js";
 import "./geo-location.js";
 
+/**
+* @polymer
+* @extends HTMLElement
+*/
 class GeoButton extends PolymerElement {
   static get template() {
     return html`
@@ -12,6 +16,7 @@ class GeoButton extends PolymerElement {
         display: block;
       }
       </style>
+
       <paper-icon-button icon="[[icon]]" disabled="[[disabled]]" on-tap="_click" aria-label="GPS Location"></paper-icon-button>
       <app-localstorage-document key="geo" data="{{data}}"></app-localstorage-document>
       <geo-location latitude="{{latitude}}" longitude="{{longitude}}" idle="{{idle}}"></geo-location>

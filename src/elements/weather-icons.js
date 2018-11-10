@@ -2,6 +2,10 @@ import {PolymerElement, html} from "@polymer/polymer/polymer-element.js";
 
 import "@polymer/iron-iconset/iron-iconset.js";
 
+/**
+* @polymer
+* @extends HTMLElement
+*/
 class WeatherIcons extends PolymerElement {
   static get template() {
     return html`

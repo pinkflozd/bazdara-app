@@ -2,7 +2,10 @@ import {html, PolymerElement} from "@polymer/polymer/polymer-element";
 
 import "@fabricelements/skeleton-auth/skeleton-auth.js";
 
-// Create an element with the ReduxMixin
+/**
+* @polymer
+* @extends HTMLElement
+*/
 class FirebaseLogin extends PolymerElement {
   static get template() {
     return html`

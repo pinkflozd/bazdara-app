@@ -34,6 +34,10 @@ import "./elements/gauge-sea-height.js";
 import "./elements/meteogram-yrno.js";
 import "./elements/live-cam.js";
 
+/**
+* @polymer
+* @extends HTMLElement
+*/
 class BazdaraHome extends GestureEventListeners(PolymerElement) {
   static get template() {
     return html `

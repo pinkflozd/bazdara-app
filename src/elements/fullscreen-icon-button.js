@@ -56,6 +56,10 @@ style mixins and custom properties to style this button.
 @element fullscreen-icon-button
 @demo demo/index.html
 */
+/**
+* @polymer
+* @extends HTMLElement
+*/
 class FullscreenIconButton extends PolymerElement {
   static get template() {
     return html`

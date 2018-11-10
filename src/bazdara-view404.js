@@ -10,6 +10,10 @@
 
 import {PolymerElement, html} from "@polymer/polymer/polymer-element.js";
 
+/**
+* @polymer
+* @extends HTMLElement
+*/
 class BazdaraView404 extends PolymerElement {
   static get template() {
     return html`

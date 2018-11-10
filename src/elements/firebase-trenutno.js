@@ -6,6 +6,10 @@ import "firebase/database";
 
 import "@polymer/app-storage/app-localstorage/app-localstorage-document.js";
 
+/**
+* @polymer
+* @extends HTMLElement
+*/
 class FirebaseTrenutno extends PolymerElement {
   static get template() {
     return html`

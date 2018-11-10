@@ -1,5 +1,9 @@
 import {PolymerElement, html} from "@polymer/polymer/polymer-element.js";
 
+/**
+* @polymer
+* @extends HTMLElement
+*/
 class LiveWindSpeedBeufort extends PolymerElement {
   static get template() {
     return html`

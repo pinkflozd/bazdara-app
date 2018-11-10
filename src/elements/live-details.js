@@ -15,6 +15,10 @@ import "@polymer/iron-icon/iron-icon.js";
 
 import "../shared-styles.js";
 
+/**
+* @polymer
+* @extends HTMLElement
+*/
 class LiveDetails extends PolymerElement {
   static get template() {
     return html`

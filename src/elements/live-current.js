@@ -16,6 +16,10 @@ import "./live-wind-direction.js";
 
 import "./live-sea-name.js";
 
+/**
+* @polymer
+* @extends HTMLElement
+*/
 class LiveCurrent extends PolymerElement {
   static get importMeta() {
     return import.meta;

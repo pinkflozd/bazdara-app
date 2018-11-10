@@ -27,6 +27,10 @@ import "firebase/database";
 /*global Highcharts*/
 import 'highcharts/highstock';
 
+/**
+* @polymer
+* @extends HTMLElement
+*/
 class MeteogramYrno extends PolymerElement {
   static get template() {
     return html `
@@ -75,7 +79,7 @@ class MeteogramYrno extends PolymerElement {
        }
       </style>
       <app-localstorage-document key="[[town]]" data="{{meteograms}}"></app-localstorage-document>
-      
+
       <div class="paper-material selector" elevation="1">
       <paper-dropdown-menu label="Vremenska napoved">
         <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="id" selected="{{townname}}">

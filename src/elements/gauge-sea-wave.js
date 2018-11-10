@@ -15,6 +15,10 @@ import {
 
 import "canvas-gauges";
 
+/**
+* @polymer
+* @extends HTMLElement
+*/
 class GaugeSeaWave extends PolymerElement {
   static get template() {
     return html `

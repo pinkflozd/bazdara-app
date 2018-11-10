@@ -12,6 +12,10 @@ import {PolymerElement, html} from "@polymer/polymer/polymer-element.js";
 
 import "canvas-gauges";
 
+/**
+* @polymer
+* @extends HTMLElement
+*/
 class GaugeWindDirection extends PolymerElement {
   static get template() {
     return html`

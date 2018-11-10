@@ -8,26 +8,32 @@
  * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 
-import {PolymerElement, html} from "@polymer/polymer/polymer-element.js";
+import {
+    PolymerElement,
+    html
+  } from "@polymer/polymer/polymer-element.js";
 
-import "../shared-styles.js";
+  import "./shared-styles.js";
 
 /**
 * @polymer
 * @extends HTMLElement
 */
-class SeaTide extends PolymerElement {
-  static get template() {
-    return html`
+  class BazdaraMap extends PolymerElement {
+    static get template() {
+      return html `
 
-      <style include="shared-styles">
-      </style>
-    `;
+        <style include="shared-styles">
+          :host {
+            display: block;
+          }
+        </style>
+      `;
+    }
+
+    ready() {
+      super.ready();
+    }
   }
 
-  ready() {
-    super.ready();
-  }
-}
-
-window.customElements.define("sea-tide", SeaTide);
+  window.customElements.define("bazdara-map", BazdaraMap);

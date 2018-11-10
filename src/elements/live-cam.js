@@ -17,7 +17,10 @@ import "firebase/database";
 import "firebase/storage";
 
 /*global Hls*/
-
+/**
+* @polymer
+* @extends HTMLElement
+*/
 class LiveCam extends PolymerElement {
   static get template() {
     return html`

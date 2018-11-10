@@ -12,9 +12,14 @@ import {
   PolymerElement,
   html
 } from "@polymer/polymer/polymer-element.js";
+import '@polymer/polymer/lib/elements/dom-if.js';
 
 import "canvas-gauges";
 
+/**
+* @polymer
+* @extends HTMLElement
+*/
 class GaugeSeaHeight extends PolymerElement {
   static get template() {
     return html `

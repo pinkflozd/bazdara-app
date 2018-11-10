@@ -22,6 +22,10 @@ TODO: change the API key to your own.
 */
 import {PolymerElement} from "@polymer/polymer/polymer-element.js";
 
+/**
+* @polymer
+* @extends HTMLElement
+*/
 class GeoLocation extends PolymerElement {
   static get properties() {
     return {

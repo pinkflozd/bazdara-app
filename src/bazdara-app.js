@@ -45,6 +45,10 @@ setPassiveTouchGestures(true);
 // eslint-disable-next-line no-undef
 setRootPath(BazdaraAppGlobals.rootPath);
 
+/**
+* @polymer
+* @extends HTMLElement
+*/
 // eslint-disable-next-line no-undef
 class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
   static get template() {
@@ -144,7 +148,8 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
           <paper-button raised on-tap="_openDialog">Log In</paper-button>
 
           <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-            <a name="home" href="[[rootPath]]home">Home</a>
+          <a name="home" href="[[rootPath]]home">Home</a>
+          <a name="map" href="[[rootPath]]map">Maps</a>
           </iron-selector>
         </app-drawer>
 
@@ -161,6 +166,7 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
 
           <iron-pages selected="[[page]]" class$="[[page]]" attr-for-selected="name" role="main">
             <bazdara-home latitude="[[latitude]]" longitude="[[longitude]]" name="home"></bazdara-home>
+            <bazdara-map name="map"></bazdara-map>
             <bazdara-view404 name="view404"></bazdara-view404>
           </iron-pages>
 
@@ -211,7 +217,7 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
     // Show 'home' in that case. And if the page doesn't exist, show 'view404'.
     if (!page) {
       this.page = "home";
-    } else if (["home"].indexOf(page) !== -1) {
+    } else if (["home", "map"].indexOf(page) !== -1) {
       this.page = page;
     } else {
       this.page = "view404";
@@ -231,6 +237,9 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
     switch (page) {
       case "home":
         import("./bazdara-home.js");
+        break;
+      case "map":
+        import("./bazdara-map.js");
         break;
       case "view404":
         import("./bazdara-view404.js");
