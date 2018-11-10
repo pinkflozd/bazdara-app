@@ -11,7 +11,7 @@ const rendertronMiddleware = rendertron.makeMiddleware({
 });
 
 app.use((req, res, next) => {
-  req.headers['host'] = 'vreme-live.firebaseapp.com';
+  req.headers.host = 'vreme-live.firebaseapp.com';
   return rendertronMiddleware(req, res, next);
 });
 
