@@ -123,7 +123,7 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
         }
 
         .button-width {
-          width:40px
+          width:40px;
         }
       </style>
 

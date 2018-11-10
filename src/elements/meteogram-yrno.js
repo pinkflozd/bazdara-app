@@ -22,7 +22,7 @@ import "@polymer/paper-listbox/paper-listbox.js";
 import firebase from "firebase/app";
 import "firebase/database";
 
-//import * as Highcharts from 'highcharts/highstock'
+import * as highcharts from 'highcharts/highstock';
 //import * as HighchartsMore from 'highcharts/highcharts-more.src.js'
 
 class MeteogramYrno extends PolymerElement {
@@ -73,7 +73,7 @@ class MeteogramYrno extends PolymerElement {
        }
       </style>
       <app-localstorage-document key="[[town]]" data="{{meteograms}}"></app-localstorage-document>
-
+      
       <div class="paper-material selector" elevation="1">
       <paper-dropdown-menu label="Vremenska napoved">
         <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="id" selected="{{townname}}">
@@ -138,12 +138,12 @@ class MeteogramYrno extends PolymerElement {
   constructor() {
     super();
 
-    const highchartsjs = document.createElement("script");
-    highchartsjs.setAttribute(
-      "src",
-      "https://cdn.jsdelivr.net/npm/highstock-release@6.0.4/highstock.min.js"
-    );
-    document.head.appendChild(highchartsjs);
+    //const highchartsjs = document.createElement("script");
+    //highchartsjs.setAttribute(
+    //  "src",
+    //  "https://cdn.jsdelivr.net/npm/highstock-release@6.0.4/highstock.min.js"
+    //);
+    //document.head.appendChild(highchartsjs);
 
     this.databaseRef = firebase.database().ref();
 

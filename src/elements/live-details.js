@@ -23,7 +23,7 @@ class LiveDetails extends PolymerElement {
       <style include="paper-material-styles iron-flex iron-flex-alignment shared-styles">
         :host {
           display: block;
-          padding:10px 10px 0px 10px
+          padding:10px 10px 0px 10px;
         }
         .paper-material {
           background-color:var(--primary-background-color);
@@ -42,6 +42,7 @@ class LiveDetails extends PolymerElement {
         }
         .flex2child {
           @apply --layout-flex;
+          color: var(--primary-text-color);
         }
         .flex3child {
           @apply --layout-flex;
@@ -52,6 +53,9 @@ class LiveDetails extends PolymerElement {
         iron-icon {
           height: 18px;
           width: 18px;
+        }
+        .paper-font-subhead {
+          color: var(--primary-text-color);
         }
       </style>
 
