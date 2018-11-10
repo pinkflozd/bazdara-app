@@ -8,7 +8,10 @@
  * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 
-import {PolymerElement, html} from "@polymer/polymer/polymer-element.js";
+import {
+  PolymerElement,
+  html
+} from "@polymer/polymer/polymer-element.js";
 
 import "@polymer/paper-styles/typography.js";
 import "@polymer/app-storage/app-localstorage/app-localstorage-document.js";
@@ -26,7 +29,7 @@ import 'highcharts/highstock';
 
 class MeteogramYrno extends PolymerElement {
   static get template() {
-    return html`
+    return html `
       <style include="paper-material-styles">
         :host {
           display: block;
@@ -186,7 +189,7 @@ class MeteogramYrno extends PolymerElement {
 
     meteoRef.on(
       "value",
-      function(met) {
+      function (met) {
         this.meteograms = met.val();
       }.bind(this)
     );
@@ -445,11 +448,11 @@ class MeteogramYrno extends PolymerElement {
     // Create the header with reference to the time interval
     var index = tooltip.points[0].point.index,
       ret =
-        "<small>" +
-        Highcharts.dateFormat("%A, %b %e, %H:%M", tooltip.x) +
-        "-" +
-        Highcharts.dateFormat("%H:%M", tooltip.points[0].point.to) +
-        "</small><br>";
+      "<small>" +
+      Highcharts.dateFormat("%A, %b %e, %H:%M", tooltip.x) +
+      "-" +
+      Highcharts.dateFormat("%H:%M", tooltip.points[0].point.to) +
+      "</small><br>";
 
     // Symbol text
     ret += "<b>" + this.symbolNames[index] + "</b>";
@@ -457,7 +460,7 @@ class MeteogramYrno extends PolymerElement {
     ret += "<table>";
 
     // Add all series
-    Highcharts.each(tooltip.points, function(point) {
+    Highcharts.each(tooltip.points, function (point) {
       var series = point.series;
       ret +=
         '<tr><td><span style="color:' +
@@ -700,9 +703,7 @@ class MeteogramYrno extends PolymerElement {
       i;
 
     for (
-      pos = xAxis.min, max = xAxis.max, i = 0;
-      pos <= max + 36e5;
-      pos += 36e5, i += 1
+      pos = xAxis.min, max = xAxis.max, i = 0; pos <= max + 36e5; pos += 36e5, i += 1
     ) {
       // Get the X position
       isLast = pos === max + 36e5;
@@ -762,7 +763,7 @@ class MeteogramYrno extends PolymerElement {
           fontFamily: "Roboto, sans-serif"
         },
         events: {
-          redraw: function() {
+          redraw: function () {
             this.Meteogram();
           }.bind(this)
         }
@@ -779,13 +780,12 @@ class MeteogramYrno extends PolymerElement {
       tooltip: {
         shared: true,
         useHTML: true,
-        formatter: function() {
+        formatter: function () {
           return meteogram.tooltipFormatter(this);
         }
       },
 
-      xAxis: [
-        {
+      xAxis: [{
           // Bottom X axis
           type: "datetime",
           tickInterval: 2 * 36e5, // two hours
@@ -809,8 +809,7 @@ class MeteogramYrno extends PolymerElement {
           type: "datetime",
           tickInterval: 24 * 3600 * 1000,
           labels: {
-            format:
-              '{value:<span style="font-size: 12px; font-weight: bold">%a</span> %b %e}',
+            format: '{value:<span style="font-size: 12px; font-weight: bold">%a</span> %b %e}',
             align: "left",
             x: 3,
             y: -5
@@ -821,8 +820,7 @@ class MeteogramYrno extends PolymerElement {
         }
       ],
 
-      yAxis: [
-        {
+      yAxis: [{
           // temperature axis
           title: {
             text: null
@@ -834,17 +832,15 @@ class MeteogramYrno extends PolymerElement {
             },
             x: -3
           },
-          plotLines: [
-            {
-              // zero plane
-              value: 0,
-              color: "#BBBBBB",
-              width: 1,
-              zIndex: 2
-            }
-          ],
+          plotLines: [{
+            // zero plane
+            value: 0,
+            color: "#BBBBBB",
+            width: 1,
+            zIndex: 2
+          }],
           // Custom positioner to provide even temperature ticks from top down
-          tickPositioner: function() {
+          tickPositioner: function () {
             var max = Math.ceil(this.max) + 1,
               pos = max - 12, // start
               ret;
@@ -913,8 +909,7 @@ class MeteogramYrno extends PolymerElement {
         }
       },
 
-      series: [
-        {
+      series: [{
           name: "Temperature",
           data: this.temperatures,
           type: "spline",
@@ -945,7 +940,7 @@ class MeteogramYrno extends PolymerElement {
           shadow: false,
           dataLabels: {
             enabled: true,
-            formatter: function() {
+            formatter: function () {
               if (this.y > 0) {
                 return this.y;
               }
@@ -990,7 +985,7 @@ class MeteogramYrno extends PolymerElement {
    */
   createChart() {
     var meteogram = this;
-    this.chart = new Highcharts.Chart(this.getChartOptions(), function(chart) {
+    this.chart = new Highcharts.Chart(this.getChartOptions(), function (chart) {
       meteogram.onChartLoad(chart);
     });
   }

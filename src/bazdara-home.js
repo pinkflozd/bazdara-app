@@ -27,6 +27,9 @@ import "./elements/live-details.js";
 
 import "./elements/gauge-wind-speed.js";
 import "./elements/gauge-wind-direction.js";
+import "./elements/gauge-sea-wave.js";
+import "./elements/gauge-sea-height.js";
+
 
 import "./elements/meteogram-yrno.js";
 import "./elements/live-cam.js";
@@ -48,6 +51,8 @@ class BazdaraHome extends GestureEventListeners(PolymerElement) {
       <live-details live="[[live]]" trenutno="[[trenutno]]"></live-details>
       <gauge-wind-speed speed="[[live.currentWindSpeed]]"></gauge-wind-speed>
       <gauge-wind-direction direction="[[live.currentWindDirection]]" name="[[live.currentWindDirection]]"></gauge-wind-direction>
+      <gauge-sea-wave wave="[[trenutno.val.vrh.zdaj]]" wave2="[[live.wavesHeight]]"></gauge-sea-wave>
+      <gauge-sea-height temp="[[trenutno.vodostaj]]"></gauge-sea-height>
       <div class="over">
       <meteogram-yrno lat="[[latitude]]" lng="[[longitude]]" full="true"></meteogram-yrno>
       </div>
