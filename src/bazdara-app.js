@@ -67,6 +67,13 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
           display: none;
         }
 
+        app-drawer {
+          color: var(--primary-text-color);
+          --app-drawer-content-container: {
+          background-color: var(--primary-background-color);
+          }
+        }
+
         app-header {
           color: #fff;
           background-color: var(--primary-color);
@@ -117,7 +124,7 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
         }
 
         .drawer-list a.iron-selected {
-          color: black;
+          color: var(--secondary-text-color);
           font-weight: bold;
         }
 
@@ -150,6 +157,7 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
           <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
           <a name="home" href="[[rootPath]]home">Home</a>
           <a name="map" href="[[rootPath]]map">Maps</a>
+          <a name="about" href="[[rootPath]]about">About</a>
           </iron-selector>
         </app-drawer>
 
@@ -219,7 +227,7 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
     // Show 'home' in that case. And if the page doesn't exist, show 'view404'.
     if (!page) {
       this.page = "home";
-    } else if (["home", "map"].indexOf(page) !== -1) {
+    } else if (["home", "map", "about"].indexOf(page) !== -1) {
       this.page = page;
     } else {
       this.page = "view404";
@@ -241,8 +249,11 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
       case "home":
         import("./bazdara-home.js");
         break;
-      case "map":
+       case "map":
         import("./bazdara-map.js");
+        break;
+      case "about":
+        import("./bazdara-about.js");
         break;
       case "view404":
         import("./bazdara-view404.js");

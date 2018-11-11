@@ -9,31 +9,31 @@
  */
 
 import {
-    PolymerElement,
-    html
-  } from "@polymer/polymer/polymer-element.js";
+  PolymerElement,
+  html
+} from "@polymer/polymer/polymer-element.js";
 
-  import "./shared-styles.js";
+import "./shared-styles.js";
 
 /**
 * @polymer
 * @extends HTMLElement
 */
-  class BazdaraMap extends PolymerElement {
-    static get template() {
-      return html `
+class BazdaraAbout extends PolymerElement {
+  static get template() {
+    return html `
 
-        <style include="shared-styles">
-          :host {
-            display: block;
-          }
-        </style>
-      `;
-    }
-
-    ready() {
-      super.ready();
-    }
+      <style include="shared-styles">
+        :host {
+          display: block;
+        }
+      </style>
+    `;
   }
 
-  window.customElements.define("bazdara-map", BazdaraMap);
+  ready() {
+    super.ready();
+  }
+}
+
+window.customElements.define("bazdara-about", BazdaraAbout);

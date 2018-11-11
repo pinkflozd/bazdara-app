@@ -30,7 +30,6 @@ import "./elements/gauge-wind-direction.js";
 import "./elements/gauge-sea-wave.js";
 import "./elements/gauge-sea-height.js";
 
-
 import "./elements/meteogram-yrno.js";
 import "./elements/live-cam.js";
 

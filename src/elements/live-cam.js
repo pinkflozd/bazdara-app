@@ -1,7 +1,7 @@
 import {PolymerElement, html} from "@polymer/polymer/polymer-element.js";
 import {afterNextRender} from "@polymer/polymer/lib/utils/render-status.js";
 
-import "@polymer/paper-styles/typography.js";
+import "@polymer/paper-styles/paper-styles-classes.js";
 import "@polymer/paper-spinner/paper-spinner.js";
 import "@polymer/paper-dropdown-menu/paper-dropdown-menu.js";
 import "@polymer/paper-item/paper-item.js";

@@ -1,7 +1,7 @@
 import {PolymerElement, html} from "@polymer/polymer/polymer-element.js";
 import {} from "@polymer/polymer/lib/elements/dom-if.js";
 import "@polymer/paper-spinner/paper-spinner.js";
-import "@polymer/paper-styles/typography.js";
+import "@polymer/paper-styles/paper-styles-classes.js";
 import "@polymer/iron-icon/iron-icon.js";
 import "@polymer/iron-flex-layout/iron-flex-layout-classes.js";
 import "@polymer/paper-tooltip/paper-tooltip.js";

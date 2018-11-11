@@ -20,9 +20,11 @@ class GaugeWindDirection extends PolymerElement {
   static get template() {
     return html`
     <style>
+    #gaugeDirection {
+      width:200px;
+      height:200px;
+    }
     .outer {
-      width: 230px;
-      height: 230px;
       position: relative;
     }
 
@@ -30,16 +32,16 @@ class GaugeWindDirection extends PolymerElement {
       text-align: center;
       color: #FFF;
       position: absolute;
-      top: 70px;
-      width: 230px
+      top: 30%;
+      width: 100%
     }
 
     .windDirection {
       text-align: center;
       color: #FFF;
       position: absolute;
-      top: 140px;
-      width: 230px
+      top: 60%;
+      width: 100%
     }
     </style>
     <div class="outer">
@@ -50,7 +52,7 @@ class GaugeWindDirection extends PolymerElement {
       <div class="windDirection">
         {{direction}}°&nbsp;<i18n-msg msgid$="{{_windCompass}}">{{_windCompass}}</i18n-msg>
       </div>
-    <canvas id="gaugeDirection" style="height:270px;width:270px"></canvas>
+    <canvas id="gaugeDirection"></canvas>
   </div>
     `;
   }
@@ -250,12 +252,11 @@ class GaugeWindDirection extends PolymerElement {
     // eslint-disable-next-line no-undef
     var gaugeDirection1 = new RadialGauge({
       renderTo: this.$.gaugeDirection,
-      height: 230,
-      width: 230,
       minValue: 0,
       maxValue: 360,
       majorTicks: ["N", "NE", "E", "SE", "S", "SW", "W", "NW", "N"],
       minorTicks: 22,
+      useMinPath: true,
       ticksAngle: 360,
       startAngle: 180,
       strokeTicks: false,
@@ -286,7 +287,7 @@ class GaugeWindDirection extends PolymerElement {
       animationTarget: "plate",
       fontTitleSize: 19,
       colorTitle: "#f5f5f5",
-      animationDuration: 2000
+      animationDuration: 1000
     });
 
     gaugeDirection1.draw();
