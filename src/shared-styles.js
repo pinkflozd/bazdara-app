@@ -22,12 +22,12 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
        * color, then switching from a light to a dark theme is just a matter of
        * changing the value of \`--primary-text-color\` in your application.
        */
-      --primary-text-color: var(--dark-theme-text-color);
-      --primary-background-color: var(--dark-theme-background-color);
-      --secondary-background-color: var(--dark-theme-background2-color);
-      --secondary-text-color: var(--dark-theme-secondary-color);
-      --disabled-text-color: var(--dark-theme-disabled-color);
-      --divider-color: var(--dark-theme-divider-color);
+      --primary-text-color: var(--light-theme-text-color);
+      --primary-background-color: var(--light-theme-background-color);
+      --secondary-background-color: var(--light-theme-background2-color);
+      --secondary-text-color: var(--light-theme-secondary-color);
+      --disabled-text-color: var(--light-theme-disabled-color);
+      --divider-color: var(--light-theme-divider-color);
       --error-color: var(--paper-deep-orange-a700);
       /*
        * Primary and accent colors. Also see color.js for more colors.

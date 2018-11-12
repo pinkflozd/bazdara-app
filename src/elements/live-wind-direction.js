@@ -7,7 +7,7 @@ import {PolymerElement, html} from "@polymer/polymer/polymer-element.js";
 class LiveWindDirection extends PolymerElement {
   static get template() {
     return html`
-      ({{direction}}° {{_windCompass}})
+      {{direction}}° ({{_windCompass}})
     `;
   }
 

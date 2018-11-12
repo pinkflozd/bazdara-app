@@ -8,17 +8,20 @@
  * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 
-import {PolymerElement, html} from "@polymer/polymer/polymer-element.js";
+import {
+  PolymerElement,
+  html
+} from "@polymer/polymer/polymer-element.js";
 
 import "canvas-gauges";
 
 /**
-* @polymer
-* @extends HTMLElement
-*/
+ * @polymer
+ * @extends HTMLElement
+ */
 class GaugeWindSpeed extends PolymerElement {
   static get template() {
-    return html`
+    return html `
       <canvas id="gaugeSpeed"></canvas>
     `;
   }
@@ -31,52 +34,107 @@ class GaugeWindSpeed extends PolymerElement {
       speed: {
         type: Number,
         observer: "_speedChange"
+      },
+      speedunit: {
+        type: Number,
+        observer: "_speedName"
       }
     };
   }
 
   _speedChange() {
     var gaugeSpeed = document.gauges.get("gaugeSpeed");
-    gaugeSpeed.value = this.speed;
+    gaugeSpeed.value = this.speed * this.calc;
+  }
+
+  _speedName() {
+
+    if (this.speedunit == "kmh") {
+      this.unit = "km/h";
+      this.calc = 3.6;
+    } else if (this.speedunit == "kn") {
+      this.unit = "kn";
+      this.calc = 1.94384449;
+    } else {
+      this.unit = "m/s";
+      this.calc = 1;
+    }
+
+    if (document.gauges.get("gaugeSpeed")) {
+      var gaugeSpeed = document.gauges.get("gaugeSpeed");
+
+      gaugeSpeed.update({
+        units: this.unit,
+        maxValue: 25 * this.calc,
+        majorTicks: [
+          Math.round("0.3" * this.calc),
+          Math.round("1.5" * this.calc),
+          Math.round("3.3" * this.calc),
+          Math.round("5.5" * this.calc),
+          Math.round("8" * this.calc),
+          Math.round("10.8" * this.calc),
+          Math.round("13.9" * this.calc),
+          Math.round("17.2" * this.calc),
+          Math.round("20.7" * this.calc),
+          Math.round("24.5" * this.calc)
+        ],
+        highlights: [{
+          from: 17.2 * this.calc,
+          to: 25 * this.calc,
+          color: "rgba(200, 50, 50, .75)"
+        }]
+      });
+
+    }
+
   }
 
   ready() {
     super.ready();
 
+    if (this.speedunit == "kmh") {
+      this.unit = "km/h";
+      this.calc = 3.6;
+    } else if (this.speedunit == "kn") {
+      this.unit = "kn";
+      this.calc = 1.94384449;
+    } else {
+      this.unit = "m/s";
+      this.calc = 1;
+    }
+
     // eslint-disable-next-line no-undef
     var gaugeSpeed = new RadialGauge({
       renderTo: this.$.gaugeSpeed,
-      height: 200,
-      width: 200,
-      units: "m/s",
+      height: 140,
+      width: 140,
+      units: this.unit,
       minValue: 0,
       valueBox: true,
       valueInt: 1,
       valueBoxStroke: 0,
-      maxValue: 25,
+      maxValue: 25 * this.calc,
       borderShadowWidth: 0,
       borders: false,
       exactTicks: true,
       majorTicks: [
-        "0.3",
-        "1.5",
-        "3.3",
-        "5.5",
-        "8",
-        "10.8",
-        "13.9",
-        "17.2",
-        "20.7",
-        "24.5"
+        Math.round("0.3" * this.calc),
+        Math.round("1.5" * this.calc),
+        Math.round("3.3" * this.calc),
+        Math.round("5.5" * this.calc),
+        Math.round("8" * this.calc),
+        Math.round("10.8" * this.calc),
+        Math.round("13.9" * this.calc),
+        Math.round("17.2" * this.calc),
+        Math.round("20.7" * this.calc),
+        Math.round("24.5" * this.calc)
       ],
       strokeTicks: true,
-      highlights: [
-        {
-          from: 17.2,
-          to: 25,
-          color: "rgba(200, 50, 50, .75)"
-        }
-      ],
+      highlights: [{
+        from: 17.2 * this.calc,
+        to: 25 * this.calc,
+        color: "rgba(200, 50, 50, .75)"
+      }],
       needleType: "arrow",
       needleWidth: 3,
       needleCircleSize: 7,

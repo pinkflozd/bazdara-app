@@ -34,6 +34,7 @@ import "./shared-styles.js";
 
 import "./elements/firebase-app.js";
 import "./elements/geo-button.js";
+import "./elements/page-settings.js";
 import "@fabricelements/skeleton-auth/auth-mixin.js";
 
 // Gesture events like tap and track generated from touch will not be
@@ -153,6 +154,7 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
         <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
           <app-toolbar>Menu</app-toolbar>
           <paper-button raised on-tap="_openDialog">Log In</paper-button>
+          <page-settings speedunit="{{speedunit}}"></page-settings>
 
           <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
           <a name="home" href="[[rootPath]]home">Home</a>
@@ -173,7 +175,7 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
           </app-header>
 
           <iron-pages selected="[[page]]" class$="[[page]]" attr-for-selected="name" role="main">
-            <bazdara-home latitude="[[latitude]]" longitude="[[longitude]]" name="home"></bazdara-home>
+            <bazdara-home speedunit="[[speedunit]]" latitude="[[latitude]]" longitude="[[longitude]]" name="home"></bazdara-home>
             <bazdara-map name="map"></bazdara-map>
             <bazdara-view404 name="view404"></bazdara-view404>
           </iron-pages>

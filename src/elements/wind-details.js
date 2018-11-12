@@ -14,12 +14,13 @@ import "@polymer/iron-icon/iron-icon.js";
 
 import "../bazdara-icons.js";
 import "../shared-styles.js";
+import "./live-wind-direction.js";
 
 /**
 * @polymer
 * @extends HTMLElement
 */
-class LiveDetails extends PolymerElement {
+class WindDetails extends PolymerElement {
   static get template() {
     return html`
 
@@ -54,8 +55,8 @@ class LiveDetails extends PolymerElement {
           margin-bottom:10px
         }
         iron-icon {
-          height: 18px;
-          width: 18px;
+          height: 24px;
+          width: 24px;
         }
         .paper-font-subhead {
           color: var(--primary-text-color);
@@ -63,46 +64,40 @@ class LiveDetails extends PolymerElement {
       </style>
 
       <div class="paper-material" elevation="1">
-      <h2 class="paper-font-subhead">Trenutne razmere</h2>
+      <h2 class="paper-font-subhead"><iron-icon icon="bazdara-icons:windrose"></iron-icon> Veter</h2>
+      <div class="flex-horizontal-with-ratios">
+        <div class="flexchild paper-font-body1">
+          Trenutna hitrost:
+        </div>
+        <div class="flex2child paper-font-body1">
+          [[_speed(live.currentWindSpeed, speedunit)]]<span class="metric">[[_speedName(speedunit)]]</span>
+        </div>
+      </div>
 
       <div class="flex-horizontal-with-ratios">
         <div class="flexchild paper-font-body1">
-          <iron-icon icon="bazdara-icons:eye"></iron-icon> Vidljivost:
+          Povprečna hitrost:
         </div>
         <div class="flex2child paper-font-body1">
-          [[trenutno.vis]]<span class="metric">km</span>
+          [[_speed(live.meanWindSpeed, speedunit)]]<span class="metric">[[_speedName(speedunit)]]</span>
         </div>
       </div>
+
       <div class="flex-horizontal-with-ratios">
         <div class="flexchild paper-font-body1">
-          <iron-icon icon="bazdara-icons:barometer"></iron-icon>  Tlak:
+          Trenutna smer:
         </div>
         <div class="flex2child paper-font-body1">
-          [[trenutno.tlak]]<span class="metric">mBar</span>
+          <live-wind-direction direction="[[live.currentWindDirection]]"></live-wind-direction>
         </div>
       </div>
+
       <div class="flex-horizontal-with-ratios">
         <div class="flexchild paper-font-body1">
-          <iron-icon icon="bazdara-icons:waterdrop"></iron-icon> Vlaga:
+          Povprečna smer:
         </div>
         <div class="flex2child paper-font-body1">
-          [[trenutno.vlaga]]<span class="metric">%</span>
-        </div>
-      </div>
-      <div class="flex-horizontal-with-ratios">
-        <div class="flexchild paper-font-body1">
-          <iron-icon icon="bazdara-icons:sunrise"></iron-icon> Vzhod:
-        </div>
-        <div class="flex2child paper-font-body1">
-          [[trenutno.soncni.vzhod]]
-        </div>
-      </div>
-      <div class="flex-horizontal-with-ratios">
-        <div class="flexchild paper-font-body1">
-          <iron-icon icon="bazdara-icons:sunset"></iron-icon> Zahod:
-        </div>
-        <div class="flex2child paper-font-body1">
-          [[trenutno.soncni.zahod]]
+          <live-wind-direction direction="[[live.meanWindDirection]]"></live-wind-direction>
         </div>
       </div>
 
@@ -113,6 +108,34 @@ class LiveDetails extends PolymerElement {
   ready() {
     super.ready();
   }
+
+  _decimalFormat(value) {
+    return value ? value.toFixed(1) : '0.0';
+  }
+
+  _speed(value, speed) {
+    var multiplier = Math.pow(10, 1 || 0);
+    if (speed == "kmh") {
+      var value2 = value * 3.6;
+      return Math.round(value2 * multiplier) / multiplier;
+    } else if (speed == "kn") {
+      var value2 = value * 1.94384449;
+      return Math.round(value2 * multiplier) / multiplier;
+    } else {
+      return value;
+    }
+  }
+
+  _speedName(speed) {
+    if (speed == "kmh") {
+      return "km/h";
+    } else if (speed == "kn") {
+      return "kn";
+    } else {
+      return "m/s";
+    }
+  }
+
 }
 
-window.customElements.define("live-details", LiveDetails);
+window.customElements.define("wind-details", WindDetails);

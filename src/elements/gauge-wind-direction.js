@@ -12,6 +12,8 @@ import {PolymerElement, html} from "@polymer/polymer/polymer-element.js";
 
 import "canvas-gauges";
 
+import "../shared-styles.js";
+
 /**
 * @polymer
 * @extends HTMLElement
@@ -19,13 +21,11 @@ import "canvas-gauges";
 class GaugeWindDirection extends PolymerElement {
   static get template() {
     return html`
-    <style>
-    #gaugeDirection {
-      width:200px;
-      height:200px;
-    }
+    <style include="shared-styles">
     .outer {
       position: relative;
+      height: 140px;
+      width: 140px;
     }
 
     .windName {
@@ -44,13 +44,13 @@ class GaugeWindDirection extends PolymerElement {
       width: 100%
     }
     </style>
-    <div class="outer">
+    <div class="outer paper-font-caption">
       <div class="windName">
-        <i18n-msg msgid$="{{_windNames}}">{{_windNames}}</i18n-msg>
+        {{_windNames}}
       </div>
 
       <div class="windDirection">
-        {{direction}}°&nbsp;<i18n-msg msgid$="{{_windCompass}}">{{_windCompass}}</i18n-msg>
+        {{direction}}°&nbsp;{{_windCompass}}
       </div>
     <canvas id="gaugeDirection"></canvas>
   </div>
@@ -252,11 +252,12 @@ class GaugeWindDirection extends PolymerElement {
     // eslint-disable-next-line no-undef
     var gaugeDirection1 = new RadialGauge({
       renderTo: this.$.gaugeDirection,
+      height: 140,
+      width: 140,
       minValue: 0,
       maxValue: 360,
       majorTicks: ["N", "NE", "E", "SE", "S", "SW", "W", "NW", "N"],
       minorTicks: 22,
-      useMinPath: true,
       ticksAngle: 360,
       startAngle: 180,
       strokeTicks: false,

@@ -21,9 +21,6 @@ import "./live-sea-name.js";
 * @extends HTMLElement
 */
 class LiveCurrent extends PolymerElement {
-  static get importMeta() {
-    return import.meta;
-  }
 
   static get template() {
     return html`
@@ -214,7 +211,7 @@ class LiveCurrent extends PolymerElement {
       }
 
       .temper {
-        margin: 30px 0 0 0;
+        margin: 15px 0 0 0;
       }
 
       @media (-webkit-min-device-pixel-ratio: 0.75),
@@ -295,6 +292,7 @@ class LiveCurrent extends PolymerElement {
 
         <div class="flex2">
           <div class="flexchild text-center">
+            <live-wind-speed-beufort id="speedname" speed$="[[live.currentWindSpeed]]"></live-wind-speed-beufort><br>
             <live-wind-speed-name id="speedname" speed$="[[live.currentWindSpeed]]"></live-wind-speed-name>
             <div class="text-center temper paper-font-display3">[[live.temperatureAir]]°<span class="paper-font-headline">C</span></div>
 
