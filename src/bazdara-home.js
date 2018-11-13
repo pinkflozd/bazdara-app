@@ -31,6 +31,9 @@ import "./elements/wind-details.js";
 
 import "./elements/gauge-wind-speed.js";
 import "./elements/gauge-wind-direction.js";
+
+import "./elements/sea-details.js";
+
 import "./elements/gauge-sea-wave.js";
 import "./elements/gauge-sea-height.js";
 
@@ -72,6 +75,13 @@ class BazdaraHome extends GestureEventListeners(PolymerElement) {
         .gaugeflexright {
           margin-left: 5px;
         }
+
+        .gaugewind {
+          background-color: #00695C;
+        }
+        .gaugespeed {
+          background-color: #00838F;
+        }
       </style>
       <firebase-live live="{{live}}"></firebase-live>
       <firebase-trenutno trenutno="{{trenutno}}"></firebase-trenutno>
@@ -81,13 +91,14 @@ class BazdaraHome extends GestureEventListeners(PolymerElement) {
       <live-details live="[[live]]" trenutno="[[trenutno]]"></live-details>
       <wind-details live="[[live]]" trenutno="[[trenutno]]" speedunit="[[speedunit]]"></wind-details>
       <div class="gaugeflex">
-        <div class="gaugeflexchild gaugeflexleft paper-material" elevation="1">
+        <div class="gaugeflexchild gaugeflexleft paper-material gaugespeed" elevation="1">
           <gauge-wind-speed speed="[[live.currentWindSpeed]]" speedunit="[[speedunit]]"></gauge-wind-speed>
         </div>
-        <div class="gaugeflexchild gaugeflexright paper-material" elevation="1">
+        <div class="gaugeflexchild gaugeflexright paper-material gaugewind" elevation="1">
           <gauge-wind-direction direction="[[live.currentWindDirection]]" name="[[live.currentWindDirection]]"></gauge-wind-direction>
         </div>
       </div>
+      <sea-details live="[[live]]" trenutno="[[trenutno]]" speedunit="[[speedunit]]"></sea-details>
 
       <gauge-sea-wave wave="[[trenutno.val.vrh.zdaj]]" wave2="[[live.wavesHeight]]"></gauge-sea-wave>
       <gauge-sea-height temp="[[trenutno.vodostaj]]"></gauge-sea-height>

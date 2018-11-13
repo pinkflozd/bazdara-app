@@ -15,6 +15,8 @@ import {
 
 import "canvas-gauges";
 
+import "../shared-styles.js";
+
 /**
  * @polymer
  * @extends HTMLElement
@@ -22,7 +24,25 @@ import "canvas-gauges";
 class GaugeWindSpeed extends PolymerElement {
   static get template() {
     return html `
+    <style include="shared-styles">
+      .outer {
+        position: relative;
+        background-color: #00838F;
+      }
+      .value {
+        width: 150px;
+        position: absolute;
+        text-align: center;
+        top: 75%;
+        color: #ffffff
+      }
+    </style>
+    </div class="outer">
+      <div class="value paper-font-subhead">
+        [[speeder]]
+      </div>
       <canvas id="gaugeSpeed"></canvas>
+    </div>
     `;
   }
 
@@ -42,9 +62,14 @@ class GaugeWindSpeed extends PolymerElement {
     };
   }
 
+  _decimalFormat(value) {
+    return value ? value.toFixed(1) : '0.0';
+  }
+
   _speedChange() {
     var gaugeSpeed = document.gauges.get("gaugeSpeed");
-    gaugeSpeed.value = this.speed * this.calc;
+    this.speeder = this._decimalFormat(this.speed * this.calc);
+    gaugeSpeed.value = this.speeder;
   }
 
   _speedName() {
@@ -53,7 +78,7 @@ class GaugeWindSpeed extends PolymerElement {
       this.unit = "km/h";
       this.calc = 3.6;
     } else if (this.speedunit == "kn") {
-      this.unit = "kn";
+      this.unit = "knots";
       this.calc = 1.94384449;
     } else {
       this.unit = "m/s";
@@ -81,7 +106,7 @@ class GaugeWindSpeed extends PolymerElement {
         highlights: [{
           from: 17.2 * this.calc,
           to: 25 * this.calc,
-          color: "rgba(200, 50, 50, .75)"
+          color: "#EF5350"
         }]
       });
 
@@ -106,13 +131,11 @@ class GaugeWindSpeed extends PolymerElement {
     // eslint-disable-next-line no-undef
     var gaugeSpeed = new RadialGauge({
       renderTo: this.$.gaugeSpeed,
-      height: 140,
-      width: 140,
+      height: 150,
+      width: 150,
       units: this.unit,
       minValue: 0,
-      valueBox: true,
-      valueInt: 1,
-      valueBoxStroke: 0,
+      valueBox: false,
       maxValue: 25 * this.calc,
       borderShadowWidth: 0,
       borders: false,
@@ -133,19 +156,33 @@ class GaugeWindSpeed extends PolymerElement {
       highlights: [{
         from: 17.2 * this.calc,
         to: 25 * this.calc,
-        color: "rgba(200, 50, 50, .75)"
+        color: "#EF5350"
       }],
       needleType: "arrow",
-      needleWidth: 3,
+      needleWidth: 2,
       needleCircleSize: 7,
       needleCircleOuter: false,
       needleCircleInner: false,
-      animationDuration: 1500,
+      animationDuration: 1000,
       animationRule: "linear",
-      barWidth: "10",
+      minorTicks: 2,
+      barWidth: "5",
+      needleEnd: 100,
       barShadow: false,
-      colorBarProgress: "rgba(50,200,50,.75)",
-      colorPlate: "transparent"
+      colorBarProgress: "#B2EBF2",
+      colorPlate: "transparent",
+      colorNeedleShadowUp: "rgba(0,0,0,0.20)",
+      colorNeedleShadowDown: "rgba(0,0,0,0.20)",
+      colorBar: "#00838F",
+      colorNeedleEnd: "#E53935",
+      colorNeedle: "#E53935",
+      colorMajorTicks:"#f5f5f5",
+      colorMinorTicks:"#ddd",
+      colorTitle:"#ffffff",
+      colorUnits:"#ffffff",
+      colorNumbers:"#ffffff",
+      fontNumbersSize: 25,
+      fontUnitsSize: 28
     });
 
     gaugeSpeed.draw();

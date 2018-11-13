@@ -183,6 +183,12 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
       line-height: 28px;
     }
 
+    .paper-font-title2 {
+      font-size: 20px;
+      font-weight: 400;
+      line-height: 28px;
+    }
+
     .paper-font-subhead {
       font-size: 16px;
       font-weight: 400;
@@ -232,6 +238,10 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
       font-size: 14px;
       font-weight: 500;
       line-height: 20px;
+    }
+
+    .paper-material {
+      border-radius: 3px
     }
     </style>
   </template>

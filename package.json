@@ -6,8 +6,8 @@
   "license": "BSD-3-Clause",
   "repository": "pinkflozd/bazdara-app",
   "scripts": {
-    "start": "polymer serve --port 8000",
-    "serve:static": "polymer serve --port 8000 build/es5-bundled",
+    "start": "polymer serve --hostname 0.0.0.0 --port 8000",
+    "serve:static": "polymer serve --hostname 0.0.0.0 --port 8000 build/es5-bundled",
     "serve:prpl-server": "prpl-server --root server/build --port 8001",
     "build:static": "NODE_OPTIONS='--max-old-space-size=8192' polymer build",
     "build:prpl-server": "NODE_OPTIONS='--max-old-space-size=8192' polymer build --auto-base-path && gulp prpl-server",

@@ -24,8 +24,8 @@ class GaugeWindDirection extends PolymerElement {
     <style include="shared-styles">
     .outer {
       position: relative;
-      height: 140px;
-      width: 140px;
+      height: 150px;
+      width: 150px;
     }
 
     .windName {
@@ -40,8 +40,8 @@ class GaugeWindDirection extends PolymerElement {
       text-align: center;
       color: #FFF;
       position: absolute;
-      top: 60%;
-      width: 100%
+      top: 59%;
+      width: 100%;
     }
     </style>
     <div class="outer paper-font-caption">
@@ -252,8 +252,8 @@ class GaugeWindDirection extends PolymerElement {
     // eslint-disable-next-line no-undef
     var gaugeDirection1 = new RadialGauge({
       renderTo: this.$.gaugeDirection,
-      height: 140,
-      width: 140,
+      height: 150,
+      width: 150,
       minValue: 0,
       maxValue: 360,
       majorTicks: ["N", "NE", "E", "SE", "S", "SW", "W", "NW", "N"],
@@ -265,9 +265,9 @@ class GaugeWindDirection extends PolymerElement {
       colorPlate: "#00695C",
       colorMajorTicks: "#f5f5f5",
       colorMinorTicks: "#ddd",
-      colorNumbers: "#ccc",
-      colorNeedle: "rgba(240, 128, 128, 1)",
-      colorNeedleEnd: "rgba(255, 160, 122, .9)",
+      colorNumbers: "#fff",
+      colorNeedleEnd: "#E53935",
+      colorNeedle: "#E53935",
       valueBox: false,
       valueTextShadow: false,
       colorCircleInner: "#fff",
@@ -288,7 +288,8 @@ class GaugeWindDirection extends PolymerElement {
       animationTarget: "plate",
       fontTitleSize: 19,
       colorTitle: "#f5f5f5",
-      animationDuration: 1000
+      animationDuration: 1000,
+      fontNumbersSize: 25
     });
 
     gaugeDirection1.draw();

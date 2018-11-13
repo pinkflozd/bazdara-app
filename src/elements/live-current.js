@@ -269,6 +269,10 @@ class LiveCurrent extends PolymerElement {
         animation-iteration-count: infinite;
       }
 
+      .paper-material {
+        border-radius: 0px;
+      }
+
       </style>
       <paper-spinner active$="[[loading]]"></paper-spinner>
       <weather-icons></weather-icons>
@@ -305,7 +309,8 @@ class LiveCurrent extends PolymerElement {
           </div>
         </div>
         <div class="text-center paper-font-title">
-        <iron-icon icon="bazdara-icons:wave"></iron-icon> <live-sea-name name$="[[live.wavesHeight]]"></live-sea-name>
+        <iron-icon icon="bazdara-icons:wave"></iron-icon>&nbsp;<live-sea-name name$="[[live.wavesHeight]]"></live-sea-name>
+        <br><span class="paper-font-subhead">[[trenutno.morje.vrh.zdajkoper]]°c</span>
         </div>
         </template>
       </div>
