@@ -13,13 +13,14 @@ import {
   html
 } from "@polymer/polymer/polymer-element.js";
 
-import "@polymer/paper-styles/paper-styles-classes.js";
 import "@polymer/app-storage/app-localstorage/app-localstorage-document.js";
+import "@polymer/paper-styles/element-styles/paper-material-styles.js";
 
 import "@polymer/paper-spinner/paper-spinner.js";
 import "@polymer/paper-dropdown-menu/paper-dropdown-menu.js";
 import "@polymer/paper-item/paper-item.js";
 import "@polymer/paper-listbox/paper-listbox.js";
+
 
 import firebase from "firebase/app";
 import "firebase/database";
@@ -28,9 +29,9 @@ import "firebase/database";
 import 'highcharts/highstock';
 
 /**
-* @polymer
-* @extends HTMLElement
-*/
+ * @polymer
+ * @extends HTMLElement
+ */
 class MeteogramYrno extends PolymerElement {
   static get template() {
     return html `
@@ -46,11 +47,12 @@ class MeteogramYrno extends PolymerElement {
           padding:10px 10px 5px 10px;
         }
         .outer {
-          width:830px
+          width:830px;
+          height:280px;
         }
         #meteogram {
-          height:280px;
-          width: 820px;
+          height:280px !important;
+          width: 820px !important;
           background-color: var(--primary-background-color);
         }
 
@@ -59,7 +61,10 @@ class MeteogramYrno extends PolymerElement {
           padding: 0 10px;
           background-color: var(--primary-background-color);
         }
-
+        .highcharts-container {
+          height:280px !important;
+          width: 820px !important;
+        }
         paper-dropdown-menu {
           width: 100%;
           z-index:1
@@ -106,7 +111,7 @@ class MeteogramYrno extends PolymerElement {
       </div>
       <div class="over">
       <div class="outer">
-      <div id="meteogram" class="paper-material" elevation="1"></div>
+      <div id="meteogram" class="paper-material" style="height:280px;" elevation="1"></div>
       </div>
       </div>
     `;
@@ -116,7 +121,8 @@ class MeteogramYrno extends PolymerElement {
     return {
       meteograms: {
         type: Object,
-        notify: true
+        notify: true,
+        observer: "Meteogram"
       },
       full: {
         type: Boolean
@@ -129,12 +135,36 @@ class MeteogramYrno extends PolymerElement {
         observer: "location",
         type: Number,
         value: 13.5659228
-      }
+      },
+      theme: {
+        type: Boolean,
+        observer: "Meteogram",
+      },
     };
   }
 
-  static get observers() {
-    return ["Meteogram(meteograms.meta.lastupdate)"];
+  _speed(value, speed) {
+    var multiplier = Math.pow(10, 1 || 0);
+    var value2;
+    if (speed == "kmh") {
+      value2 = value * 3.6;
+      return Math.round(value2 * multiplier) / multiplier;
+    } else if (speed == "kn") {
+      value2 = value * 1.94384449;
+      return Math.round(value2 * multiplier) / multiplier;
+    } else {
+      return value;
+    }
+  }
+
+  _speedName(speed) {
+    if (speed == "kmh") {
+      return "km/h";
+    } else if (speed == "kn") {
+      return "knots";
+    } else {
+      return "m/s";
+    }
   }
 
   ready() {
@@ -153,7 +183,7 @@ class MeteogramYrno extends PolymerElement {
 
     this.databaseRef = firebase.database().ref();
 
-    this.location();
+    //this.location();
   }
 
   onTabSelect(e) {
@@ -484,10 +514,9 @@ class MeteogramYrno extends PolymerElement {
       "<br>" +
       this.windSpeedNames[index] +
       "<br>" +
-      Highcharts.numberFormat(this.windSpeeds[index], 1) +
-      " m/s (" +
-      Highcharts.numberFormat(this.windSpeeds[index] * 3.6, 1) +
-      " km/h)</td></tr>";
+      Highcharts.numberFormat(this._speed(this.windSpeeds[index], this.speedunit), 1) + " " +
+      this._speedName(this.speedunit) +
+      "</td></tr>";
 
     // Close
     ret += "</table>";
@@ -538,7 +567,7 @@ class MeteogramYrno extends PolymerElement {
           // Position the image inside it at the sprite position
           chart.renderer
             .image(
-              "../../esm-bundled/images/vreme/" + sprite.x + ".png",
+              "images/vreme/" + sprite.x + ".png",
               0,
               0,
               32,
@@ -549,7 +578,7 @@ class MeteogramYrno extends PolymerElement {
           // Position the image inside it at the sprite position
           chart.renderer
             .image(
-              "../../esm-bundled/images/vreme/pojavi/" + sprite.y + ".png",
+              "images/vreme/pojavi/" + sprite.y + ".png",
               0,
               9,
               32,
@@ -684,7 +713,7 @@ class MeteogramYrno extends PolymerElement {
         }
         arrow
           .attr({
-            stroke: "#333333",
+            stroke: Highcharts.getOptions().colors[1],
             "stroke-width": 1.5,
             zIndex: 5,
             class: "myPath"
@@ -762,7 +791,7 @@ class MeteogramYrno extends PolymerElement {
         marginBottom: 60,
         marginRight: 25,
         marginTop: 30,
-        plotBorderWidth: 1,
+        reflow: true,
         style: {
           fontFamily: "Roboto, sans-serif"
         },
@@ -795,8 +824,7 @@ class MeteogramYrno extends PolymerElement {
           tickInterval: 2 * 36e5, // two hours
           minorTickInterval: 36e5, // one hour
           tickLength: 0,
-          gridLineWidth: 1,
-          gridLineColor: "#F0F0F0",
+          gridLineColor: (Highcharts.theme && Highcharts.theme.background2) || '#F0F0F0',
           startOnTick: false,
           endOnTick: false,
           minPadding: 0,
@@ -815,12 +843,10 @@ class MeteogramYrno extends PolymerElement {
           labels: {
             format: '{value:<span style="font-size: 12px; font-weight: bold">%a</span> %b %e}',
             align: "left",
-            x: 3,
+            x: 5,
             y: -5
           },
           opposite: true,
-          tickLength: 20,
-          gridLineWidth: 1
         }
       ],
 
@@ -836,13 +862,6 @@ class MeteogramYrno extends PolymerElement {
             },
             x: -3
           },
-          plotLines: [{
-            // zero plane
-            value: 0,
-            color: "#BBBBBB",
-            width: 1,
-            zIndex: 2
-          }],
           // Custom positioner to provide even temperature ticks from top down
           tickPositioner: function () {
             var max = Math.ceil(this.max) + 1,
@@ -860,7 +879,7 @@ class MeteogramYrno extends PolymerElement {
           },
           maxPadding: 0.3,
           tickInterval: 1,
-          gridLineColor: "#F0F0F0"
+          gridLineColor: (Highcharts.theme && Highcharts.theme.background2) || '#F0F0F0'
         },
         {
           // precipitation axis
@@ -884,7 +903,7 @@ class MeteogramYrno extends PolymerElement {
             rotation: 0,
             style: {
               fontSize: "10px",
-              color: "#333333"
+              color: "#80CBC4"
             },
             textAlign: "left",
             x: 3
@@ -892,7 +911,7 @@ class MeteogramYrno extends PolymerElement {
           labels: {
             style: {
               fontSize: "8px",
-              color: "#333333"
+              color: "#80CBC4"
             },
             y: 2,
             x: 3
@@ -989,9 +1008,299 @@ class MeteogramYrno extends PolymerElement {
    */
   createChart() {
     var meteogram = this;
+
+    if (this.theme) {
+      Highcharts.theme = {
+        colors: ['#2b908f', '#90ee7e', '#f45b5b', '#7798BF', '#aaeeee', '#ff0066',
+          '#eeaaee', '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'
+        ],
+        chart: {
+          backgroundColor: 'transparent',
+          borderWidth: 0,
+          plotShadow: false,
+          plotBorderColor: '#606063'
+        },
+        title: {
+          style: {
+            color: '#E0E0E3',
+            textTransform: 'uppercase',
+          }
+        },
+        subtitle: {
+          style: {
+            color: '#E0E0E3',
+            textTransform: 'uppercase'
+          }
+        },
+        xAxis: {
+          gridLineColor: '#333333',
+          labels: {
+            style: {
+              color: '#E0E0E3'
+            }
+          },
+          lineColor: '#333333',
+          minorGridLineColor: '#444444',
+          tickColor: '#333333',
+          title: {
+            style: {
+              color: '#A0A0A3'
+
+            }
+          }
+        },
+        yAxis: {
+          gridLineColor: '#333333',
+          labels: {
+            style: {
+              color: '#E0E0E3'
+            }
+          },
+          lineColor: '#333333',
+          minorGridLineColor: '#444444',
+          tickColor: '#333333',
+          tickWidth: 1,
+          title: {
+            style: {
+              color: '#A0A0A3'
+            }
+          }
+        },
+        tooltip: {
+          backgroundColor: 'rgba(0, 0, 0, 0.85)',
+          style: {
+            color: '#F0F0F0'
+          }
+        },
+        plotOptions: {
+          series: {
+            dataLabels: {
+              color: '#B0B0B3'
+            },
+            marker: {
+              lineColor: '#333'
+            }
+          },
+          boxplot: {
+            fillColor: '#444444'
+          },
+          candlestick: {
+            lineColor: 'white'
+          },
+          errorbar: {
+            color: 'white'
+          }
+        },
+        legend: {
+          itemStyle: {
+            color: '#E0E0E3'
+          },
+          itemHoverStyle: {
+            color: '#FFF'
+          },
+          itemHiddenStyle: {
+            color: '#606063'
+          }
+        },
+        credits: {
+          style: {
+            color: '#666'
+          }
+        },
+        labels: {
+          style: {
+            color: '#333333'
+          }
+        },
+
+        drilldown: {
+          activeAxisLabelStyle: {
+            color: '#F0F0F3'
+          },
+          activeDataLabelStyle: {
+            color: '#F0F0F3'
+          }
+        },
+
+        navigation: {
+          buttonOptions: {
+            symbolStroke: '#DDDDDD',
+            theme: {
+              fill: '#444444'
+            }
+          }
+        },
+
+        // scroll charts
+        rangeSelector: {
+          buttonTheme: {
+            fill: '#444444',
+            stroke: '#000000',
+            style: {
+              color: '#CCC'
+            },
+            states: {
+              hover: {
+                fill: '#333333',
+                stroke: '#000000',
+                style: {
+                  color: 'white'
+                }
+              },
+              select: {
+                fill: '#000003',
+                stroke: '#000000',
+                style: {
+                  color: 'white'
+                }
+              }
+            }
+          },
+          inputBoxBorderColor: '#444444',
+          inputStyle: {
+            backgroundColor: '#333',
+            color: 'silver'
+          },
+          labelStyle: {
+            color: 'silver'
+          }
+        },
+
+        navigator: {
+          handles: {
+            backgroundColor: '#666',
+            borderColor: '#AAA'
+          },
+          outlineColor: '#CCC',
+          maskFill: 'rgba(255,255,255,0.1)',
+          series: {
+            color: '#7798BF',
+            lineColor: '#A6C7ED'
+          },
+          xAxis: {
+            gridLineColor: '#444444'
+          }
+        },
+
+        scrollbar: {
+          barBackgroundColor: '#808083',
+          barBorderColor: '#808083',
+          buttonArrowColor: '#CCC',
+          buttonBackgroundColor: '#606063',
+          buttonBorderColor: '#606063',
+          rifleColor: '#FFF',
+          trackBackgroundColor: '#404043',
+          trackBorderColor: '#404043'
+        },
+
+        // special colors for some of the
+        legendBackgroundColor: 'rgba(0, 0, 0, 0.5)',
+        background2: '#444444',
+        dataLabelsColor: '#B0B0B3',
+        textColor: '#C0C0C0',
+        contrastTextColor: '#F0F0F3',
+        maskColor: 'rgba(255,255,255,0.3)'
+      };
+
+      Highcharts.setOptions(Highcharts.theme);
+    } else {
+      Highcharts.theme = {
+        colors: ['#2f7ed8', '#0d233a', '#8bbc21', '#910000', '#1aadce', '#492970',
+          '#f28f43', '#77a1e5', '#c42525', '#a6c96a'
+        ],
+        chart: {
+          backgroundColor: 'transparent',
+          borderWidth: 0,
+          plotShadow: false,
+          plotBorderWidth: 0,
+          plotBorderColor: '#cccccc'
+        },
+        title: {
+          style: {
+            color: '#274b6d', //#3E576F',
+          }
+        },
+        subtitle: {
+          style: {
+            color: '#4d759e'
+          }
+        },
+        xAxis: {
+          gridLineWidth: 0,
+          lineColor: '#C0D0E0',
+          tickColor: '#C0D0E0',
+          minorGridLineColor: '#cccccc',
+          labels: {
+            style: {
+              color: '#666',
+              cursor: 'default',
+              lineHeight: '14px'
+            }
+          },
+          title: {
+            style: {
+              color: '#4d759e',
+              fontWeight: 'bold'
+            }
+          }
+        },
+        yAxis: {
+          gridLineColor: '#cccccc',
+          minorTickInterval: null,
+          lineColor: '#C0D0E0',
+          lineWidth: 1,
+          tickWidth: 1,
+          tickColor: '#C0D0E0',
+          labels: {
+            style: {
+              color: '#666',
+              cursor: 'default',
+              lineHeight: '14px'
+            }
+          },
+          title: {
+            style: {
+              color: '#4d759e',
+              fontWeight: 'bold'
+            }
+          }
+        },
+        legend: {
+          itemStyle: {
+            color: '#274b6d',
+          },
+          itemHoverStyle: {
+            color: '#000'
+          },
+          itemHiddenStyle: {
+            color: '#CCC'
+          }
+        },
+        labels: {
+          style: {
+            color: '#3E576F'
+          }
+        },
+
+        navigation: {
+          buttonOptions: {
+            theme: {
+              stroke: '#CCCCCC'
+            }
+          }
+        }
+
+      };
+
+      Highcharts.setOptions(Highcharts.theme);
+    }
+
+
     this.chart = new Highcharts.Chart(this.getChartOptions(), function (chart) {
       meteogram.onChartLoad(chart);
     });
+
+
   }
 
   /**

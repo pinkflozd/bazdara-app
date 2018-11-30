@@ -110,6 +110,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       overflow: hidden;
     }
 
+    body.white {
+      background-color: #eeeeee
+    }
+
+    body.black {
+      background-color: #111111
+    }
+
     #loadingScreen {
       z-index: 2000;
       display: block;
@@ -121,7 +129,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       opacity: 1 !important;
       background: url(images/icons/bazdara-icon-192.png) #1e88e5 center center no-repeat;
       background-size: 96px 96px;
-      transition: opacity 250ms;
+      transition: opacity 50ms;
       -webkit-animation: heartbeat 2000ms infinite;
       animation: heartbeat 2000ms infinite;
     }
@@ -146,13 +154,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       font-size:32px;
       padding:100px 10px;
       text-align: center
-    }
-
-    #nojs img {
-      width:96px;
-      margin-left:auto;
-      margin-right:auto;
-      margin-top:30px;
     }
 
     #loadingScreen.ready {
@@ -265,13 +266,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 </head>
 
-<body class="loading">
+<body class="loading white">
   <div id="loadingScreen"></div>
   <bazdara-app></bazdara-app>
   <noscript>
     <div id="nojs">
       <div class="text">Please enable JavaScript to view this website.</div>
-      <img src="images/icons/bazdara-icon-192.png" alt="Bazdara.com">
     </div>
   </noscript>
   <!-- Built with love using Polymer Starter Kit -->
@@ -279,13 +279,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     document.addEventListener('WebComponentsReady', function(e) {
       var loadingScreen = document.querySelector('#loadingScreen');
 
-      loadingScreen.classList.add('ready');
+      setTimeout(function(){
+        loadingScreen.classList.add('ready');
+      }, 500);
 
-      loadingScreen.addEventListener('transitionend', function() {
-        // Remove the loading screen from DOM after CSS transition.
-        document.body.removeChild(loadingScreen);
+      setTimeout(function(){
+        loadingScreen.parentNode.removeChild(loadingScreen);
         document.body.classList.remove('loading');
-      }, false);
+      }, 575);
 
     });
   </script>

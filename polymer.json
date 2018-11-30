@@ -117,27 +117,6 @@
       "addServiceWorker": true,
       "addPushManifest": true,
       "insertPrefetchLinks": true
-    },
-    {
-      "name": "es5-unbundled",
-      "browserCapabilities": [
-        "push"
-      ],
-      "js": {
-        "minify": true,
-        "compile": true,
-        "transformModulesToAmd": true
-      },
-      "css": {
-        "minify": true
-      },
-      "html": {
-        "minify": true
-      },
-      "bundle": false,
-      "addServiceWorker": true,
-      "addPushManifest": true,
-      "insertPrefetchLinks": true
     }
   ],
   "moduleResolution": "node",

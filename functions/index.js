@@ -6,12 +6,13 @@ const rendertron = require('rendertron-middleware');
 const app = express();
 
 const rendertronMiddleware = rendertron.makeMiddleware({
-  proxyUrl: 'https://render-tron.appspot.com/render',
+//  proxyUrl: 'https://render-tron.appspot.com/render',
+  proxyUrl: 'http://google.bazdara.com:3000/render',
   injectShadyDom: true,
 });
 
 app.use((req, res, next) => {
-  req.headers.host = 'https://vreme-live.firebaseapp.com';
+  req.headers.host = 'vreme-live.firebaseapp.com';
   return rendertronMiddleware(req, res, next);
 });
 

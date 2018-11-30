@@ -26,7 +26,6 @@ class LiveCam extends PolymerElement {
     return html`
       <style include="paper-material-styles">
       :host {
-        padding: 5px 10px 10px 10px;
         display: block;
         box-sizing: border-box;
         --paper-toolbar-background: var(--paper-blue-600);
@@ -86,7 +85,7 @@ class LiveCam extends PolymerElement {
      }
 
      .wrap {
-       padding:0 10px
+       padding:0 7px
      }
 
      paper-dropdown-menu {
@@ -904,9 +903,7 @@ class LiveCam extends PolymerElement {
         document.fullscreenEnabled ||
         document.webkitFullscreenEnabled ||
         document.mozFullScreenEnabled ||
-        document.msFullscreenEnabled
-          ? false
-          : true;
+        document.msFullscreenEnabled ? false : true;
 
       const hlsjs = document.createElement("script");
       hlsjs.setAttribute(

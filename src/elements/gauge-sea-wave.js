@@ -15,6 +15,8 @@ import {
 
 import "canvas-gauges";
 
+import "../shared-styles.js";
+
 /**
 * @polymer
 * @extends HTMLElement
@@ -22,9 +24,24 @@ import "canvas-gauges";
 class GaugeSeaWave extends PolymerElement {
   static get template() {
     return html `
+    <style include="shared-styles">
+      .title {
+        color: #ffffff;
+      }
+      .title2 {
+        color: #ffffff;
+        margin-top:-7px;
+        margin-bottom:7px;
+      }
+      .silver {
+        color: #ccc;
+      }
+    </style>
+    <div class="text-center paper-font-caption title">Višina vala</div>
     <canvas id="gaugeWave" style="height:50px;width:250px"></canvas>
     <canvas id="gaugeWave2" style="height:50px;width:250px"></canvas>
-  </div>
+    <div class="text-center title2 paper-font-body1">[[wave]]<span class="silver">m</span> - [[wave2]]<span class="silver">m</span></div>
+
     `;
   }
 
@@ -63,8 +80,8 @@ class GaugeSeaWave extends PolymerElement {
     // eslint-disable-next-line no-undef
     var gaugeWave = new LinearGauge({
       renderTo: this.$.gaugeWave,
-      width: 250,
-      height: 75,
+      width: 70,
+      height: 100,
       minValue: 0,
       maxValue: 2.5,
       majorTicks: [
@@ -104,26 +121,32 @@ class GaugeSeaWave extends PolymerElement {
       tickSide: "left",
       numberSide: "left",
       needleSide: "left",
-      needleType: "line",
-      needleWidth: 3,
-      colorNeedle: "#E57373",
-      colorNeedleEnd: "#E57373",
+      needleType: "arrow",
+      needleWidth: 8,
+      colorNeedleShadowDown: "#222",
+      colorNeedleEnd: "#E53935",
+      colorNeedle: "#E53935",
       animationDuration: 1500,
       animationRule: "elastic",
       animationTarget: "plate",
-      barWidth: 15,
-      colorBarProgress: "#E57373",
-      fontNumbersSize: 41,
+      colorMajorTicks: "#f5f5f5",
+      colorMinorTicks: "#ddd",
+      colorNumbers: "#fff",
+      colorBar: "#7986CB",
+      barWidth: 25,
+      colorBarProgress: "#f5f5f5",
+      fontNumbersSize: 42,
       ticksWidth: 50,
       ticksWidthMinor: 15,
-      colorPlate: "transparent"
+      colorPlate: "transparent",
+      valueBox: false
     });
 
     // eslint-disable-next-line no-undef
     var gaugeWave2 = new LinearGauge({
       renderTo: this.$.gaugeWave2,
-      width: 250,
-      height: 50,
+      width: 70,
+      height: 100,
       minValue: 0,
       maxValue: 2.5,
       majorTicks: [
@@ -163,19 +186,25 @@ class GaugeSeaWave extends PolymerElement {
       tickSide: "right",
       numberSide: "right",
       needleSide: "right",
-      needleType: "line",
-      needleWidth: 3,
-      colorNeedle: "#00897B",
-      colorNeedleEnd: "#00897B",
+      needleType: "arrow",
+      needleWidth: 8,
+      colorNeedleShadowDown: "#222",
+      colorNeedleEnd: "#E53935",
+      colorNeedle: "#E53935",
       animationDuration: 1500,
       animationRule: "elastic",
       animationTarget: "plate",
-      barWidth: 22,
-      colorBarProgress: "#00897B",
-      fontNumbersSize: 0,
+      colorMajorTicks: "#ebebeb",
+      colorMinorTicks: "#ebebeb",
+      colorNumbers: "#fff",
+      colorBar: "#7986CB",
+      barWidth: 25,
+      colorBarProgress: "#f5f5f5",
+      fontNumbersSize: 42,
       ticksWidth: 50,
       ticksWidthMinor: 15,
-      colorPlate: "transparent"
+      colorPlate: "transparent",
+      valueBox: false
     });
 
     gaugeWave.draw();

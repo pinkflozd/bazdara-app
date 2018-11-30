@@ -138,9 +138,9 @@ class WindDetails extends PolymerElement {
 
   _speedChange() {
     if (this.live.currentWindSpeed > this.live.meanWindSpeed) {
-      this.icon = "arrow-drop-up"
+      this.icon = "arrow-drop-up";
     } else {
-      this.icon = "arrow-drop-down"
+      this.icon = "arrow-drop-down";
     }
   }
 

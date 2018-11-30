@@ -28,6 +28,15 @@ import "@polymer/iron-pages/iron-pages.js";
 import "@polymer/iron-selector/iron-selector.js";
 import "@polymer/paper-icon-button/paper-icon-button.js";
 import "@polymer/paper-dialog/paper-dialog.js";
+import "@polymer/paper-button/paper-button.js";
+
+import "@polymer/iron-media-query/iron-media-query.js";
+import "@polymer/paper-toggle-button/paper-toggle-button.js";
+import "@polymer/app-storage/app-localstorage/app-localstorage-document.js";
+
+import {
+  afterNextRender
+} from "@polymer/polymer/lib/utils/render-status.js";
 
 import "./bazdara-icons.js";
 import "./shared-styles.js";
@@ -36,6 +45,8 @@ import "./elements/firebase-app.js";
 import "./elements/geo-button.js";
 import "./elements/page-settings.js";
 import "@fabricelements/skeleton-auth/auth-mixin.js";
+
+import "./elements/paper-fab-menu.js";
 
 // Gesture events like tap and track generated from touch will not be
 // preventable, allowing for better scrolling performance.
@@ -58,11 +69,56 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
         :host {
           --app-drawer-width: 256px;
           display: block;
+
+      /*
+       * You can use these generic variables in your elements for easy theming.
+       * For example, if all your elements use \`--primary-text-color\` as its main
+       * color, then switching from a light to a dark theme is just a matter of
+       * changing the value of \`--primary-text-color\` in your application.
+       */
+      --primary-text-color: var(--light-theme-text-color);
+      --primary-background-color: var(--light-theme-background-color);
+      --secondary-background-color: var(--light-theme-background2-color);
+      --secondary-text-color: var(--light-theme-secondary-color);
+      --disabled-text-color: var(--light-theme-disabled-color);
+      --divider-color: var(--light-theme-divider-color);
+      --error-color: var(--paper-deep-orange-a700);
+      /*
+       * Primary and accent colors. Also see color.js for more colors.
+       */
+      --primary-color: var(--paper-blue-500);
+      --light-primary-color: var(--paper-blue-100);
+      --dark-primary-color: var(--paper-blue-700);
+      --accent-color: var(--paper-red-a200);
+      --light-accent-color: var(--paper-red-a100);
+      --dark-accent-color: var(--paper-red-a400);
+      /*
+       * Material Design Light background theme
+       */
+       --light-theme-background-color: #fff;
+       --light-theme-background2-color: #eee;
+      --light-theme-base-color: #000000;
+      --light-theme-text-color: var(--paper-grey-900);
+      --light-theme-secondary-color: #737373;  /* for secondary text and icons */
+      --light-theme-disabled-color: #9b9b9b;  /* disabled/hint text */
+      --light-theme-divider-color: #dbdbdb;
+      /*
+       * Material Design Dark background theme
+       */
+       --dark-theme-background-color: var(--paper-grey-900);
+       --dark-theme-background2-color: #111111;
+      --dark-theme-base-color: #ffffff;
+      --dark-theme-text-color: #ffffff;
+      --dark-theme-secondary-color: #bcbcbc;  /* for secondary text and icons */
+      --dark-theme-disabled-color: #646464;  /* disabled/hint text */
+      --dark-theme-divider-color: #3c3c3c;
+      /*
+       * Deprecated values because of their confusing names.
+       */
+      --text-primary-color: var(--dark-theme-text-color);
+      --default-primary-color: var(--primary-color);
         }
 
-        :root  {
-          background-color: var(--secondary-background-color);
-        }
 
         app-drawer-layout:not([narrow]) [drawer-toggle] {
           display: none;
@@ -141,6 +197,25 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
         .button-width {
           width:40px;
         }
+
+        paper-fab-menu {
+          position: absolute;
+          right: 10px;
+          bottom: 10px;
+        }
+
+        #cam {
+          width: calc(100% - 14px);
+          max-width: 640px;
+          margin:5px;
+          background-color: var(--secondary-background-color)
+          }
+
+        .camera  {
+          margin-left: -17px;
+          margin-right: -17px;
+          margin-top: 7px
+        }
       </style>
 
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]">
@@ -154,10 +229,11 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
         <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
           <app-toolbar>Menu</app-toolbar>
           <paper-button raised on-tap="_openDialog">Log In</paper-button>
-          <page-settings speedunit="{{speedunit}}"></page-settings>
+
 
           <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
           <a name="home" href="[[rootPath]]home">Home</a>
+          <a name="forecast" href="[[rootPath]]forecast">Forecast</a>
           <a name="map" href="[[rootPath]]map">Maps</a>
           <a name="about" href="[[rootPath]]about">About</a>
           </iron-selector>
@@ -176,20 +252,42 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
 
           <iron-pages selected="[[page]]" class$="[[page]]" attr-for-selected="name" role="main">
             <bazdara-home speedunit="[[speedunit]]" latitude="[[latitude]]" longitude="[[longitude]]" name="home"></bazdara-home>
+            <bazdara-forecast speedunit="[[speedunit]]" latitude="[[latitude]]" longitude="[[longitude]]" theme="[[theme]]" name="forecast"></bazdara-forecast>
             <bazdara-map name="map"></bazdara-map>
             <bazdara-view404 name="view404"></bazdara-view404>
           </iron-pages>
 
-          <paper-dialog id="dialog">
-            <firebase-login></firebase-login>
-            <div class="buttons">
-              <paper-button dialog-confirm autofocus>Close</paper-button>
-            </div>
-          </paper-dialog>
-
-
         </app-header-layout>
       </app-drawer-layout>
+
+        <paper-fab-menu color="#2196F3" icon="bazdara-icons:apps">
+          <paper-fab-menu-item color="#009688" title="Nastavitve" icon="bazdara-icons:settings" on-tap="_paperSettings"></paper-fab-menu-item>
+          <paper-fab-menu-item color="#E91E63" title="Favorites" icon="bazdara-icons:videocam" on-tap="_paperCam"></paper-fab-menu-item>
+        </paper-fab-menu>
+
+        <paper-dialog id="dialog" with-backdrop>
+          <firebase-login></firebase-login>
+          <div class="buttons">
+            <paper-button dialog-confirm autofocus>Close</paper-button>
+          </div>
+        </paper-dialog>
+
+        <paper-dialog id="settings">
+          <iron-media-query query="(prefers-color-scheme: dark)" query-matches="{{dark}}"></iron-media-query>
+          <paper-toggle-button checked="{{theme}}" aria-label="Dark Theme">Dark</paper-toggle-button>
+          <app-localstorage-document key="theme" data="{{theme}}"></app-localstorage-document>
+          <page-settings speedunit="{{speedunit}}"></page-settings>
+          <div class="buttons">
+            <paper-button dialog-confirm autofocus>Close</paper-button>
+          </div>
+        </paper-dialog>
+
+        <paper-dialog id="cam" with-backdrop>
+          <live-cam class="camera" lat="[[latitude]]" lng="[[longitude]]"></live-cam>
+          <div class="buttons">
+            <paper-button dialog-confirm autofocus>Close</paper-button>
+          </div>
+        </paper-dialog>
     `;
   }
 
@@ -201,12 +299,79 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
         observer: "_pageChanged"
       },
       routeData: Object,
-      subroute: Object
+      subroute: Object,
+      theme: Boolean,
+      dark: Boolean,
     };
   }
 
   static get observers() {
-    return ["_routePageChanged(routeData.page)"];
+    return ["_themechange(theme)", "_routePageChanged(routeData.page)"];
+  }
+
+  _themechange() {
+
+    if (window.ShadyCSS) {
+      this.style = window.ShadyCSS.getComputedStyleValue(this, '--primary-text-color');
+    } else {
+      this.style = getComputedStyle(this).getPropertyValue('--primary-text-color');
+    }
+
+    if (this.dark) {
+      this.theme = true;
+    }
+
+    if (this.theme === true) {
+      //DARK THEME
+      afterNextRender(this, function () {
+      this.updateStyles({
+        '--primary-text-color': 'var(--dark-theme-text-color',
+        '--primary-background-color': 'var(--dark-theme-background-color',
+        '--secondary-background-color': 'var(--dark-theme-background2-color',
+        '--light-background-color': 'var(--dark-theme-background3-color',
+        '--secondary-text-color': 'var(--dark-theme-secondary-color',
+        '--disabled-text-color': 'var(--dark-theme-disabled-color',
+        '--divider-color': 'var(--dark-theme-divider-color',
+        '--light-primary-color': 'var(--paper-blue-700)',
+        '--dark-primary-color': 'var(--paper-blue-100)'
+      });
+      document.body.classList.remove('white');
+      document.body.classList.add('black');
+      });
+
+    } else {
+      //LIGHT THEME
+      afterNextRender(this, function () {
+      this.updateStyles({
+        '--primary-text-color': 'var(--light-theme-text-color',
+        '--primary-background-color': 'var(--light-theme-background-color',
+        '--secondary-background-color': 'var(--light-theme-background2-color',
+        '--light-background-color': 'var(--light-theme-background3-color',
+        '--secondary-text-color': 'var(--light-theme-secondary-color',
+        '--disabled-text-color': 'var(--light-theme-disabled-color',
+        '--divider-color': 'var(--light-theme-divider-color',
+        '--light-primary-color': 'var(--paper-blue-100)',
+        '--dark-primary-color': 'var(--paper-blue-700)'
+      });
+      document.body.classList.remove('black');
+      document.body.classList.add('white');
+    });
+    }
+
+  }
+
+  _paperSettings() {
+    this.$.settings.open();
+  }
+
+  _paperCam() {
+    /* jshint ignore:start */
+    import("./elements/live-cam.js").then(
+      function () {
+        this.$.cam.open();
+      }.bind(this)
+    );
+    /* jshint ignore:end */
   }
 
   _openDialog() {
@@ -229,7 +394,7 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
     // Show 'home' in that case. And if the page doesn't exist, show 'view404'.
     if (!page) {
       this.page = "home";
-    } else if (["home", "map", "about"].indexOf(page) !== -1) {
+    } else if (["home", "map", "about", "forecast"].indexOf(page) !== -1) {
       this.page = page;
     } else {
       this.page = "view404";
@@ -250,6 +415,9 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
     switch (page) {
       case "home":
         import("./bazdara-home.js");
+        break;
+      case "forecast":
+        import("./bazdara-forecast.js");
         break;
        case "map":
         import("./bazdara-map.js");

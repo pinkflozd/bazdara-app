@@ -190,9 +190,7 @@ class FullscreenIconButton extends PolymerElement {
   }
 
   _updateIcon() {
-    this._icon = this.fullscreen
-      ? this.iconExit || "bazdara-icons:fullscreen-exit"
-      : this.icon || "bazdara-icons:fullscreen";
+    this._icon = this.fullscreen ? this.iconExit || "bazdara-icons:fullscreen-exit" : this.icon || "bazdara-icons:fullscreen";
   }
 
   _altChanged(newValue, oldValue) {

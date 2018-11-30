@@ -14,6 +14,9 @@ import "./live-wind-speed-name.js";
 import "./live-wind-speed-beufort.js";
 import "./live-wind-direction.js";
 
+import "./real-feel.js";
+
+
 import "./live-sea-name.js";
 
 /**
@@ -75,72 +78,72 @@ class LiveCurrent extends PolymerElement {
       }
 
       .container, .container.clear, .container.mostClear {
-        background-image: url("../../images/background/xxxhdpi/illustration_clear_sky_day.png");
+        background-image: url("images/background/xxxhdpi/illustration_clear_sky_day.png");
       }
 
       .container.clear_n, .container.mostClear_n  {
-        background-image: url("../../images/background/xxxhdpi/illustration_clear_sky_night.png");
+        background-image: url("images/background/xxxhdpi/illustration_clear_sky_night.png");
       }
 
 .container.slightCloudy  {
-  background-image: url("../../images/background/xxxhdpi/illustration_few_clouds_day.png");
+  background-image: url("images/background/xxxhdpi/illustration_few_clouds_day.png");
 }
 .container.slightCloudy_n  {
-  background-image: url("../../images/background/xxxhdpi/illustration_few_clouds_night.png");
+  background-image: url("images/background/xxxhdpi/illustration_few_clouds_night.png");
 }
 .container.modCloudy, .container.partCloudy {
-  background-image: url("../../images/background/xxxhdpi/illustration_scattered_clouds_day.png");
+  background-image: url("images/background/xxxhdpi/illustration_scattered_clouds_day.png");
 }
 .container.modCloudy_n, .container.partCloudy_n {
-  background-image: url("../../images/background/xxxhdpi/illustration_scattered_clouds_night.png");
+  background-image: url("images/background/xxxhdpi/illustration_scattered_clouds_night.png");
 }
 .container.overcast, .container.prevCloudy  {
-  background-image: url("../../images/background/xxxhdpi/illustration_broken_clouds_day.png");
+  background-image: url("images/background/xxxhdpi/illustration_broken_clouds_day.png");
 }
 .container.overcast_n, .container.prevCloudy_n  {
-  background-image: url("../../images/background/xxxhdpi/illustration_broken_clouds_night.png");
+  background-image: url("images/background/xxxhdpi/illustration_broken_clouds_night.png");
 }
 .container.FG  {
-  background-image: url("../../images/background/xxxhdpi/illustration_mist_day.png");
+  background-image: url("images/background/xxxhdpi/illustration_mist_day.png");
 }
 .container.FG_n  {
-  background-image: url("../../images/background/xxxhdpi/illustration_mist_night.png");
+  background-image: url("images/background/xxxhdpi/illustration_mist_night.png");
 }
 .container.TS  {
-  background-image: url("../../images/background/xxxhdpi/illustration_thunderstorm_day.png");
+  background-image: url("images/background/xxxhdpi/illustration_thunderstorm_day.png");
 }
 .container.TS_n  {
-  background-image: url("../../images/background/xxxhdpi/illustration_thunderstorm_night.png");
+  background-image: url("images/background/xxxhdpi/illustration_thunderstorm_night.png");
 }
 .container.DZ , .container.lightDZ , .container.RA , .container.lightRA , .container.FZDZ , .container.lightFZDZ {
-  background-image: url("../../images/background/xxxhdpi/illustration_rain_day.png");
+  background-image: url("images/background/xxxhdpi/illustration_rain_day.png");
 }
 .container.DZ_n , .container.lightDZ_n , .container.RA_n , .container.lightRA_n , .container.FZDZ_n , .container.lightFZDZ_n  {
-  background-image: url("../../images/background/xxxhdpi/illustration_rain_night.png");
+  background-image: url("images/background/xxxhdpi/illustration_rain_night.png");
 }
 .container.modDZ , .container.heavyDZ , .container.modRA , .container.heavyRA , .container.modFZDZ , .container.heavyFZDZ  {
-  background-image: url("../../images/background/xxxhdpi/illustration_shower_rain_day.png");
+  background-image: url("images/background/xxxhdpi/illustration_shower_rain_day.png");
 }
 .container.modDZ_n , .container.heavyDZ_n , .container.modRA_n , .container.heavyRA_n , .container.modFZDZ_n , .container.heavyFZDZ_n  {
-  background-image: url("../../images/background/xxxhdpi/illustration_shower_rain_night.png");
+  background-image: url("images/background/xxxhdpi/illustration_shower_rain_night.png");
 }
 .container.ggg  {
-  background-image: url("../../images/background/xxxhdpi/illustration_sleet_day.png");
+  background-image: url("images/background/xxxhdpi/illustration_sleet_day.png");
 }
 .container.ggg  {
-  background-image: url("../../images/background/xxxhdpi/illustration_sleet_night.png");
+  background-image: url("images/background/xxxhdpi/illustration_sleet_night.png");
 }
 .container.ggg  {
-  background-image: url("../../images/background/xxxhdpi/illustration_snow_day.png");
+  background-image: url("images/background/xxxhdpi/illustration_snow_day.png");
 }
 .container.ggg  {
-  background-image: url("../../images/background/xxxhdpi/illustration_snow_night.png");
+  background-image: url("images/background/xxxhdpi/illustration_snow_night.png");
 }
 .container.ggg  {
-  background-image: url("../../images/background/xxxhdpi/illustration_heavy_snow_day.png");
+  background-image: url("images/background/xxxhdpi/illustration_heavy_snow_day.png");
 }
 .container.ggg  {
-  background-image: url("../../images/background/xxxhdpi/illustration_heavy_snow_night.png");
+  background-image: url("images/background/xxxhdpi/illustration_heavy_snow_night.png");
 }
 
       .icons{
@@ -299,6 +302,7 @@ class LiveCurrent extends PolymerElement {
             <live-wind-speed-beufort id="speedname" speed$="[[live.currentWindSpeed]]"></live-wind-speed-beufort><br>
             <live-wind-speed-name id="speedname" speed$="[[live.currentWindSpeed]]"></live-wind-speed-name>
             <div class="text-center temper paper-font-display3">[[live.temperatureAir]]°<span class="paper-font-headline">C</span></div>
+            <div class="text-center paper-font-subhead">Občutek: <real-feel id="realfeel" wind$="[[live.meanWindSpeed]]" temp$="[[trenutno.temp.zdaj]]" hum$="[[trenutno.vlaga]]"></real-feel>°c</div>
 
           </div>
           <div class="flexchild">

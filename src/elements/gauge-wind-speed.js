@@ -72,8 +72,7 @@ class GaugeWindSpeed extends PolymerElement {
     gaugeSpeed.value = this.speeder;
   }
 
-  _speedName() {
-
+  calcul() {
     if (this.speedunit == "kmh") {
       this.unit = "km/h";
       this.calc = 3.6;
@@ -84,6 +83,11 @@ class GaugeWindSpeed extends PolymerElement {
       this.unit = "m/s";
       this.calc = 1;
     }
+  }
+
+  _speedName() {
+
+    this.calcul();
 
     if (document.gauges.get("gaugeSpeed")) {
       var gaugeSpeed = document.gauges.get("gaugeSpeed");
@@ -110,6 +114,9 @@ class GaugeWindSpeed extends PolymerElement {
         }]
       });
 
+      this.speeder = this._decimalFormat(this.speed * this.calc);
+      gaugeSpeed.value = this.speeder;
+
     }
 
   }
@@ -117,16 +124,7 @@ class GaugeWindSpeed extends PolymerElement {
   ready() {
     super.ready();
 
-    if (this.speedunit == "kmh") {
-      this.unit = "km/h";
-      this.calc = 3.6;
-    } else if (this.speedunit == "kn") {
-      this.unit = "kn";
-      this.calc = 1.94384449;
-    } else {
-      this.unit = "m/s";
-      this.calc = 1;
-    }
+    this.calcul();
 
     // eslint-disable-next-line no-undef
     var gaugeSpeed = new RadialGauge({
@@ -136,6 +134,7 @@ class GaugeWindSpeed extends PolymerElement {
       units: this.unit,
       minValue: 0,
       valueBox: false,
+      title: "Hitrost",
       maxValue: 25 * this.calc,
       borderShadowWidth: 0,
       borders: false,

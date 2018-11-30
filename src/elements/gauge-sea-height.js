@@ -16,6 +16,8 @@ import '@polymer/polymer/lib/elements/dom-if.js';
 
 import "canvas-gauges";
 
+import "../shared-styles.js";
+
 /**
 * @polymer
 * @extends HTMLElement
@@ -23,17 +25,17 @@ import "canvas-gauges";
 class GaugeSeaHeight extends PolymerElement {
   static get template() {
     return html `
-      <style>
+      <style include="shared-styles">
         #pulsor {
-          margin-top: 15px;
-          margin-left: auto;
-          margin-right: auto;
+          position: absolute;
+          left: 8px;
+          top: 8px;
           width: 16px;
           height: 16px;
           border: none;
           box-shadow: 0 0 0 0 rgba(232, 76, 61, 0.7);
           border-radius: 50%;
-          background-color: #e84c3d;
+          background-color: #FF1744;
           background-size:cover;
           background-repeat: no-repeat;
           cursor: pointer;
@@ -47,13 +49,29 @@ class GaugeSeaHeight extends PolymerElement {
         @-moz-keyframes pulse {to {box-shadow: 0 0 0 25px rgba(232, 76, 61, 0);}}
         @-ms-keyframes pulse {to {box-shadow: 0 0 0 25px rgba(232, 76, 61, 0);}}
         @keyframes pulse {to {box-shadow: 0 0 0 25px rgba(232, 76, 61, 0);}}
-        </style>
 
+      .title {
+        color: #ffffff;
+      }
+      .title2 {
+        color: #ffffff;
+        margin-top:-7px;
+        margin-bottom:7px;
+      }
+      .silver {
+        color: #ccc;
+      }
+        </style>
         <template is="dom-if" if="{{alarm}}">
           <div id="pulsor"></div>
         </template>
-
+        <div class="text-center paper-font-caption title">Plimovanje</div>
         <canvas id="gaugeHeight" style="height:125px;width:125px"></canvas>
+
+
+        <div class="text-center title2 paper-font-body1">
+          [[temp]]<span class="silver">cm</span></div>
+
 
     </div>
       `;
@@ -74,7 +92,7 @@ class GaugeSeaHeight extends PolymerElement {
     var gaugeHeight = document.gauges.get('gaugeHeight');
     gaugeHeight.value = this.temp;
 
-    if (this.temp >= 70) {
+    if (this.temp >= 69) {
       this.alarm = true;
     } else {
       this.alarm = false;
@@ -92,8 +110,8 @@ class GaugeSeaHeight extends PolymerElement {
     // eslint-disable-next-line no-undef
     var gaugeHeight = new LinearGauge({
       renderTo: this.$.gaugeHeight,
-      width: 125,
-      height: 125,
+      width: 99,
+      height: 100,
       minValue: -80,
       maxValue: 80,
       majorTicks: [
@@ -121,16 +139,20 @@ class GaugeSeaHeight extends PolymerElement {
       borderShadowWidth: 0,
       borders: false,
       needleType: "arrow",
-      needleWidth: 3,
+      needleWidth: 10,
       animationDuration: 1500,
       animationRule: "linear",
-      colorNeedle: "#222",
-      colorNeedleEnd: "",
-      colorBarProgress: "#1e88e5",
-      colorBar: "#f5f5f5",
+      colorNeedleShadowDown: "#222",
+      colorNeedleEnd: "#E53935",
+      colorNeedle: "#E53935",
+      colorBarProgress: "#f5f5f5",
+      colorMajorTicks: "#ebebeb",
+      colorMinorTicks: "#ebebeb",
+      colorNumbers: "#fff",
+      colorBar: "#9575CD",
       valueBox: false,
       barStroke: 0,
-      fontNumbersSize: 30,
+      fontNumbersSize: 28,
       barWidth: 8,
       barBeginCircle: false,
       colorPlate: "transparent"

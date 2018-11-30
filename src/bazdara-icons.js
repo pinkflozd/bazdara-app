@@ -90,6 +90,12 @@ $_documentContainer.innerHTML = `<iron-iconset-svg name="bazdara-icons" size="24
       <g id="arrow-drop-up">
         <path d="M7 14l5-5 5 5z"></path>
       </g>
+      <g id="videocam">
+        <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"></path>
+      </g>
+      <g id="apps">
+        <path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"></path>
+      </g>
     </defs>
   </svg>
 </iron-iconset-svg>`;

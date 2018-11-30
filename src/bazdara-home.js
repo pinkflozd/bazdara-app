@@ -37,8 +37,8 @@ import "./elements/sea-details.js";
 import "./elements/gauge-sea-wave.js";
 import "./elements/gauge-sea-height.js";
 
-import "./elements/meteogram-yrno.js";
-import "./elements/live-cam.js";
+import "./elements/gauge-sea-temperature.js";
+
 
 /**
 * @polymer
@@ -82,6 +82,17 @@ class BazdaraHome extends GestureEventListeners(PolymerElement) {
         .gaugespeed {
           background-color: #00838F;
         }
+        .gaugewave {
+          background-color: #5C6BC0;
+        }
+        .gaugeheight {
+          background-color: #7E57C2;
+        }
+
+        .gaugeseatemp {
+          background-color: #0277BD;
+          margin: 0 10px 10px 10px;
+        }
       </style>
       <firebase-live live="{{live}}"></firebase-live>
       <firebase-trenutno trenutno="{{trenutno}}"></firebase-trenutno>
@@ -100,13 +111,18 @@ class BazdaraHome extends GestureEventListeners(PolymerElement) {
       </div>
       <sea-details live="[[live]]" trenutno="[[trenutno]]" speedunit="[[speedunit]]"></sea-details>
 
-      <gauge-sea-wave wave="[[trenutno.val.vrh.zdaj]]" wave2="[[live.wavesHeight]]"></gauge-sea-wave>
-      <gauge-sea-height temp="[[trenutno.vodostaj]]"></gauge-sea-height>
-      <div class="over">
-      <meteogram-yrno lat="[[latitude]]" lng="[[longitude]]" full="true"></meteogram-yrno>
+      <div class="gaugeflex">
+        <div class="gaugeflexchild gaugeflexleft paper-material gaugewave" elevation="1">
+          <gauge-sea-wave wave="[[trenutno.val.vrh.zdaj]]" wave2="[[live.wavesHeight]]"></gauge-sea-wave>
+        </div>
+        <div class="gaugeflexchild gaugeflexright paper-material gaugeheight" elevation="1">
+          <gauge-sea-height temp="[[trenutno.vodostaj]]"></gauge-sea-height>
+        </div>
       </div>
-      <live-cam lat="[[latitude]]" lng="[[longitude]]"></live-cam>
 
+      <div class="paper-material gaugeseatemp" elevation="1">
+          <gauge-sea-temperature temp="[[trenutno.morje.vrh.zdajkoper]]"></gauge-sea-temperature>
+      </div>
     `;
   }
 

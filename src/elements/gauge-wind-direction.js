@@ -196,52 +196,52 @@ class GaugeWindDirection extends PolymerElement {
       {
         name: "Tramontana",
         from: 340.1,
-        to: 10
+        to: 10.05
       },
       {
         name: "Burin",
         from: 10.1,
-        to: 30
+        to: 30.05
       },
       {
         name: "Burja",
         from: 30.1,
-        to: 100
+        to: 100.05
       },
       {
         name: "Levant",
         from: 100.1,
-        to: 120
+        to: 120.05
       },
       {
         name: "Jugo",
         from: 120.1,
-        to: 160
+        to: 160.05
       },
       {
         name: "Ostro",
         from: 160.1,
-        to: 200
+        to: 200.05
       },
       {
         name: "Lebic",
         from: 200.1,
-        to: 240
+        to: 240.05
       },
       {
         name: "Garbin",
         from: 240.1,
-        to: 260
+        to: 260.05
       },
       {
         name: "Ponent",
         from: 260.1,
-        to: 290
+        to: 290.05
       },
       {
         name: "Maestral",
         from: 290.1,
-        to: 340
+        to: 340.05
       }
     ];
   }
@@ -277,15 +277,15 @@ class GaugeWindDirection extends PolymerElement {
       animationRule: "linear",
       needleType: "line",
       needleStart: 75,
-      needleEnd: 99,
-      needleWidth: 3,
+      needleEnd: 100,
+      needleWidth: 4,
       borders: true,
       borderInnerWidth: 0,
       borderMiddleWidth: 0,
       borderOuterWidth: 0,
       colorNeedleShadowDown: "#222",
       borderShadowWidth: 0,
-      animationTarget: "plate",
+      //animationTarget: "plate",
       fontTitleSize: 19,
       colorTitle: "#f5f5f5",
       animationDuration: 1000,

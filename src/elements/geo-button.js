@@ -17,7 +17,7 @@ class GeoButton extends PolymerElement {
       }
       </style>
 
-      <paper-icon-button icon="[[icon]]" disabled="[[disabled]]" on-tap="_click" aria-label="GPS Location"></paper-icon-button>
+      <paper-icon-button icon="[[icon]]" disabled="[[disabled]]" hidden="[[data]]" on-tap="_click" aria-label="GPS Location"></paper-icon-button>
       <app-localstorage-document key="geo" data="{{data}}"></app-localstorage-document>
       <geo-location latitude="{{latitude}}" longitude="{{longitude}}" idle="{{idle}}"></geo-location>
     `;
