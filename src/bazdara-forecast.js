@@ -31,14 +31,46 @@ class BazdaraForecast extends PolymerElement {
       <style include="shared-styles">
         :host {
           display: block;
+          --paper-toolbar-background: #FFFFFF;;
+          --paper-tabs-selection-bar-color: #FFFFFF;;
+          --paper-tab-ink: #FFFFFF;
+        }
+
+        #statTabs2 {
+          background-color: var(--primary-color);
+          color: #FFFFFF;
+
         }
       </style>
 
-      <firebase-napoved napoved={{napoved}}></firebase-napoved>
+      <paper-tabs id="statTabs2" selected="{{selected}}" fallback-selection="0" scrollable fit-container>
+        <paper-tab>
+          Napoved za 48 ur
+        </paper-tab>
+        <paper-tab>
+          Napoved v besedi
+        </paper-tab>
+        <paper-tab>
+          Vremenska slika EU
+        </paper-tab>
+      </paper-tabs>
 
-      <div class="over">
-        <meteogram-yrno lat="[[latitude]]" lng="[[longitude]]" speedunit="[[speedunit]]" full="true" theme="[[theme]]"></meteogram-yrno>
-      </div>
+      <iron-pages id="stats2" selected="{{selected}}" fallback-selection="0">
+        <div>
+          <div class="over">
+            <meteogram-yrno lat="[[latitude]]" lng="[[longitude]]" speedunit="[[speedunit]]" full="true" theme="[[theme]]"></meteogram-yrno>
+          </div>
+        </div>
+        <div>
+          fff
+        </div>
+        <div>
+          ggg
+        </div>
+
+      </iron-pages>
+
+      <firebase-napoved napoved={{napoved}}></firebase-napoved>
     `;
   }
 

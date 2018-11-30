@@ -1,6 +1,6 @@
 # Bazdara
 
-[![Build Status](https://travis-ci.org/pinkflozd/bazdara-app.svg?branch=master)](https://travis-ci.org/pinkflozd/bazdara-app)
+[![Build Status](https://travis-ci.org/pinkflozd/bazdara-app.svg?branch=master)](https://travis-ci.org/pinkflozd/bazdara-app) [![Dependency Status](https://david-dm.org/pinkflozd/bazdara-app.svg)](https://david-dm.org/pinkflozd/bazdara-app) [![devDependencies Status](https://david-dm.org/pinkflozd/bazdara-app/dev-status.svg)](https://david-dm.org/pinkflozd/bazdara-app?type=dev)
 
 ### Setup
 
