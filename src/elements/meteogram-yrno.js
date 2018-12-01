@@ -20,13 +20,15 @@ import "@polymer/paper-spinner/paper-spinner.js";
 import "@polymer/paper-dropdown-menu/paper-dropdown-menu.js";
 import "@polymer/paper-item/paper-item.js";
 import "@polymer/paper-listbox/paper-listbox.js";
-
+import {afterNextRender} from "@polymer/polymer/lib/utils/render-status.js";
 
 import firebase from "firebase/app";
 import "firebase/database";
 
 /*global Highcharts*/
 import 'highcharts/highstock';
+
+import "../shared-styles.js";
 
 /**
  * @polymer
@@ -35,7 +37,7 @@ import 'highcharts/highstock';
 class MeteogramYrno extends PolymerElement {
   static get template() {
     return html `
-      <style include="paper-material-styles">
+      <style include="paper-material-styles shared-styles">
         :host {
           display: block;
         }
@@ -138,9 +140,35 @@ class MeteogramYrno extends PolymerElement {
       },
       theme: {
         type: Boolean,
-        observer: "Meteogram",
+        observer: "_themer",
+      },
+      redraw: {
+        type: String
       },
     };
+  }
+
+  static get observers() {
+    return ["_redraw(select, redraw)"];
+  }
+
+  _themer () {
+    if (this.thm) {
+      this.Meteogram();
+    }
+    this.thm = true;
+  }
+
+  _redraw() {
+
+    afterNextRender(this, function() {
+    if (this.select === 0) {
+      if (this.sel) {
+        this.Meteogram();
+      }
+      this.sel = true;
+    }
+    });
   }
 
   _speed(value, speed) {
@@ -1122,15 +1150,6 @@ class MeteogramYrno extends PolymerElement {
           }
         },
 
-        navigation: {
-          buttonOptions: {
-            symbolStroke: '#DDDDDD',
-            theme: {
-              fill: '#444444'
-            }
-          }
-        },
-
         // scroll charts
         rangeSelector: {
           buttonTheme: {
@@ -1279,14 +1298,6 @@ class MeteogramYrno extends PolymerElement {
         labels: {
           style: {
             color: '#3E576F'
-          }
-        },
-
-        navigation: {
-          buttonOptions: {
-            theme: {
-              stroke: '#CCCCCC'
-            }
           }
         }
 

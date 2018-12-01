@@ -34,6 +34,8 @@ import "@polymer/iron-media-query/iron-media-query.js";
 import "@polymer/paper-toggle-button/paper-toggle-button.js";
 import "@polymer/app-storage/app-localstorage/app-localstorage-document.js";
 
+import '@polymer/polymer/lib/elements/dom-if.js';
+
 import {
   afterNextRender
 } from "@polymer/polymer/lib/utils/render-status.js";
@@ -47,6 +49,9 @@ import "./elements/page-settings.js";
 import "@fabricelements/skeleton-auth/auth-mixin.js";
 
 import "./elements/paper-fab-menu.js";
+
+import "./elements/paper-avatar.js";
+
 
 // Gesture events like tap and track generated from touch will not be
 // preventable, allowing for better scrolling performance.
@@ -119,7 +124,6 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
       --default-primary-color: var(--primary-color);
         }
 
-
         app-drawer-layout:not([narrow]) [drawer-toggle] {
           display: none;
         }
@@ -168,10 +172,6 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
           --paper-icon-button-ink-color: #ffffff;
         }
 
-        .drawer-list {
-          margin: 0 20px;
-        }
-
         .drawer-list a {
           display: block;
           padding: 0 16px;
@@ -181,7 +181,8 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
         }
 
         .drawer-list a.iron-selected {
-          color: var(--secondary-text-color);
+          background-color: var(--primary-color);
+          color: var(--dark-theme-text-color);
           font-weight: bold;
         }
 
@@ -216,26 +217,44 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
           margin-right: -17px;
           margin-top: 7px
         }
+
+        .login {
+          background-color: var(--primary-color);
+          color: var(--dark-theme-text-color);
+        }
+        .user {
+          height: 64px;
+          display: flex;
+          align-items: center;
+          margin-left: 10px;
+        }
       </style>
 
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]">
       </app-location>
 
       <app-route route="{{route}}" pattern="[[rootPath]]:page" data="{{routeData}}" tail="{{subroute}}">
+      <app-route route="{{subroute}}" pattern="/:sub" data="{{subrouteData}}" tail="{{subsubroute}}">
+
       </app-route>
 
       <app-drawer-layout fullbleed="" force-narrow narrow="{{narrow}}">
         <!-- Drawer content -->
         <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
-          <app-toolbar>Menu</app-toolbar>
-          <paper-button raised on-tap="_openDialog">Log In</paper-button>
+          <div class="user">
+          <template is="dom-if" if="{{signedIn}}" restamp>
+          <paper-avatar label="{{user.displayName}}" src\$="{{photoURL}}"></paper-avatar>
+          </template>
+          <paper-button class="login" raised on-tap="_openDialog" hidden="{{signedIn}}">Prijavi se</paper-button>
+          </div>
 
-
+          <app-toolbar>Vreme morje</app-toolbar>
           <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-          <a name="home" href="[[rootPath]]home">Home</a>
-          <a name="forecast" href="[[rootPath]]forecast">Forecast</a>
-          <a name="map" href="[[rootPath]]map">Maps</a>
-          <a name="about" href="[[rootPath]]about">About</a>
+          <a name="home" href="[[rootPath]]">Trenutne razmere</a>
+          <a name="napoved" href="[[rootPath]]napoved">Napoved</a>
+          <a name="plimovanje" href="[[rootPath]]plimovanje">Plimovanje</a>
+          <a name="navigacija" href="[[rootPath]]navigacija">Zemljevid</a>
+          <a name="informacije" href="[[rootPath]]informacije">Informacije</a>
           </iron-selector>
         </app-drawer>
 
@@ -252,8 +271,9 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
 
           <iron-pages selected="[[page]]" class$="[[page]]" attr-for-selected="name" role="main">
             <bazdara-home speedunit="[[speedunit]]" latitude="[[latitude]]" longitude="[[longitude]]" name="home"></bazdara-home>
-            <bazdara-forecast speedunit="[[speedunit]]" latitude="[[latitude]]" longitude="[[longitude]]" theme="[[theme]]" name="forecast"></bazdara-forecast>
-            <bazdara-map name="map"></bazdara-map>
+            <bazdara-forecast speedunit="[[speedunit]]" latitude="[[latitude]]" longitude="[[longitude]]" theme="[[theme]]" redraw="{{redraw}}" name="napoved"></bazdara-forecast>
+            <bazdara-tide theme="[[theme]]" name="plimovanje"></bazdara-tide>
+            <bazdara-map name="navigacija"></bazdara-map>
             <bazdara-view404 name="view404"></bazdara-view404>
           </iron-pages>
 
@@ -302,6 +322,7 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
       subroute: Object,
       theme: Boolean,
       dark: Boolean,
+      redraw: String,
     };
   }
 
@@ -394,7 +415,7 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
     // Show 'home' in that case. And if the page doesn't exist, show 'view404'.
     if (!page) {
       this.page = "home";
-    } else if (["home", "map", "about", "forecast"].indexOf(page) !== -1) {
+    } else if (["home", "navigacija", "informacije", "plimovanje", "napoved"].indexOf(page) !== -1) {
       this.page = page;
     } else {
       this.page = "view404";
@@ -416,14 +437,18 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
       case "home":
         import("./bazdara-home.js");
         break;
-      case "forecast":
+      case "napoved":
+        this.redraw = Math.random();
         import("./bazdara-forecast.js");
         break;
-       case "map":
+       case "navigacija":
         import("./bazdara-map.js");
         break;
-      case "about":
+      case "informacije":
         import("./bazdara-about.js");
+        break;
+      case "plimovanje":
+        import("./bazdara-tide.js");
         break;
       case "view404":
         import("./bazdara-view404.js");
@@ -438,6 +463,7 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
     //  afterNextRender(this, function() {
     //    import('../elements/geo-location.js').then(null);
     //  });
+
   }
 }
 

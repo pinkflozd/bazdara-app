@@ -146,11 +146,12 @@ class WindDetails extends PolymerElement {
 
   _speed(value, speed) {
     var multiplier = Math.pow(10, 1 || 0);
+    var value2;
     if (speed == "kmh") {
-      var value2 = value * 3.6;
+      value2 = value * 3.6;
       return Math.round(value2 * multiplier) / multiplier;
     } else if (speed == "kn") {
-      var value2 = value * 1.94384449;
+      value2 = value * 1.94384449;
       return Math.round(value2 * multiplier) / multiplier;
     } else {
       return value;

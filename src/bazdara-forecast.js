@@ -17,8 +17,11 @@ import "@polymer/paper-tabs/paper-tabs.js";
 import "@polymer/iron-pages/iron-pages.js";
 
 import "./shared-styles.js";
-import "./elements/meteogram-yrno.js";
 import "./elements/firebase-napoved.js";
+import "./elements/meteogram-yrno.js";
+import "./elements/forecast-arso.js";
+import "./elements/forecast-text.js";
+import "./elements/forecast-img.js";
 
 /**
 * @polymer
@@ -43,6 +46,8 @@ class BazdaraForecast extends PolymerElement {
         }
       </style>
 
+      <firebase-napoved napoved="{{napoved}}"></firebase-napoved>
+
       <paper-tabs id="statTabs2" selected="{{selected}}" fallback-selection="0" scrollable fit-container>
         <paper-tab>
           Napoved za 48 ur
@@ -58,20 +63,27 @@ class BazdaraForecast extends PolymerElement {
       <iron-pages id="stats2" selected="{{selected}}" fallback-selection="0">
         <div>
           <div class="over">
-            <meteogram-yrno lat="[[latitude]]" lng="[[longitude]]" speedunit="[[speedunit]]" full="true" theme="[[theme]]"></meteogram-yrno>
+            <meteogram-yrno lat="[[latitude]]" lng="[[longitude]]" speedunit="[[speedunit]]" full="true" theme="[[theme]]" redraw="{{redraw}}" select="{{selected}}"></meteogram-yrno>
           </div>
+          <forecast-arso napoved="[[napoved]]" speedunit="[[speedunit]]"></forecast-arso>
+          <div style="height:64px"></div>
         </div>
         <div>
-          fff
+          <forecast-text napoved="[[napoved]]" speedunit="[[speedunit]]"></forecast-text>
         </div>
         <div>
-          ggg
+          <forecast-img></forecast-img>
         </div>
 
       </iron-pages>
-
-      <firebase-napoved napoved={{napoved}}></firebase-napoved>
     `;
+  }
+
+  static get properties() {
+    return {
+      redraw: String,
+      napoved: Object,
+    };
   }
 
   ready() {

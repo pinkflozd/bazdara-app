@@ -12,6 +12,8 @@ import {PolymerElement, html} from "@polymer/polymer/polymer-element.js";
 import "@polymer/paper-styles/paper-styles-classes.js";
 import "@polymer/iron-icon/iron-icon.js";
 
+import "./live-wind-direction.js";
+
 import "../bazdara-icons.js";
 import "../shared-styles.js";
 
@@ -88,7 +90,25 @@ class SeaDetails extends PolymerElement {
           Smer valovanja:
         </div>
         <div class="flex2child paper-font-body1">
-          [[live.wavesDirection]]<span class="metric">m</span>
+          <live-wind-direction direction="[[live.wavesDirection]]"></live-wind-direction>
+        </div>
+      </div>
+
+      <div class="flex-horizontal-with-ratios">
+        <div class="flexchild paper-font-body1">
+          Plimovanje:
+        </div>
+        <div class="flex2child paper-font-body1">
+        [[trenutno.vodostaj]]<span class="metric">cm</span>
+        </div>
+      </div>
+
+      <div class="flex-horizontal-with-ratios">
+        <div class="flexchild paper-font-body1">
+          Temperatura:
+        </div>
+        <div class="flex2child paper-font-body1">
+        [[trenutno.morje.vrh.zdajkoper]]<span class="metric">°c</span>
         </div>
       </div>
 

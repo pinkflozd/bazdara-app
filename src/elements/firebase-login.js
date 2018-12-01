@@ -12,8 +12,6 @@ class FirebaseLogin extends PolymerElement {
             <skeleton-auth
                      google
                      facebook
-                     email
-                     phone
                      popup
                      signed-in="{{signedIn}}"
                      user="{{user}}"></skeleton-auth>
