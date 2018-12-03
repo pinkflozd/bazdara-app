@@ -337,7 +337,7 @@ class BazdaraMap extends PolymerElement {
         });
 
         map.on('overlayadd', function(groupedOverlays) {
-          if (groupedOverlays.name == 'Padavine') {
+          if (groupedOverlays.name == 'Napoved padavin') {
 
             if (this.add2 == "0" && this.add3 == "0") {
               timeDimensionControl.addTo(map);
@@ -346,7 +346,7 @@ class BazdaraMap extends PolymerElement {
 
             this.add1 = "1";
             //ga('send', 'event', 'view', 'Map Padavine');
-          } else if (groupedOverlays.name == 'Veter') {
+          } else if (groupedOverlays.name == 'Napoved vetera') {
 
             if (this.add1 == "0" && this.add3 == "0") {
               timeDimensionControl.addTo(map);
@@ -354,7 +354,7 @@ class BazdaraMap extends PolymerElement {
 
             this.add2 = "1";
             //ga('send', 'event', 'view', 'Map Veter');
-          } else if (groupedOverlays.name == 'Temperatura') {
+          } else if (groupedOverlays.name == 'Napoved temperature') {
 
             if (this.add1 == "0" && this.add2 == "0") {
               timeDimensionControl.addTo(map);
@@ -378,9 +378,9 @@ class BazdaraMap extends PolymerElement {
             }
             map.options.maxZoom = 16;
             //ga('send', 'event', 'view', 'Map Navionics');
-          } else if (groupedOverlays.name == 'Sea Marks') {
+          } else if (groupedOverlays.name == 'Pomorske oznake') {
             //ga('send', 'event', 'view', 'Map Sea Marks');
-          } else if (groupedOverlays.name == 'Marine Traffic') {
+          } else if (groupedOverlays.name == 'Pomorski promet') {
             //ga('send', 'event', 'view', 'Map Marine Traffic');
           }
 
@@ -390,7 +390,7 @@ class BazdaraMap extends PolymerElement {
         }.bind(this));
 
         map.on('overlayremove', function(groupedOverlays) {
-          if (groupedOverlays.name == 'Padavine') {
+          if (groupedOverlays.name == 'Napoved padavin') {
             map.removeControl(testLegend);
 
             if (this.add2 == "0" && this.add3 == "0") {
@@ -398,13 +398,13 @@ class BazdaraMap extends PolymerElement {
             }
 
             this.add1 = "0";
-          } else if (groupedOverlays.name == 'Veter') {
+          } else if (groupedOverlays.name == 'Napoved vetera') {
             //map.removeControl(velocityLegend);
             if (this.add1 == "0" && this.add3 == "0") {
               map.removeControl(timeDimensionControl);
             }
             this.add2 = "0";
-          } else if (groupedOverlays.name == 'Temperatura') {
+          } else if (groupedOverlays.name == 'Napoved temperature') {
             //map.removeControl(velocityLegend);
             map.removeControl(testLegend2);
             if (this.add1 == "0" && this.add2 == "0") {
@@ -413,9 +413,9 @@ class BazdaraMap extends PolymerElement {
             this.add3 = "0";
           } else if (groupedOverlays.name == 'Navionics') {
             map.options.maxZoom = 18;
-          } else if (groupedOverlays.name == 'Sea Marks') {
+          } else if (groupedOverlays.name == 'Pomorske oznake') {
             //ga('send', 'event', 'view', 'Map Sea Marks');
-          } else if (groupedOverlays.name == 'Marine Traffic') {
+          } else if (groupedOverlays.name == 'Pomorski promet') {
             //ga('send', 'event', 'view', 'Map Marine Traffic');
           }
         }.bind(this));
