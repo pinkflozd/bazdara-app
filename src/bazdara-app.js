@@ -276,7 +276,7 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
           <iron-pages selected="[[page]]" class$="[[page]]" attr-for-selected="name" role="main">
             <bazdara-home speedunit="[[speedunit]]" latitude="[[latitude]]" longitude="[[longitude]]" name="home"></bazdara-home>
             <bazdara-forecast speedunit="[[speedunit]]" latitude="[[latitude]]" longitude="[[longitude]]" theme="[[theme]]" redraw="{{redraw}}" name="napoved"></bazdara-forecast>
-            <bazdara-tide theme="[[theme]]" name="plimovanje"></bazdara-tide>
+            <bazdara-tide theme="[[theme]]" redraw="{{redrawp}}" name="plimovanje"></bazdara-tide>
             <bazdara-map name="navigacija"></bazdara-map>
             <bazdara-about name="informacije"></bazdara-about>
             <bazdara-view404 name="view404"></bazdara-view404>
@@ -456,6 +456,7 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
         import("./bazdara-about.js");
         break;
       case "plimovanje":
+        this.redrawp = Math.random();
         import("./bazdara-tide.js");
         break;
       case "view404":

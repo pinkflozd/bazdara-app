@@ -42,10 +42,10 @@ class BazdaraTide extends PolymerElement {
           color: var(--primary-text-color)
         }
       </style>
-      <firebase-tide></firebase-tide>
+      <firebase-tide tiden="{{tiden}}" tide="{{tide}}"></firebase-tide>
       <div class="paper-material" elevation="1">
       <div class="paper-font-subhead">Plimovanje morja severni Jadran</div>
-      <sea-tide elevation="1" theme="{{theme}}"></sea-tide>
+      <sea-tide elevation="1" theme="{{theme}}" tide="[[tide]]" tiden="[[tiden]]" redraw="{{redraw}}"></sea-tide>
       </div>
     `;
   }
