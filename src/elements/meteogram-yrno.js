@@ -164,7 +164,10 @@ class MeteogramYrno extends PolymerElement {
     afterNextRender(this, function() {
     if (this.select === 0) {
       if (this.sel) {
-        this.Meteogram();
+        setTimeout(
+          function () {
+            this.Meteogram();
+          }.bind(this),20);
       }
       this.sel = true;
     }

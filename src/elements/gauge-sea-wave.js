@@ -37,10 +37,10 @@ class GaugeSeaWave extends PolymerElement {
         color: #ccc;
       }
     </style>
-    <div class="text-center paper-font-caption title">Višina vala</div>
+    <div class="text-center paper-font-subhead title">Višina vala</div>
     <canvas id="gaugeWave" style="height:50px;width:250px"></canvas>
     <canvas id="gaugeWave2" style="height:50px;width:250px"></canvas>
-    <div class="text-center title2 paper-font-body1">[[wave]]<span class="silver">m</span> - [[wave2]]<span class="silver">m</span></div>
+    <div class="text-center title2 paper-font-subhead">[[wave]]<span class="silver">m</span> - [[wave2]]<span class="silver">m</span></div>
 
     `;
   }

@@ -8,21 +8,47 @@
  * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 
-import {PolymerElement, html} from "@polymer/polymer/polymer-element.js";
+import {
+  PolymerElement,
+  html
+} from "@polymer/polymer/polymer-element.js";
 import "@polymer/iron-flex-layout/iron-flex-layout-classes.js";
+import "@polymer/paper-spinner/paper-spinner.js";
+
 
 /*global Highcharts*/
 import 'highcharts/highstock';
 
 /**
-* @polymer
-* @extends HTMLElement
-*/
+ * @polymer
+ * @extends HTMLElement
+ */
 class SeaTide extends PolymerElement {
   static get template() {
-    return html`
-      <div id="graf" style="width:100%;max-width:1070px;height:400px"></div>
+    return html `
+    <style>
+      paper-spinner {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        z-index:1;
+      }
+    </style>
+    <paper-spinner active$="[[loading]]"></paper-spinner>
+    <div id="graf" style="width:100%;max-width:1070px;height:400px"></div>
     `;
+  }
+
+  static get properties() {
+    return {
+      loading: {
+        type: Boolean,
+        value: true
+      }
+    };
   }
 
   plim() {
@@ -52,7 +78,7 @@ class SeaTide extends PolymerElement {
     request2.send();
 
 
-    request.onreadystatechange = function() {
+    request.onreadystatechange = function () {
 
       if (request.readyState == 4 && request.status == 200) {
         // Success!
@@ -65,22 +91,14 @@ class SeaTide extends PolymerElement {
         var datas = [];
         var datas2 = [];
 
-        Object.keys(data).forEach(function(key) {
+        Object.keys(data).forEach(function (key) {
           datas.push(data[key].h + 10);
         });
 
         datas2.push(Number(mystring));
 
-        Date.prototype.addHours = function(h) {
-          this.setHours(this.getHours() + h);
-          return this;
-        };
-
         if (this.theme) {
           Highcharts.theme = {
-            colors: ['#2b908f', '#90ee7e', '#f45b5b', '#7798BF', '#aaeeee', '#ff0066',
-              '#eeaaee', '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'
-            ],
             chart: {
               backgroundColor: 'transparent',
               borderWidth: 0,
@@ -263,9 +281,6 @@ class SeaTide extends PolymerElement {
           Highcharts.setOptions(Highcharts.theme);
         } else {
           Highcharts.theme = {
-            colors: ['#2f7ed8', '#0d233a', '#8bbc21', '#910000', '#1aadce', '#492970',
-              '#f28f43', '#77a1e5', '#c42525', '#a6c96a'
-            ],
             chart: {
               backgroundColor: 'transparent',
               borderWidth: 0,
@@ -344,6 +359,15 @@ class SeaTide extends PolymerElement {
           Highcharts.setOptions(Highcharts.theme);
         }
 
+        this.loading = false;
+
+        var datea = new Date(0);
+        var dts = datea.toLocaleString('en-GB', {
+          hour: '2-digit',
+          hour12: false,
+          timeZone: 'Europe/Ljubljana'
+        });
+
         // Create the chart
         new Highcharts.StockChart({
           chart: {
@@ -354,7 +378,7 @@ class SeaTide extends PolymerElement {
               fontFamily: 'Roboto, sans-serif'
             },
             events: {
-              load: function() {
+              load: function () {
                 //setTimeout(function() {
                 this.xAxis[0].setExtremes(prev, next);
                 //}.bind(this), 1);
@@ -363,13 +387,7 @@ class SeaTide extends PolymerElement {
           },
 
           rangeSelector: {
-
-            buttons: [{
-              type: '',
-              count: 1,
-              text: '48h'
-            }],
-            selected: 0
+            buttons: []
           },
 
           credits: {
@@ -395,7 +413,8 @@ class SeaTide extends PolymerElement {
                 label: {
                   text: 'Plima',
                   style: {
-                    fontSize: '12px'
+                    fontSize: '12px',
+                    color: (Highcharts.theme && Highcharts.theme.textColor)
                   }
                 },
                 zIndex: 5
@@ -407,7 +426,8 @@ class SeaTide extends PolymerElement {
                 label: {
                   text: 'Oseka',
                   style: {
-                    fontSize: '12px'
+                    fontSize: '12px',
+                    color: (Highcharts.theme && Highcharts.theme.textColor)
                   }
                 },
                 zIndex: 5
@@ -424,7 +444,7 @@ class SeaTide extends PolymerElement {
               year: '%Y'
             },
             events: {
-              afterSetExtremes: function(e) {
+              afterSetExtremes: function (e) {
                 if (e.trigger == "rangeSelectorButton" &&
                   e.rangeSelectorButton.text == "48h") {
 
@@ -432,16 +452,14 @@ class SeaTide extends PolymerElement {
                   // so setExtrememes to your custom
                   // have to do in timeout to let
                   // highcharts finish processing events...
-                  setTimeout(function() {
-                    var chart = this;
-                    chart.xAxis[0].setExtremes(prev, next);
-                  }, 1);
+                  var chart = this;
+                  chart.xAxis[0].setExtremes(prev, next);
 
                 }
               },
             },
             plotLines: [{
-              value: (new Date().addHours(2)),
+              value: (new Date().getTime() + dts * 60 * 1000),
               color: '#F44336',
               width: 1,
               zIndex: 10,
@@ -458,14 +476,14 @@ class SeaTide extends PolymerElement {
               id: 'dataseries',
               fillColor: {
                 linearGradient: {
-                  x1: 0,
-                  y1: 0,
-                  x2: 0,
-                  y2: 1
+                  x1: 0.7,
+                  y1: 0.7,
+                  x2: 0.7,
+                  y2: 0.7
                 },
                 stops: [
-                  [0, Highcharts.getOptions().colors[0]],
-                  [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                  [0, "#42A5F5"],
+                  [1, "#42A5F5"]
                 ]
               },
               data: datas,
@@ -480,13 +498,13 @@ class SeaTide extends PolymerElement {
             {
               type: 'scatter',
               name: 'Koper',
-              pointStart: new Date().getTime() + 120 * 60 * 1000,
+              pointStart: new Date().getTime() + dts * 60 * 1000,
               data: datas2,
               marker: {
-                radius: 5
+                radius: 6
               },
               tooltip: {
-                pointFormatter: function() {
+                pointFormatter: function () {
                   var point = this;
                   return 'Zdaj: <b>' + point.y + '</b> cm' + '<br/> Trenutna vrednost iz<br>mareografske postaje Koper';
                 }

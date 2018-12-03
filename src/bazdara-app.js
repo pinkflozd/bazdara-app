@@ -222,6 +222,10 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
           background-color: var(--primary-color);
           color: var(--dark-theme-text-color);
         }
+        .login[disabled] {
+          background-color: var(--light-primary-color);
+          color: var(--disabled-text-color);
+        }
         .user {
           height: 64px;
           display: flex;
@@ -245,10 +249,10 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
           <template is="dom-if" if="{{signedIn}}" restamp>
           <paper-avatar label="{{user.displayName}}" src\$="{{photoURL}}"></paper-avatar>
           </template>
-          <paper-button class="login" raised on-tap="_openDialog" hidden="{{signedIn}}">Prijavi se</paper-button>
+          <paper-button class="login" raised on-tap="_openDialog" hidden="{{signedIn}}" disabled>Prijavi se</paper-button>
           </div>
 
-          <app-toolbar>Vreme morje</app-toolbar>
+          <app-toolbar>Vreme</app-toolbar>
           <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
           <a name="home" href="[[rootPath]]">Trenutne razmere</a>
           <a name="napoved" href="[[rootPath]]napoved">Napoved</a>
@@ -274,6 +278,7 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
             <bazdara-forecast speedunit="[[speedunit]]" latitude="[[latitude]]" longitude="[[longitude]]" theme="[[theme]]" redraw="{{redraw}}" name="napoved"></bazdara-forecast>
             <bazdara-tide theme="[[theme]]" name="plimovanje"></bazdara-tide>
             <bazdara-map name="navigacija"></bazdara-map>
+            <bazdara-about name="informacije"></bazdara-about>
             <bazdara-view404 name="view404"></bazdara-view404>
           </iron-pages>
 
@@ -308,6 +313,7 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
             <paper-button dialog-confirm autofocus>Close</paper-button>
           </div>
         </paper-dialog>
+
     `;
   }
 
@@ -325,6 +331,8 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
       redraw: String,
     };
   }
+
+
 
   static get observers() {
     return ["_themechange(theme)", "_routePageChanged(routeData.page)"];

@@ -38,11 +38,11 @@ class GaugeSeaTemperature extends PolymerElement {
         color: #ccc;
       }
     </style>
-    <div class="text-center paper-font-caption title">Temperatura morja</div>
+    <div class="text-center paper-font-subhead title">Temperatura morja</div>
     <div style="width:300px;margin-left: auto; margin-right: auto;">
     <canvas id="gaugeSeaTemp" style="height:100px;width:300px"></canvas>
     </div>
-    <div class="text-center title2 paper-font-body1">[[temp]]<span class="silver">°c</span></div>
+    <div class="text-center title2 paper-font-subhead">[[temp]]<span class="silver">°c</span></div>
 
     `;
   }

@@ -129,7 +129,6 @@ class ForecastArso extends PolymerElement {
     }
     .dan {
       line-height: 26px;
-      font-size: 18px
     }
 
     .paper-font-display1 {
@@ -165,7 +164,7 @@ class ForecastArso extends PolymerElement {
 
       <template is="dom-repeat" items="[[_limitForecast(napoved.napovedi)]]">
         <div class$="paper-material [[item.dan]]" elevation="1" data-index$="[[index]]" on-tap="_open">
-          <div class="paper-font-title dan">[[item.dan]]</div>
+          <div class="paper-font-subhead dan">[[item.dan]]</div>
           <div class="paper-font-caption dat">[[item.valid]]</div>
           <img src$="images/vreme/[[item.icona_new]].png" class="vreme_zdaj1" alt="[[item.icona_new]]">
           <img src$="images/vreme/pojavi/[[_pojav(item.icona_pojav_new)]].png" class="vreme_zdaj2" alt="[[item.icona_pojav_new]]">

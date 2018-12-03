@@ -194,6 +194,22 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
     .paper-material {
       border-radius: 3px
     }
+
+    hr {
+      display: block;
+      height: 1px;
+      border: 0;
+      border-top: 1px solid var(--divider-color);
+      margin: 5px 0;
+      padding: 0;
+    }
+    a {
+      color: var(--primary-color);
+    }
+
+    a:hover {
+      color: var(--light-primary-color);
+    }
     </style>
   </template>
 </dom-module>`;

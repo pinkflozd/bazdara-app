@@ -12,9 +12,11 @@ import {
   PolymerElement,
   html
 } from "@polymer/polymer/polymer-element.js";
+import "@polymer/paper-styles/element-styles/paper-material-styles.js";
 
 import "./shared-styles.js";
 import "./elements/sea-tide.js";
+import "./elements/firebase-tide.js";
 
 
 /**
@@ -30,12 +32,21 @@ class BazdaraTide extends PolymerElement {
           display: block;
         }
 
-        sea-tide {
+        .paper-material {
           margin: 10px;
           background-color: var(--primary-background-color)
         }
+        .paper-font-subhead {
+          padding-left: 10px;
+          padding-top: 10px;
+          color: var(--primary-text-color)
+        }
       </style>
-      <sea-tide class="paper-material" elevation="1" theme="{{theme}}"></sea-tide>
+      <firebase-tide></firebase-tide>
+      <div class="paper-material" elevation="1">
+      <div class="paper-font-subhead">Plimovanje morja severni Jadran</div>
+      <sea-tide elevation="1" theme="{{theme}}"></sea-tide>
+      </div>
     `;
   }
 

@@ -65,11 +65,11 @@ class GaugeSeaHeight extends PolymerElement {
         <template is="dom-if" if="{{alarm}}">
           <div id="pulsor"></div>
         </template>
-        <div class="text-center paper-font-caption title">Plimovanje</div>
+        <div class="text-center paper-font-subhead title">Plimovanje</div>
         <canvas id="gaugeHeight" style="height:125px;width:125px"></canvas>
 
 
-        <div class="text-center title2 paper-font-body1">
+        <div class="text-center title2 paper-font-subhead">
           [[temp]]<span class="silver">cm</span></div>
 
 

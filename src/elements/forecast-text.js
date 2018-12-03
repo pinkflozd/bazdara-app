@@ -36,21 +36,13 @@ class ForecastText extends PolymerElement {
           background-color: #1976D2;
           color: #fff
         }
-        hr {
-          display: block;
-          height: 1px;
-          border: 0;
-          border-top: 1px solid var(--divider-color);
-          margin: 5px 0;
-          padding: 0;
-        }
         .jadranwarning hr, .jadransynopsis hr {
           border-top: 1px solid var(--light-theme-divider-color);
         }
       </style>
 
       <div class="paper-material" elevation="1">
-        <div class="paper-font-title">Napoved za danes</div>
+        <div class="paper-font-subhead">Napoved za danes</div>
         <hr>
         <p class="paper-font-body1">[[napoved.danes]]</p>
         <hr>
@@ -58,7 +50,7 @@ class ForecastText extends PolymerElement {
       </div>
 
       <div class="paper-material" elevation="1">
-        <div class="paper-font-title">Napoved za jutri</div>
+        <div class="paper-font-subhead">Napoved za jutri</div>
         <hr>
         <p class="paper-font-body1">[[napoved.jutri]]</p>
         <hr>
@@ -66,19 +58,19 @@ class ForecastText extends PolymerElement {
       </div>
 
       <div class="paper-material jadranwarning" elevation="1">
-        <div class="paper-font-title"><span lang="en">Warning</span></div>
+        <div class="paper-font-subhead"><span lang="en">Warning</span></div>
         <hr>
         <p class="paper-font-body1"><span lang="en">[[napoved.jadranwarning]]</span></p>
       </div>
 
       <div class="paper-material jadransynopsis" elevation="1">
-        <div class="paper-font-title"><span lang="en">Synopsis</span></div>
+        <div class="paper-font-subhead"><span lang="en">Synopsis</span></div>
         <hr>
         <p class="paper-font-body1"><span lang="en">[[napoved.jadransynopsis]]</span></p>
       </div>
 
       <div class="paper-material" elevation="1">
-        <div class="paper-font-title"><span lang="en">Forecast for the first 12 hours</span></div>
+        <div class="paper-font-subhead"><span lang="en">Forecast for the first 12 hours</span></div>
         <hr>
         <p class="paper-font-body1"><span lang="en">[[napoved.jadran12now]]</span></p>
         <hr>
@@ -86,7 +78,7 @@ class ForecastText extends PolymerElement {
       </div>
 
       <div class="paper-material" elevation="1">
-        <div class="paper-font-title"><span lang="en">Forecast for the next 12 hours</span></div>
+        <div class="paper-font-subhead"><span lang="en">Forecast for the next 12 hours</span></div>
         <hr>
         <p class="paper-font-body1"><span lang="en">[[napoved.jadran12later]]</span></p>
         <hr>
