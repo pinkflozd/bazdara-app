@@ -285,7 +285,7 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
         </app-header-layout>
       </app-drawer-layout>
 
-        <paper-fab-menu color="#2196F3" icon="bazdara-icons:apps">
+        <paper-fab-menu color="#2196F3" icon="bazdara-icons:apps" hidden$="{{fabhidden}}">
           <paper-fab-menu-item color="#009688" title="Nastavitve" icon="bazdara-icons:settings" on-tap="_paperSettings"></paper-fab-menu-item>
           <paper-fab-menu-item color="#E91E63" title="Favorites" icon="bazdara-icons:videocam" on-tap="_paperCam"></paper-fab-menu-item>
         </paper-fab-menu>
@@ -443,23 +443,33 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
     /* jshint ignore:start */
     switch (page) {
       case "home":
+        this.fabhidden = false;
         import("./bazdara-home.js");
         break;
       case "napoved":
-        this.redraw = Math.random();
+        this.fabhidden = false;
+        afterNextRender(this, function () {
+          this.redraw = Math.random();
+        });
         import("./bazdara-forecast.js");
         break;
        case "navigacija":
+       this.fabhidden = true;
         import("./bazdara-map.js");
         break;
       case "informacije":
+        this.fabhidden = true;
         import("./bazdara-about.js");
         break;
       case "plimovanje":
-        this.redrawp = Math.random();
+        this.fabhidden = false;
+        afterNextRender(this, function () {
+          this.redrawp = Math.random();
+        });
         import("./bazdara-tide.js");
         break;
       case "view404":
+        this.fabhidden = true;
         import("./bazdara-view404.js");
         break;
     }

@@ -16,6 +16,7 @@ import "@polymer/paper-spinner/paper-spinner.js";
 
 // import * as L from "leaflet/dist/leaflet-src.esm.js";
 /*global L*/
+/*global JNC*/
 import "./shared-styles.js";
 import "./elements/leaflet-style.js";
 
@@ -92,8 +93,12 @@ class BazdaraMap extends PolymerElement {
             if (load_script.index < load_script.scripts.length - 1) load_script.next();
             item.resolve();
           };
+          script.onerror = (error) => {
+            console.log(error);
+            this._map();
+          };
           head.appendChild(script);
-        };
+        }.bind(this);
       }
 
       // Adding a script to the queue
@@ -115,18 +120,19 @@ class BazdaraMap extends PolymerElement {
 
       // Return the promise of the last queue item
       return load_script.scripts[load_script.scripts.length - 1].promise;
-    };
-
+    }.bind(this);
 
     load_script("https://x.bazdara.com/leaflet.js")
+    .then(function () {
+
+      load_script("https://webapiv2.navionics.com/dist/webapi/webapi.min.no-dep.js")
       .then(function () {
+        console.log("Navionics loaded");
         this._map();
       }.bind(this));
 
-  }
+    }.bind(this));
 
-  ready() {
-    super.ready();
   }
 
   redrawMap() {
@@ -275,19 +281,62 @@ class BazdaraMap extends PolymerElement {
       maxClusterRadius: 45
     });
 
-    var groupedOverlays = {
-      "Pomorstvo": {
-        "Pomorski promet": trafikLayer,
-        "Pomorske oznake": seaLayer,
-        "Pristaniča": markers
-      },
-      "Vreme": {
-        "Napoved padavin": padavine,
-        "Napoved vetera": veter,
-        "Napoved temperature": temper,
-        "Trenutno strele": strele
+    var navionic;
+    var groupedOverlays;
+
+    try {
+      navionic = new JNC.Leaflet.NavionicsOverlay({
+        navKey: 'Navionics_webapi_01983',
+        chartType: JNC.NAVIONICS_CHARTS.SONARCHART,
+        isTransparent: true,
+        safetyDepth: JNC.SAFETY_DEPTH_LEVEL.LEVEL4,
+        zIndex: 1
+      });
+
+        //navionic.addTo(map);
+
+        groupedOverlays = {
+          "Pomorstvo": {
+            "Navionics": navionic,
+            "Pomorski promet": trafikLayer,
+            "Pomorske oznake": seaLayer,
+            "Pristaniča": markers
+          },
+          "Vreme": {
+            "Napoved padavin": padavine,
+            "Napoved vetera": veter,
+            "Napoved temperature": temper,
+            "Trenutno strele": strele
+          }
+        };
+
+      } catch (e) {
+        navionic = trafikLayer;
+        seaLayer.addTo(map);
+        console.log('Navionics maps are offline');
+        console.log(e);
+
+        groupedOverlays = {
+          "Pomorstvo": {
+            "Pomorski promet": trafikLayer,
+            "Pomorske oznake": seaLayer,
+            "Pristaniča": markers
+          },
+          "Vreme": {
+            "Napoved padavin": padavine,
+            "Napoved vetera": veter,
+            "Napoved temperature": temper,
+            "Trenutno strele": strele
+          }
+        };
       }
-    };
+
+      map.on('tileerror', function(error, tile) {
+        console.log(error);
+        console.log(tile);
+      });
+
+
 
     //trafikLayer.addTo(map);
 
@@ -458,9 +507,9 @@ class BazdaraMap extends PolymerElement {
           markerStyle: {},
           followCircleStyle: {}, // set difference for the style of the circle around the user's location while following
           followMarkerStyle: {},
-          icon: 'bazdara-gps_fixed', // class for icon, fa-location-arrow or fa-map-marker
-          iconLoading: 'bazdara-gps_not_fixed', // class for loading icon
-          iconElementTag: 'span', // tag for the icon element, span or i
+          icon: 'locationon', // class for icon, fa-location-arrow or fa-map-marker
+          iconLoading: 'locationoff', // class for loading icon
+          iconElementTag: 'div', // tag for the icon element, span or i
           circlePadding: [0, 0], // padding around accuracy circle, value is passed to setBounds
           metric: true, // use metric or imperial units
           onLocationError: function(err) {

@@ -359,12 +359,9 @@ $_documentContainer.innerHTML = `<dom-module id="leaflet-style">
       border-radius: 5px;
       }
     .leaflet-control-layers-toggle {
-      background-image: url(images/map/layers.png);
+      background-image: url(images/map/layers.svg);
       width: 36px;
       height: 36px;
-      }
-    .leaflet-retina .leaflet-control-layers-toggle {
-      background-image: url(images/map/layers-2x.png);
       background-size: 26px 26px;
       }
     .leaflet-touch .leaflet-control-layers-toggle {
@@ -906,19 +903,44 @@ $_documentContainer.innerHTML = `<dom-module id="leaflet-style">
 
      .timecontrol-play:before {
          position: absolute;
-         content: '<div>sdf</div>';
+         content: '';
+         background-image: url(images/map/play-button.svg);
+         width: 30px;
+         height: 30px;
+         background-position: center center;
+         background-repeat: no-repeat;
+         background-size: 50%;
+
      }
      /*.timecontrol-play.play:before {
-         content: "\e072";
+      content: '';
+      background-image: url(images/map/play-button.svg);
+      width: 30px;
+      height: 30px;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: 50%;
      }*/
      .timecontrol-play.reverse:before {
-         content: "\e072";
+      content: '';
+      background-image: url(images/map/play-button.svg);
+      width: 30px;
+      height: 30px;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: 50%;
          -ms-transform: scaleX(-1);
          -webkit-transform: scaleX(-1);
          transform: scaleX(-1);
      }
      .timecontrol-play.pause:before {
-         content: "\e073";
+      content: '';
+      background-image: url(images/map/pause.svg);
+      width: 30px;
+      height: 30px;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: 50%;
      }
      .timecontrol-play.reverse.pause:before {
          -ms-transform: none;
@@ -927,34 +949,77 @@ $_documentContainer.innerHTML = `<dom-module id="leaflet-style">
      }
 
      a.timecontrol-play.loading:before {
-         content: "\e031";
+      content: '';
+      background-image: url(images/map/share.svg);
+      width: 30px;
+      height: 30px;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: 90%;
          opacity: 0.2;
          -webkit-animation: icon-rotation 6s infinite linear;
          animation: icon-rotation 6s infinite linear;
      }
      .timecontrol-date.loading:before {
-         content: "\e031";
+      content: '';
+      background-image: url(images/map/share.svg);
+      width: 30px;
+      height: 30px;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: 90%;
          left: 5px;
          position: absolute;
          -webkit-animation: icon-rotation 6s infinite linear;
          animation: icon-rotation 6s infinite linear;
      }
      .timecontrol-speed:before {
-         content: "\e141";
+      content: '';
+      background-image: url(images/map/stopwatch.svg);
+      width: 30px;
+      height: 30px;
+      background-position: left center;
+      background-repeat: no-repeat;
+      background-size: 70%;
          position: absolute;
          left: 7px;
      }
      .timecontrol-stop:before {
-         content: "\e074";
+      content: '';
+      background-image: url(images/map/stop.svg);
+      width: 30px;
+      height: 30px;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: 50%;
      }
      .timecontrol-forward:before {
-         content: "\e075";
+      content: '';
+      background-image: url(images/map/next.svg);
+      width: 30px;
+      height: 30px;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: 50%;
      }
      .timecontrol-backward:before {
-         content: "\e071";
-     }
+      content: '';
+      background-image: url(images/map/back.svg);
+      width: 30px;
+      height: 30px;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: 50%;
+    }
+
      .timecontrol-loop:before {
-         content: "\e030";
+      content: '';
+      background-image: url(images/map/repeat.svg);
+      width: 30px;
+      height: 30px;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: 50%;
      }
 
      @media (max-width: 767px){
@@ -987,19 +1052,29 @@ $_documentContainer.innerHTML = `<dom-module id="leaflet-style">
 
 
 
-
-     .leaflet-control-fullscreen a {
-      background:#fff url(images/map/fullscreen.png) no-repeat 0 0;
-      background-size:26px 52px;
-      }
       .leaflet-touch .leaflet-control-fullscreen a {
-        background-position: 2px 2px;
+        background-image: url(images/map/fullon.svg);
+        width: 30px;
+        height: 30px;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: 18px 18px;
         }
       .leaflet-fullscreen-on .leaflet-control-fullscreen a {
-        background-position:0 -26px;
+        background-image: url(images/map/fulloff.svg);
+        width: 30px;
+        height: 30px;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: 18px 18px;
         }
       .leaflet-touch.leaflet-fullscreen-on .leaflet-control-fullscreen a {
-        background-position: 2px -24px;
+        background-image: url(images/map/fulloff.svg);
+        width: 30px;
+        height: 30px;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: 18px 18px;
         }
 
     /* Do not combine these two rules; IE will break. */
@@ -1086,10 +1161,10 @@ $_documentContainer.innerHTML = `<dom-module id="leaflet-style">
   cursor: pointer;
 }
 .leaflet-control-locate.active a {
-  color: #2074B6;
+  background-color: #90CAF9;
 }
 .leaflet-control-locate.active.following a {
-  color: #FC8428;
+  background-color: #AED581;
 }
 
 .leafet-control-locate-location circle {
@@ -1213,7 +1288,22 @@ $_documentContainer.innerHTML = `<dom-module id="leaflet-style">
   }
 
 
-
+.locationon {
+  background-image: url(images/map/locationon.svg);
+  width: 30px;
+  height: 30px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 18px 18px;
+}
+.locationoff {
+  background-image: url(images/map/locationoff.svg);
+  width: 30x;
+  height: 30px;
+  background-position: center center;
+  background-repeat: no-repeat
+  background-size: 18px 18px;
+}
     </style>
   </template>
 </dom-module>`;

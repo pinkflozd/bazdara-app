@@ -24,7 +24,7 @@ class BazdaraAbout extends PolymerElement {
   static get template() {
     return html `
 
-      <style include="paper-material-styles iron-flex iron-flex-alignment shared-styles">
+      <style include="paper-material-styles shared-styles">
         :host {
           display: block;
         }

@@ -21,6 +21,7 @@ import "@polymer/iron-flex-layout/iron-flex-layout-classes.js";
 
 import "./shared-styles.js";
 
+import "./elements/bootstrap-style.js";
 import "./elements/firebase-live.js";
 import "./elements/firebase-trenutno.js";
 
@@ -48,7 +49,7 @@ class BazdaraHome extends GestureEventListeners(PolymerElement) {
   static get template() {
     return html `
 
-      <style include="paper-material-styles iron-flex iron-flex-alignment shared-styles">
+      <style include="paper-material-styles iron-flex iron-flex-alignment shared-styles bootstrap-style">
         :host {
           display: block;
         }
@@ -93,14 +94,31 @@ class BazdaraHome extends GestureEventListeners(PolymerElement) {
           background-color: #0277BD;
           margin: 0 10px 10px 10px;
         }
+
+        @media (min-width: 992px) {
+          .col-top {
+            margin-top:64px;
+          }
+        }
       </style>
-      <firebase-live live="{{live}}"></firebase-live>
-      <firebase-trenutno trenutno="{{trenutno}}"></firebase-trenutno>
-      <div id="top"></div>
+
+<firebase-live live="{{live}}"></firebase-live>
+<firebase-trenutno trenutno="{{trenutno}}"></firebase-trenutno>
+
+<div id="top"></div>
+
+  <div class="row no-gutters">
+    <div class="col-lg col-top">
+
       <live-current on-track="handleTrack" live="[[live]]" trenutno="[[trenutno]]"></live-current>
       <div id="scroll" style="padding-top:64px;margin-top:-64px"></div>
+
+    </div>
+    <div class="col-lg col-top">
+
       <live-details live="[[live]]" trenutno="[[trenutno]]"></live-details>
       <wind-details live="[[live]]" trenutno="[[trenutno]]" speedunit="[[speedunit]]"></wind-details>
+
       <div class="gaugeflex">
         <div class="gaugeflexchild gaugeflexleft paper-material gaugespeed" elevation="1">
           <gauge-wind-speed speed="[[live.currentWindSpeed]]" speedunit="[[speedunit]]"></gauge-wind-speed>
@@ -109,6 +127,7 @@ class BazdaraHome extends GestureEventListeners(PolymerElement) {
           <gauge-wind-direction direction="[[live.currentWindDirection]]" name="[[live.currentWindDirection]]"></gauge-wind-direction>
         </div>
       </div>
+
       <sea-details live="[[live]]" trenutno="[[trenutno]]" speedunit="[[speedunit]]"></sea-details>
 
       <div class="gaugeflex">
@@ -121,8 +140,11 @@ class BazdaraHome extends GestureEventListeners(PolymerElement) {
       </div>
 
       <div class="paper-material gaugeseatemp" elevation="1">
-          <gauge-sea-temperature temp="[[trenutno.morje.vrh.zdajkoper]]"></gauge-sea-temperature>
+        <gauge-sea-temperature temp="[[trenutno.morje.vrh.zdajkoper]]"></gauge-sea-temperature>
       </div>
+
+    </div>
+  </div>
     `;
   }
 
