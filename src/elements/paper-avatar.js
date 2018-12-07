@@ -129,7 +129,7 @@ class PaperAvatar extends PolymerElement {
 				 */
 				twoChars: {
 					type: Boolean,
-					value: false
+					value: true
 				},
 
 				/**

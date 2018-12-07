@@ -28,10 +28,6 @@ class SeaDetails extends PolymerElement {
       <style include="paper-material-styles iron-flex iron-flex-alignment shared-styles">
         :host {
           display: block;
-          padding:0px 10px 0px 10px;
-        }
-        .paper-material {
-          background-color:var(--primary-background-color);
           padding:10px;
         }
         .flex-horizontal-with-ratios {
@@ -64,7 +60,6 @@ class SeaDetails extends PolymerElement {
         }
       </style>
 
-      <div class="paper-material" elevation="1">
       <h2 class="paper-font-subhead"><iron-icon icon="bazdara-icons:wave"></iron-icon> Morje</h2>
 
       <div class="flex-horizontal-with-ratios">
@@ -110,8 +105,6 @@ class SeaDetails extends PolymerElement {
         <div class="flex2child paper-font-body1">
         [[trenutno.morje.vrh.zdajkoper]]<span class="metric">°c</span>
         </div>
-      </div>
-
       </div>
     `;
   }

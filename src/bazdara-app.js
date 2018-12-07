@@ -47,6 +47,8 @@ import "./elements/firebase-app.js";
 import "./elements/geo-button.js";
 import "./elements/page-settings.js";
 import "@fabricelements/skeleton-auth/auth-mixin.js";
+import firebase from 'firebase/app';
+
 
 import "./elements/paper-fab-menu.js";
 
@@ -63,9 +65,9 @@ setPassiveTouchGestures(true);
 setRootPath(BazdaraAppGlobals.rootPath);
 
 /**
-* @polymer
-* @extends HTMLElement
-*/
+ * @polymer
+ * @extends HTMLElement
+ */
 // eslint-disable-next-line no-undef
 class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
   static get template() {
@@ -207,7 +209,7 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
 
         #cam {
           width: calc(100% - 14px);
-          max-width: 640px;
+          max-width: 720px;
           margin:5px;
           background-color: var(--secondary-background-color)
           }
@@ -230,7 +232,18 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
           height: 64px;
           display: flex;
           align-items: center;
+          justify-content: space-between;
           margin-left: 10px;
+        }
+        .dialogp {
+          padding:10px;
+          color: var(--primary-text-color);
+        }
+        .usersettings {
+          margin-right:10px;
+        }
+        #usersettings {
+          max-width: 380px
         }
       </style>
 
@@ -247,9 +260,10 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
         <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
           <div class="user">
           <template is="dom-if" if="{{signedIn}}" restamp>
-          <paper-avatar label="{{user.displayName}}" src\$="{{photoURL}}"></paper-avatar>
+            <paper-avatar label="{{user.displayName}}" src\$="{{user.photoURL}}" title="{{user.uid}}"></paper-avatar>
+            <paper-icon-button icon="bazdara-icons:settings" class="usersettings" on-tap="_userSettings"></paper-icon-button>
           </template>
-          <paper-button class="login" raised on-tap="_openDialog" hidden="{{signedIn}}" disabled>Prijavi se</paper-button>
+          <paper-button class="login" raised on-tap="_openDialog" hidden="{{signedIn}}">Prijavi se</paper-button>
           </div>
 
           <app-toolbar>Vreme</app-toolbar>
@@ -277,7 +291,7 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
             <bazdara-home speedunit="[[speedunit]]" latitude="[[latitude]]" longitude="[[longitude]]" name="home"></bazdara-home>
             <bazdara-forecast speedunit="[[speedunit]]" latitude="[[latitude]]" longitude="[[longitude]]" theme="[[theme]]" redraw="{{redraw}}" name="napoved"></bazdara-forecast>
             <bazdara-tide theme="[[theme]]" redraw="{{redrawp}}" name="plimovanje"></bazdara-tide>
-            <bazdara-map name="navigacija"></bazdara-map>
+            <bazdara-map name="navigacija" redraw="{{redrawm}}"></bazdara-map>
             <bazdara-about name="informacije"></bazdara-about>
             <bazdara-view404 name="view404"></bazdara-view404>
           </iron-pages>
@@ -292,28 +306,39 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
 
         <paper-dialog id="dialog" with-backdrop>
           <firebase-login></firebase-login>
+          <template is="dom-if" if="{{signedIn}}" restamp>
+            <p class="dialogp paper-font-body2">Uspešno ste se prijavili.</p>
+          </template>
           <div class="buttons">
-            <paper-button dialog-confirm autofocus>Close</paper-button>
+            <paper-button dialog-confirm autofocus>Zapri</paper-button>
           </div>
         </paper-dialog>
 
         <paper-dialog id="settings">
           <iron-media-query query="(prefers-color-scheme: dark)" query-matches="{{dark}}"></iron-media-query>
-          <paper-toggle-button checked="{{theme}}" aria-label="Dark Theme">Dark</paper-toggle-button>
+          <paper-toggle-button checked="{{theme}}" aria-label="Dark Theme">Temna stran</paper-toggle-button><br>
           <app-localstorage-document key="theme" data="{{theme}}"></app-localstorage-document>
           <page-settings speedunit="{{speedunit}}"></page-settings>
           <div class="buttons">
-            <paper-button dialog-confirm autofocus>Close</paper-button>
+            <paper-button dialog-confirm autofocus>Zapri</paper-button>
           </div>
         </paper-dialog>
 
         <paper-dialog id="cam" with-backdrop>
           <live-cam class="camera" lat="[[latitude]]" lng="[[longitude]]"></live-cam>
           <div class="buttons">
-            <paper-button dialog-confirm autofocus>Close</paper-button>
+            <paper-button dialog-confirm autofocus>Zapri</paper-button>
           </div>
         </paper-dialog>
 
+        <paper-dialog id="usersettings">
+          <template is="dom-if" if="{{signedIn}}" restamp>
+            <paypal-donate user="{{user}}" paypal="{{paypal}}"></paypal-donate>
+            <div class="buttons">
+              <paper-button dialog-confirm autofocus>Zapri</paper-button>
+            </div>
+          </template>
+        </paper-dialog>
     `;
   }
 
@@ -323,6 +348,11 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
         type: String,
         reflectToAttribute: true,
         observer: "_pageChanged"
+      },
+      signedIn: {
+        type: Boolean,
+        reflectToAttribute: true,
+        observer: "_signedIn"
       },
       routeData: Object,
       subroute: Object,
@@ -336,6 +366,18 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
 
   static get observers() {
     return ["_themechange(theme)", "_routePageChanged(routeData.page)"];
+  }
+
+  _signedIn() {
+    //console.log(this.user);
+  }
+
+  _signOut() {
+    firebase.auth().signOut().then(function () {
+      // Sign-out successful.
+    }, function (error) {
+      // An error happened.
+    });
   }
 
   _themechange() {
@@ -353,44 +395,54 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
     if (this.theme === true) {
       //DARK THEME
       afterNextRender(this, function () {
-      this.updateStyles({
-        '--primary-text-color': 'var(--dark-theme-text-color',
-        '--primary-background-color': 'var(--dark-theme-background-color',
-        '--secondary-background-color': 'var(--dark-theme-background2-color',
-        '--light-background-color': 'var(--dark-theme-background3-color',
-        '--secondary-text-color': 'var(--dark-theme-secondary-color',
-        '--disabled-text-color': 'var(--dark-theme-disabled-color',
-        '--divider-color': 'var(--dark-theme-divider-color',
-        '--light-primary-color': 'var(--paper-blue-700)',
-        '--dark-primary-color': 'var(--paper-blue-100)'
-      });
-      document.body.classList.remove('white');
-      document.body.classList.add('black');
+        this.updateStyles({
+          '--primary-text-color': 'var(--dark-theme-text-color',
+          '--primary-background-color': 'var(--dark-theme-background-color',
+          '--secondary-background-color': 'var(--dark-theme-background2-color',
+          '--light-background-color': 'var(--dark-theme-background3-color',
+          '--secondary-text-color': 'var(--dark-theme-secondary-color',
+          '--disabled-text-color': 'var(--dark-theme-disabled-color',
+          '--divider-color': 'var(--dark-theme-divider-color',
+          '--light-primary-color': 'var(--paper-blue-700)',
+          '--dark-primary-color': 'var(--paper-blue-100)'
+        });
+        document.body.classList.remove('white');
+        document.body.classList.add('black');
       });
 
     } else {
       //LIGHT THEME
       afterNextRender(this, function () {
-      this.updateStyles({
-        '--primary-text-color': 'var(--light-theme-text-color',
-        '--primary-background-color': 'var(--light-theme-background-color',
-        '--secondary-background-color': 'var(--light-theme-background2-color',
-        '--light-background-color': 'var(--light-theme-background3-color',
-        '--secondary-text-color': 'var(--light-theme-secondary-color',
-        '--disabled-text-color': 'var(--light-theme-disabled-color',
-        '--divider-color': 'var(--light-theme-divider-color',
-        '--light-primary-color': 'var(--paper-blue-100)',
-        '--dark-primary-color': 'var(--paper-blue-700)'
+        this.updateStyles({
+          '--primary-text-color': 'var(--light-theme-text-color',
+          '--primary-background-color': 'var(--light-theme-background-color',
+          '--secondary-background-color': 'var(--light-theme-background2-color',
+          '--light-background-color': 'var(--light-theme-background3-color',
+          '--secondary-text-color': 'var(--light-theme-secondary-color',
+          '--disabled-text-color': 'var(--light-theme-disabled-color',
+          '--divider-color': 'var(--light-theme-divider-color',
+          '--light-primary-color': 'var(--paper-blue-100)',
+          '--dark-primary-color': 'var(--paper-blue-700)'
+        });
+        document.body.classList.remove('black');
+        document.body.classList.add('white');
       });
-      document.body.classList.remove('black');
-      document.body.classList.add('white');
-    });
     }
 
   }
 
   _paperSettings() {
     this.$.settings.open();
+  }
+
+  _userSettings() {
+    /* jshint ignore:start */
+    import("./elements/paypal-donate.js").then(
+      function () {
+        this.$.usersettings.open();
+      }.bind(this)
+    );
+    /* jshint ignore:end */
   }
 
   _paperCam() {
@@ -431,7 +483,9 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
 
     // Close a non-persistent drawer when the page & route are changed.
     if (!this.$.drawer.persistent) {
-      this.$.drawer.close();
+      afterNextRender(this, function () {
+        this.$.drawer.close();
+      });
     }
   }
 
@@ -453,8 +507,11 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
         });
         import("./bazdara-forecast.js");
         break;
-       case "navigacija":
-       this.fabhidden = true;
+      case "navigacija":
+        this.fabhidden = true;
+        afterNextRender(this, function () {
+          this.redrawm = Math.random();
+        });
         import("./bazdara-map.js");
         break;
       case "informacije":

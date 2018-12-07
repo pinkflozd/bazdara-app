@@ -39,7 +39,7 @@ class GaugeSeaTemperature extends PolymerElement {
       }
     </style>
     <div class="text-center paper-font-subhead title">Temperatura morja</div>
-    <div style="width:300px;margin-left: auto; margin-right: auto;">
+    <div style="width:260px;margin-left: auto; margin-right: auto;">
     <canvas id="gaugeSeaTemp" style="height:100px;width:300px"></canvas>
     </div>
     <div class="text-center title2 paper-font-subhead">[[temp]]<span class="silver">°c</span></div>
@@ -72,7 +72,7 @@ class GaugeSeaTemperature extends PolymerElement {
     // eslint-disable-next-line no-undef
     var gaugeSeaTemp = new LinearGauge({
       renderTo: this.$.gaugeSeaTemp,
-      width: 300,
+      width: 260,
       height: 100,
     minValue: 5,
     maxValue: 35,

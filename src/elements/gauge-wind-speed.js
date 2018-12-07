@@ -25,6 +25,9 @@ class GaugeWindSpeed extends PolymerElement {
   static get template() {
     return html `
     <style include="shared-styles">
+    :host {
+      padding-top:10px
+    }
       .outer {
         position: relative;
         background-color: #00838F;

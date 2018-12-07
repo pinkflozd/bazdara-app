@@ -27,11 +27,7 @@ class WindDetails extends PolymerElement {
       <style include="paper-material-styles iron-flex iron-flex-alignment shared-styles">
         :host {
           display: block;
-          padding:10px 10px 0px 10px;
-        }
-        .paper-material {
-          background-color:var(--primary-background-color);
-          padding:10px;
+          padding: 10px
         }
         .flex-horizontal-with-ratios {
           margin-top: 5px;
@@ -73,7 +69,6 @@ class WindDetails extends PolymerElement {
         }
       </style>
 
-      <div class="paper-material" elevation="1">
       <h2 class="paper-font-subhead"><iron-icon icon="bazdara-icons:windrose"></iron-icon> Veter</h2>
       <div class="flex-horizontal-with-ratios">
         <div class="flexchild paper-font-body1">
@@ -110,8 +105,6 @@ class WindDetails extends PolymerElement {
         <div class="flex2child paper-font-body1">
           <live-wind-direction direction="[[live.meanWindDirection]]"></live-wind-direction>
         </div>
-      </div>
-
       </div>
     `;
   }

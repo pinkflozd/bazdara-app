@@ -219,37 +219,30 @@ class LiveCurrent extends PolymerElement {
 
       @media (-webkit-min-device-pixel-ratio: 0.75),
        (min-resolution: 120dpi) {
-         // LDPI CSS HERE
       }
 
       @media (-webkit-min-device-pixel-ratio: 1),
        (min-resolution: 160dpi) {
-       // MDPI CSS HERE
       }
 
       @media (-webkit-min-device-pixel-ratio: 1.33),
        (min-resolution: 213dpi) {
-       // TVDPI CSS HERE
       }
 
       @media (-webkit-min-device-pixel-ratio: 1.5),
        (min-resolution: 240dpi) {
-       // HDPI CSS HERE
       }
 
       @media (-webkit-min-device-pixel-ratio: 2),
        (min-resolution: 320dpi) {
-       // XHDPI CSS HERE
       }
 
       @media (-webkit-min-device-pixel-ratio: 3),
        (min-resolution: 480dpi) {
-       // XXHDPI CSS HERE
       }
 
       @media (-webkit-min-device-pixel-ratio: 4),
        (min-resolution: 640dpi) {
-       // XXXHDPI CSS HERE
       }
 
       @keyframes bounce {
@@ -276,10 +269,23 @@ class LiveCurrent extends PolymerElement {
         border-radius: 0px;
       }
 
+      .max {
+        max-width:544px;
+        margin: 0 auto;
+      }
+
+      @media (min-width: 992px) {
+        .max {
+          max-width:544px;
+          margin: 0 30px 0 0;
+        }
+      }
+
       </style>
       <paper-spinner active$="[[loading]]"></paper-spinner>
       <weather-icons></weather-icons>
       <div class$="paper-material container paper-font-subhead [[trenutno.vreme.zdaj_slika_new]] [[trenutno.vreme.zdaj_pojav_new]]" id="container" elevation="2">
+        <div class="max">
         <div class="aligner">
           <blockquote class="paper-font-title">[[trenutno.pregovor]]</blockquote>
         </div>
@@ -317,6 +323,7 @@ class LiveCurrent extends PolymerElement {
         <br><span class="paper-font-subhead">[[trenutno.morje.vrh.zdajkoper]]°c</span>
         </div>
         </template>
+        </div>
       </div>
     `;
   }

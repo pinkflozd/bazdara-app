@@ -22,6 +22,9 @@ class GaugeWindDirection extends PolymerElement {
   static get template() {
     return html`
     <style include="shared-styles">
+    :host {
+      padding:10px
+    }
     .outer {
       position: relative;
       height: 150px;

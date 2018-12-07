@@ -9,7 +9,7 @@
       "**/.*"
     ],
     "rewrites": [{
-      "source": "**/!(*.json|*.svg|*.png|*.jpg|*.jpeg|*.webp)",
+      "source": "**/!(*.json|*.svg|*.png|*.jpg|*.jpeg|*.webp|*.webp)",
       "function": "app"
     }],
     "headers": [{

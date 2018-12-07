@@ -37,12 +37,8 @@ $_documentContainer.innerHTML = `<dom-module id="bootstrap-style">
 
    .container {
      width: 100%;
-     /*
-     padding-right: 15px;
-     padding-left: 15px;
-     */
-     margin-right: auto;
-     margin-left: auto;
+     padding-right: 5px;
+     padding-left: 5px;
    }
 
    @media (min-width: 576px) {
@@ -71,10 +67,8 @@ $_documentContainer.innerHTML = `<dom-module id="bootstrap-style">
 
    .container-fluid {
      width: 100%;
-     padding-right: 15px;
-     padding-left: 15px;
-     margin-right: auto;
-     margin-left: auto;
+     padding-right: 5px;
+     padding-left: 5px;
    }
 
    .row {
@@ -82,8 +76,8 @@ $_documentContainer.innerHTML = `<dom-module id="bootstrap-style">
      display: flex;
      -ms-flex-wrap: wrap;
      flex-wrap: wrap;
-     margin-right: -15px;
-     margin-left: -15px;
+     margin-right: -5px;
+     margin-left: -5px;
    }
 
    .no-gutters {
@@ -106,8 +100,8 @@ $_documentContainer.innerHTML = `<dom-module id="bootstrap-style">
      position: relative;
      width: 100%;
      min-height: 1px;
-     padding-right: 15px;
-     padding-left: 15px;
+     padding-right: 5px;
+     padding-left: 5px;
    }
 
    .col {
@@ -1927,6 +1921,45 @@ $_documentContainer.innerHTML = `<dom-module id="bootstrap-style">
        align-self: stretch !important;
      }
    }
+  .w-25 {
+    width: 25% !important;
+  }
+
+  .w-50 {
+    width: 50% !important;
+  }
+
+  .w-75 {
+    width: 75% !important;
+  }
+
+  .w-100 {
+    width: 100% !important;
+  }
+
+  .w-auto {
+    width: auto !important;
+  }
+
+  .h-25 {
+    height: 25% !important;
+  }
+
+  .h-50 {
+    height: 50% !important;
+  }
+
+  .h-75 {
+    height: 75% !important;
+  }
+
+  .h-100 {
+    height: 100% !important;
+  }
+
+  .h-auto {
+    height: auto !important;
+  }
     </style>
   </template>
 </dom-module>`;

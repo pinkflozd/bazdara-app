@@ -42,9 +42,9 @@ import "./elements/gauge-sea-temperature.js";
 
 
 /**
-* @polymer
-* @extends HTMLElement
-*/
+ * @polymer
+ * @extends HTMLElement
+ */
 class BazdaraHome extends GestureEventListeners(PolymerElement) {
   static get template() {
     return html `
@@ -52,29 +52,6 @@ class BazdaraHome extends GestureEventListeners(PolymerElement) {
       <style include="paper-material-styles iron-flex iron-flex-alignment shared-styles bootstrap-style">
         :host {
           display: block;
-        }
-
-        .gaugeflex {
-          @apply --layout-horizontal;
-          @apply --layout-center;
-        }
-
-        .gaugeflexchild {
-          @apply --layout-flex;
-          @apply --layout-horizontal;
-          @apply --layout-center-justified;
-          @apply --layout-self-stretch;
-          margin: 10px;
-          background-color:var(--primary-background-color);
-          padding-top: 7px
-        }
-
-        .gaugeflexleft {
-          margin-right: 5px;
-        }
-
-        .gaugeflexright {
-          margin-left: 5px;
         }
 
         .gaugewind {
@@ -92,14 +69,39 @@ class BazdaraHome extends GestureEventListeners(PolymerElement) {
 
         .gaugeseatemp {
           background-color: #0277BD;
-          margin: 0 10px 10px 10px;
         }
 
         @media (min-width: 992px) {
           .col-top {
             margin-top:64px;
           }
+
+          live-current {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            width: 100%;
+            height: 100%;
+          }
         }
+
+        .outer {
+          padding:5px
+        }
+
+        .material {
+          background-color:var(--primary-background-color);
+          margin: 5px;
+        }
+
+        .material2 {
+          margin: 5px;
+        }
+        .center {
+          @apply --layout-flex;
+          @apply --layout-horizontal;
+          @apply --layout-center-justified;
+        }
+
       </style>
 
 <firebase-live live="{{live}}"></firebase-live>
@@ -107,40 +109,43 @@ class BazdaraHome extends GestureEventListeners(PolymerElement) {
 
 <div id="top"></div>
 
-  <div class="row no-gutters">
-    <div class="col-lg col-top">
+<live-current on-track="handleTrack" live="[[live]]" trenutno="[[trenutno]]"></live-current>
+<div id="scroll" style="padding-top:64px;margin-top:-64px"></div>
 
-      <live-current on-track="handleTrack" live="[[live]]" trenutno="[[trenutno]]"></live-current>
-      <div id="scroll" style="padding-top:64px;margin-top:-64px"></div>
+  <div class="row no-gutters outer">
+    <div class="col-lg">
 
     </div>
-    <div class="col-lg col-top">
-
-      <live-details live="[[live]]" trenutno="[[trenutno]]"></live-details>
-      <wind-details live="[[live]]" trenutno="[[trenutno]]" speedunit="[[speedunit]]"></wind-details>
-
-      <div class="gaugeflex">
-        <div class="gaugeflexchild gaugeflexleft paper-material gaugespeed" elevation="1">
+    <div class="col-lg">
+      <div class="row no-gutters">
+        <div class="col-md paper-material material" elevation="1">
+          <live-details live="[[live]]" trenutno="[[trenutno]]"></live-details>
+        </div>
+        <div class="col-md paper-material material" elevation="1">
+          <wind-details live="[[live]]" trenutno="[[trenutno]]" speedunit="[[speedunit]]"></wind-details>
+        </div>
+        <div class="w-100"></div>
+        <div class="col paper-material material2 gaugespeed center" elevation="1">
           <gauge-wind-speed speed="[[live.currentWindSpeed]]" speedunit="[[speedunit]]"></gauge-wind-speed>
         </div>
-        <div class="gaugeflexchild gaugeflexright paper-material gaugewind" elevation="1">
+        <div class="col paper-material material2 gaugewind center" elevation="1">
           <gauge-wind-direction direction="[[live.currentWindDirection]]" name="[[live.currentWindDirection]]"></gauge-wind-direction>
         </div>
-      </div>
-
-      <sea-details live="[[live]]" trenutno="[[trenutno]]" speedunit="[[speedunit]]"></sea-details>
-
-      <div class="gaugeflex">
-        <div class="gaugeflexchild gaugeflexleft paper-material gaugewave" elevation="1">
+        <div class="w-100"></div>
+        <div class="col paper-material material" elevation="1">
+          <sea-details live="[[live]]" trenutno="[[trenutno]]" speedunit="[[speedunit]]"></sea-details>
+        </div>
+        <div class="w-100"></div>
+        <div class="col paper-material material2 gaugewave center" elevation="1">
           <gauge-sea-wave wave="[[trenutno.val.vrh.zdaj]]" wave2="[[live.wavesHeight]]"></gauge-sea-wave>
         </div>
-        <div class="gaugeflexchild gaugeflexright paper-material gaugeheight" elevation="1">
+        <div class="col paper-material material2 gaugeheight center" elevation="1">
           <gauge-sea-height temp="[[trenutno.vodostaj]]"></gauge-sea-height>
         </div>
-      </div>
-
-      <div class="paper-material gaugeseatemp" elevation="1">
-        <gauge-sea-temperature temp="[[trenutno.morje.vrh.zdajkoper]]"></gauge-sea-temperature>
+        <div class="w-100"></div>
+        <div class="col paper-material material2 gaugeseatemp center" elevation="1">
+          <gauge-sea-temperature temp="[[trenutno.morje.vrh.zdajkoper]]"></gauge-sea-temperature>
+        </div>
       </div>
 
     </div>

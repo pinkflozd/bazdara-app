@@ -1,10 +1,10 @@
 import firebase from "firebase/app";
 
 const config = {
-  apiKey: "AIzaSyBXxzi4oP1NBQU2t1VTpmsvXp5JZ7KzE_c",
-  authDomain: "vreme-live.firebaseapp.com",
+  apiKey: "AIzaSyD2PAdzxrpNtJWqKGUm2RW441euKOT6p6Y",
+  authDomain: "bazdara-99a47.firebaseapp.com",
   databaseURL: "https://bazdara-99a47.firebaseio.com",
-  projectId: "vreme-live",
+  projectId: "bazdara-99a47",
   storageBucket: "bazdara-99a47.appspot.com",
   messagingSenderId: "982039873090"
 };

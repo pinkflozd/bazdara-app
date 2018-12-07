@@ -35,7 +35,7 @@ class PageSettings extends PolymerElement {
 
       <app-localstorage-document key="settings_unit_speed" data="{{speedunit}}"></app-localstorage-document>
 
-      <label id="hitrost">Hitrost:</label>
+      <label id="hitrost">Hitrost:</label><br>
       <paper-radio-group aria-labelledby="hitrost" selected="{{speedunit}}">
         <paper-radio-button name="ms">m/s</paper-radio-button>
         <paper-radio-button name="kmh">km/h</paper-radio-button>

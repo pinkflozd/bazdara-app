@@ -61,10 +61,13 @@ class BazdaraMap extends PolymerElement {
       loading: {
         type: Boolean,
         value: true
-      }
+      },
+      redraw: {
+        type: String,
+        observer: "redrawMap"
+      },
     };
   }
-
 
   constructor() {
     super();
@@ -136,7 +139,9 @@ class BazdaraMap extends PolymerElement {
   }
 
   redrawMap() {
-    this._map.invalidateSize(true);
+    if (this._map.invalidateSize) {
+      this._map.invalidateSize(true);
+    }
   }
 
   _map() {
@@ -609,7 +614,6 @@ class BazdaraMap extends PolymerElement {
         xhr.onload = function() {
           if (xhr.status === 200) {
 
-
             var harbour = L.icon({
               iconUrl: this.path + 'images/map/harbour.png',
               iconSize: [18, 18], // size of the icon
@@ -635,10 +639,7 @@ class BazdaraMap extends PolymerElement {
               iconSize: [18, 18], // size of the icon
             });
 
-
             var pristan = L.geoJSON(JSON.parse(xhr.responseText), {
-
-
 
               onEachFeature: onEachFeature,
               pointToLayer: function(feature, latlng) {
@@ -664,8 +665,6 @@ class BazdaraMap extends PolymerElement {
                     icon: wreck
                   });
                 }
-
-
 
               }
 

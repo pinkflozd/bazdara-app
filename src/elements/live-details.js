@@ -26,12 +26,9 @@ class LiveDetails extends PolymerElement {
       <style include="paper-material-styles iron-flex iron-flex-alignment shared-styles">
         :host {
           display: block;
-          padding:10px 10px 0px 10px;
+          padding: 10px
         }
-        .paper-material {
-          background-color:var(--primary-background-color);
-          padding:10px;
-        }
+
         .flex-horizontal-with-ratios {
           margin-top: 5px;
           @apply --layout-horizontal;
@@ -62,7 +59,6 @@ class LiveDetails extends PolymerElement {
         }
       </style>
 
-      <div class="paper-material" elevation="1">
       <h2 class="paper-font-subhead">Trenutne razmere</h2>
 
       <div class="flex-horizontal-with-ratios">
@@ -106,7 +102,6 @@ class LiveDetails extends PolymerElement {
         </div>
       </div>
 
-      </div>
     `;
   }
 

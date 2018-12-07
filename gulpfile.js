@@ -54,18 +54,31 @@ gulp.task('copy', () => {
  */
 gulp.task('firebase', () => {
   // These are the files needed by PRPL Server, that are going to be moved to the functions folder
-  const filesToMove = [ 'build/polymer.json', 'build/**/index.html', 'build/**/push-manifest.json' ];
+  const filesToMove = ['build/polymer.json', 'build/**/index.html', 'build/**/push-manifest.json'];
+  const filesToMove2 = ['denar.html'];
   // Delete the build folder inside the functions folder
   return del('functions/build')
     .then(() =>
       // Copy the files needed by PRPL Server
       new Promise((resolve) =>
         gulp
-          .src(filesToMove, { base: '.' })
-          .pipe(gulp.dest('functions'))
-          .on('end', resolve)))
-    // Delete them from the original build
-    .then(() => del(filesToMove));
+        .src(filesToMove, {
+          base: '.'
+        })
+        .pipe(gulp.dest('functions'))
+        .on('end', resolve)))
+
+    .then(() =>
+      // Copy the files needed by PRPL Server
+      new Promise((resolve) =>
+        gulp
+        .src(filesToMove2, {
+          base: '.'
+        })
+        .pipe(gulp.dest('build'))
+        .on('end', resolve)));
+  // Delete them from the original build
+  //.then(() => del(filesToMove));
 });
 
 gulp.task('imagemin', () =>

@@ -1,15 +1,74 @@
 {
   "rules": {
-    ".read": true,
-    ".write": false,
+    "camera": {
+      ".read": true,
+      ".write": false
+    },
+    "cams": {
+      ".read": true,
+      ".write": false
+    },
+    "live": {
+      ".read": true,
+      ".write": false
+    },
+    "meteogram": {
+      ".read": true,
+      ".write": false
+    },
+    "napoved": {
+      ".read": true,
+      ".write": false
+    },
+    "notifications": {
+      ".read": true,
+      ".write": false
+    },
     "plima": {
+      ".read": true,
+      ".write": false,
       "koper": {
         ".indexOn": "d"
       }
     },
     "plimovanje": {
+      ".read": true,
+      ".write": false,
       "koper": {
         ".indexOn": "d"
+      }
+    },
+    "trenutno": {
+      ".read": true,
+      ".write": false
+    },
+    "flamelink": {
+      ".read": "auth != null",
+      ".write": "auth != null",
+      "users": {
+        ".indexOn": ["id", "email"]
+      }
+    },
+    "users": {
+      "$uid": {
+        ".read": "$uid === auth.uid",
+        ".write": "$uid === auth.uid"
+      }
+    },
+    "members": {
+      ".read": true,
+      "$uid": {
+        ".write": "$uid === auth.uid"
+      }
+    },
+    "maps": {
+      "$uid": {
+        ".read": "$uid === auth.uid",
+        ".write": "$uid === auth.uid"
+      },
+      "public": {
+        ".read": true,
+        ".write": "data.child('user').val() === auth.uid"
       }
     }
   }
