@@ -66,6 +66,10 @@ class BazdaraMap extends PolymerElement {
         type: String,
         observer: "redrawMap"
       },
+      theme: {
+        type: Boolean,
+        observer: "_themer",
+      },
     };
   }
 
@@ -125,26 +129,36 @@ class BazdaraMap extends PolymerElement {
       return load_script.scripts[load_script.scripts.length - 1].promise;
     }.bind(this);
 
-    load_script("https://x.bazdara.com/leaflet.js")
-    .then(function () {
-
-      load_script("https://webapiv2.navionics.com/dist/webapi/webapi.min.no-dep.js")
+    load_script("/files/leaflet.js")
       .then(function () {
-        console.log("Navionics loaded");
-        this._map();
-      }.bind(this));
 
-    }.bind(this));
+        load_script("https://webapiv2.navionics.com/dist/webapi/webapi.min.no-dep.js")
+          .then(function () {
+            console.log("Navionics loaded");
+            this._map();
+          }.bind(this));
+
+      }.bind(this));
 
   }
 
   redrawMap() {
-    if (this._map.invalidateSize) {
-      this._map.invalidateSize(true);
+    if (this.map) {
+      this.map.invalidateSize(true);
     }
   }
 
+  _themer () {
+    if (this.thm) {
+      this.map.remove();
+      this._map();
+    }
+    this.thm = true;
+  }
+
   _map() {
+
+    L.Icon.Default.imagePath = "images/map/";
 
     var map = L.map(this.$.map, {
       fullscreenControl: true,
@@ -158,11 +172,19 @@ class BazdaraMap extends PolymerElement {
 
     }.bind(this));
 
-    this._map = map;
+    this.map = map;
     map.setView([45.5282, 13.5681], 9);
 
+    var layer;
+    if (this.theme) {
+      layer = 'https://cartodb-basemaps-a.global.ssl.fastly.net/dark_nolabels/{z}/{x}/{y}.png';
+    } else {
+      layer = 'https://cartodb-basemaps-a.global.ssl.fastly.net/light_nolabels/{z}/{x}/{y}.png';
+    }
+
     function getCommonBaseLayers(map) {
-      var baseLayer = L.tileLayer('https://cartodb-basemaps-a.global.ssl.fastly.net/light_nolabels/{z}/{x}/{y}.png', {
+
+      var baseLayer = L.tileLayer(layer, {
         attribution: '<a href="https://carto.com" target="_blank">CARTO</a>, <a href="https://www.navionics.com" target="_blank">Navionics</a>'
       });
 
@@ -187,6 +209,8 @@ class BazdaraMap extends PolymerElement {
         "Street Map": osmLayer
       };
     }
+
+
 
     map.options.maxZoom = 16;
 
@@ -279,7 +303,111 @@ class BazdaraMap extends PolymerElement {
       attribution: '<a href="https://openseamap.org" target="_blank">OpenSea Map</a>'
     });
 
-    var baseLayers = getCommonBaseLayers(map); // see baselayers.js
+    this.baseLayers = getCommonBaseLayers(map); // see baselayers.js
+
+    L.control.locate({
+      position: 'topleft', // set the location of the control
+      layer: undefined, // use your own layer for the location marker, creates a new layer by default
+      drawCircle: false, // controls whether a circle is drawn that shows the uncertainty about the location
+      setView: 'untilPan', // automatically sets the map view to the user's location, enabled if `follow` is true
+      keepCurrentZoomLevel: false, // keep the current map zoom level when displaying the user's location. (if `false`, use maxZoom)
+      stopFollowingOnDrag: false, // stop following when the map is dragged if `follow` is true (deprecated, see below)
+      remainActive: false, // if true locate control remains active on click even if the user's location is in view.
+      markerClass: L.circleMarker, // L.circleMarker or L.marker
+      circleStyle: {}, // change the style of the circle around the user's location
+      markerStyle: {},
+      followCircleStyle: {}, // set difference for the style of the circle around the user's location while following
+      followMarkerStyle: {},
+      icon: 'locationon', // class for icon, fa-location-arrow or fa-map-marker
+      iconLoading: 'locationoff', // class for loading icon
+      iconElementTag: 'div', // tag for the icon element, span or i
+      circlePadding: [0, 0], // padding around accuracy circle, value is passed to setBounds
+      metric: true, // use metric or imperial units
+      onLocationError: function (err) {
+        alert(err.message)
+        //toast0.text = 'Can\'t find your location.';
+        //toast0.open();
+        //ga('send', 'event', 'error', 'GPS Napaka');
+      }, // define an error callback function
+      onLocationOutsideMapBounds: function (context) { // called when outside map boundaries
+        alert(context.options.strings.outsideMapBoundsMsg);
+        //ga('send', 'event', 'error', 'GPS Napaka');
+      },
+      showPopup: true, // display a popup when the user click on the inner marker
+      strings: {
+        title: "Pokaži kje se nahajam", // title of the locate control
+        metersUnit: "metrov", // string for metric units
+        feetUnit: "feet", // string for imperial units
+        popup: "Ti si v območju {distance} {unit} od te točke", // text to appear if user clicks on circle
+        outsideMapBoundsMsg: "Zgleda da se nahajaš izven območja zemljevida" // default message for onLocationOutsideMapBounds
+      },
+      locateOptions: {
+        enableHighAccuracy: true,
+        maxZoom: 15,
+        minZoom: 14,
+      } // define location options e.g enableHighAccuracy: true or maxZoom: 10
+    }).addTo(map);
+
+    var editableLayers = new L.FeatureGroup();
+    map.addLayer(editableLayers);
+
+    var MyCustomMarker = L.Icon.extend({
+        options: {
+            shadowUrl: null,
+            iconAnchor: new L.Point(12, 12),
+            iconSize: new L.Point(24, 24),
+            iconUrl: '../images/map/marker-icon-2x.png'
+        }
+    });
+
+    var options = {
+        position: 'topleft',
+        draw: {
+            polyline: {
+                shapeOptions: {
+                    color: '#f357a1',
+                    weight: 10
+                }
+            },
+            polygon: {
+                allowIntersection: false, // Restricts shapes to simple polygons
+                drawError: {
+                    color: '#e1e100', // Color the shape will turn when intersects
+                    message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
+                },
+                shapeOptions: {
+                    color: '#bada55'
+                }
+            },
+            circle: false, // Turns off this drawing tool
+            rectangle: {
+                shapeOptions: {
+                    clickable: false
+                }
+            },
+            marker: {
+                icon: new MyCustomMarker()
+            }
+        },
+        edit: {
+            featureGroup: editableLayers, //REQUIRED!!
+            remove: false
+        }
+    };
+
+    var drawControl = new L.Control.Draw(options);
+    map.addControl(drawControl);
+
+    map.on(L.Draw.Event.CREATED, function (e) {
+        var type = e.layerType,
+            layer = e.layer;
+
+        if (type === 'marker') {
+            layer.bindPopup('A popup!');
+        }
+
+        editableLayers.addLayer(layer);
+    });
 
     var markers = L.markerClusterGroup({
       removeOutsideVisibleBounds: false,
@@ -298,48 +426,54 @@ class BazdaraMap extends PolymerElement {
         zIndex: 1
       });
 
-        //navionic.addTo(map);
+      //navionic.addTo(map);
 
-        groupedOverlays = {
-          "Pomorstvo": {
-            "Navionics": navionic,
-            "Pomorski promet": trafikLayer,
-            "Pomorske oznake": seaLayer,
-            "Pristaniča": markers
-          },
-          "Vreme": {
-            "Napoved padavin": padavine,
-            "Napoved vetera": veter,
-            "Napoved temperature": temper,
-            "Trenutno strele": strele
-          }
-        };
+      groupedOverlays = {
+        "Pomorstvo": {
+          "Navionics": navionic,
+          "Pomorski promet": trafikLayer,
+          "Pomorske oznake": seaLayer
+        },
+        "Pozicije": {
+          "Pristanišča": markers,
+          "Moje pozicije": editableLayers
+        },
+        "Vreme": {
+          "Napoved padavin": padavine,
+          "Napoved vetera": veter,
+          "Napoved temperature": temper,
+          "Trenutno strele": strele
+        }
+      };
 
-      } catch (e) {
-        navionic = trafikLayer;
-        seaLayer.addTo(map);
-        console.log('Navionics maps are offline');
-        console.log(e);
+    } catch (e) {
+      navionic = trafikLayer;
+      seaLayer.addTo(map);
+      console.log('Navionics maps are offline');
+      console.log(e);
 
-        groupedOverlays = {
-          "Pomorstvo": {
-            "Pomorski promet": trafikLayer,
-            "Pomorske oznake": seaLayer,
-            "Pristaniča": markers
-          },
-          "Vreme": {
-            "Napoved padavin": padavine,
-            "Napoved vetera": veter,
-            "Napoved temperature": temper,
-            "Trenutno strele": strele
-          }
-        };
-      }
+      groupedOverlays = {
+        "Pomorstvo": {
+          "Pomorski promet": trafikLayer,
+          "Pomorske oznake": seaLayer,
+        },
+        "Pozicije": {
+          "Pristanišča": markers,
+          "Moje pozicije": editableLayers
+        },
+        "Vreme": {
+          "Napoved padavin": padavine,
+          "Napoved vetera": veter,
+          "Napoved temperature": temper,
+          "Trenutno strele": strele
+        }
+      };
+    }
 
-      map.on('tileerror', function(error, tile) {
-        console.log(error);
-        console.log(tile);
-      });
+    map.on('tileerror', function (error, tile) {
+      console.log(error);
+      console.log(tile);
+    });
 
 
 
@@ -378,306 +512,254 @@ class BazdaraMap extends PolymerElement {
     //testLegend.addTo(map);
 
     this.add1 = "0";
-        this.add2 = "0";
-        this.add3 = "0";
-        this.add4 = "0";
+    this.add2 = "0";
+    this.add3 = "0";
+    this.add4 = "0";
 
-        map.on('popupopen', function(e) {
-          var px = map.project(e.popup._latlng); // find the pixel location on the map where the popup anchor is
-          px.y -= e.popup._container.clientHeight / 2 // find the height of the popup container, divide by 2, subtract from the Y axis of marker location
-          map.panTo(map.unproject(px), {
-            animate: true
-          }); // pan to new center
-        });
+    map.on('popupopen', function (e) {
+      var px = map.project(e.popup._latlng); // find the pixel location on the map where the popup anchor is
+      px.y -= e.popup._container.clientHeight / 2 // find the height of the popup container, divide by 2, subtract from the Y axis of marker location
+      map.panTo(map.unproject(px), {
+        animate: true
+      }); // pan to new center
+    });
 
-        map.on('overlayadd', function(groupedOverlays) {
-          if (groupedOverlays.name == 'Napoved padavin') {
+    map.on('overlayadd', function (groupedOverlays) {
+      if (groupedOverlays.name == 'Napoved padavin') {
 
-            if (this.add2 == "0" && this.add3 == "0") {
-              timeDimensionControl.addTo(map);
-            }
-            testLegend.addTo(map);
+        if (this.add2 == "0" && this.add3 == "0") {
+          timeDimensionControl.addTo(map);
+        }
+        testLegend.addTo(map);
 
-            this.add1 = "1";
-            //ga('send', 'event', 'view', 'Map Padavine');
-          } else if (groupedOverlays.name == 'Napoved vetera') {
+        this.add1 = "1";
+        //ga('send', 'event', 'view', 'Map Padavine');
+      } else if (groupedOverlays.name == 'Napoved vetera') {
 
-            if (this.add1 == "0" && this.add3 == "0") {
-              timeDimensionControl.addTo(map);
-            }
-
-            this.add2 = "1";
-            //ga('send', 'event', 'view', 'Map Veter');
-          } else if (groupedOverlays.name == 'Napoved temperature') {
-
-            if (this.add1 == "0" && this.add2 == "0") {
-              timeDimensionControl.addTo(map);
-            }
-            testLegend2.addTo(map);
-
-            this.add3 = "1";
-            //ga('send', 'event', 'view', 'Map Temperatura');
-          } else if (groupedOverlays.name == 'Val') {
-
-            if (this.add1 == "0" && this.add2 == "0") {
-              timeDimensionControl.addTo(map);
-            }
-
-            this.add4 = "1";
-            //ga('send', 'event', 'view', 'Map Temperatura');
-          } else if (groupedOverlays.name == 'Navionics') {
-            var zoomLev = map.getZoom();
-            if (zoomLev > 16) {
-              map.setZoom(16);
-            }
-            map.options.maxZoom = 16;
-            //ga('send', 'event', 'view', 'Map Navionics');
-          } else if (groupedOverlays.name == 'Pomorske oznake') {
-            //ga('send', 'event', 'view', 'Map Sea Marks');
-          } else if (groupedOverlays.name == 'Pomorski promet') {
-            //ga('send', 'event', 'view', 'Map Marine Traffic');
-          }
-
-
-
-
-        }.bind(this));
-
-        map.on('overlayremove', function(groupedOverlays) {
-          if (groupedOverlays.name == 'Napoved padavin') {
-            map.removeControl(testLegend);
-
-            if (this.add2 == "0" && this.add3 == "0") {
-              map.removeControl(timeDimensionControl);
-            }
-
-            this.add1 = "0";
-          } else if (groupedOverlays.name == 'Napoved vetera') {
-            //map.removeControl(velocityLegend);
-            if (this.add1 == "0" && this.add3 == "0") {
-              map.removeControl(timeDimensionControl);
-            }
-            this.add2 = "0";
-          } else if (groupedOverlays.name == 'Napoved temperature') {
-            //map.removeControl(velocityLegend);
-            map.removeControl(testLegend2);
-            if (this.add1 == "0" && this.add2 == "0") {
-              map.removeControl(timeDimensionControl);
-            }
-            this.add3 = "0";
-          } else if (groupedOverlays.name == 'Navionics') {
-            map.options.maxZoom = 18;
-          } else if (groupedOverlays.name == 'Pomorske oznake') {
-            //ga('send', 'event', 'view', 'Map Sea Marks');
-          } else if (groupedOverlays.name == 'Pomorski promet') {
-            //ga('send', 'event', 'view', 'Map Marine Traffic');
-          }
-        }.bind(this));
-
-        L.control.groupedLayers(baseLayers, groupedOverlays).addTo(map);
-
-        map.timeDimension.on('timeload', function() {
-            this.loading = false;
-        }.bind(this));
-
-        // `fullscreenchange` Event that's fired when entering or exiting fullscreen.
-        map.on('fullscreenchange', function() {
-          if (map.isFullscreen()) {
-            console.log('entered fullscreen');
-            //ga('send', 'event', 'view', 'FullScreen Navigacija');
-          } else {
-            console.log('exited fullscreen');
-            map.invalidateSize(true);
-          }
-        });
-
-
-
-
-
-
-
-
-
-        L.control.locate({
-          position: 'topleft', // set the location of the control
-          layer: undefined, // use your own layer for the location marker, creates a new layer by default
-          drawCircle: true, // controls whether a circle is drawn that shows the uncertainty about the location
-          setView: 'untilPan', // automatically sets the map view to the user's location, enabled if `follow` is true
-          keepCurrentZoomLevel: false, // keep the current map zoom level when displaying the user's location. (if `false`, use maxZoom)
-          stopFollowingOnDrag: false, // stop following when the map is dragged if `follow` is true (deprecated, see below)
-          remainActive: false, // if true locate control remains active on click even if the user's location is in view.
-          markerClass: L.circleMarker, // L.circleMarker or L.marker
-          circleStyle: {}, // change the style of the circle around the user's location
-          markerStyle: {},
-          followCircleStyle: {}, // set difference for the style of the circle around the user's location while following
-          followMarkerStyle: {},
-          icon: 'locationon', // class for icon, fa-location-arrow or fa-map-marker
-          iconLoading: 'locationoff', // class for loading icon
-          iconElementTag: 'div', // tag for the icon element, span or i
-          circlePadding: [0, 0], // padding around accuracy circle, value is passed to setBounds
-          metric: true, // use metric or imperial units
-          onLocationError: function(err) {
-            alert(err.message)
-            //toast0.text = 'Can\'t find your location.';
-            //toast0.open();
-            //ga('send', 'event', 'error', 'GPS Napaka');
-          }, // define an error callback function
-          onLocationOutsideMapBounds: function(context) { // called when outside map boundaries
-            alert(context.options.strings.outsideMapBoundsMsg);
-            //ga('send', 'event', 'error', 'GPS Napaka');
-          },
-          showPopup: true, // display a popup when the user click on the inner marker
-          strings: {
-            title: "Pokaži kje se nahajam", // title of the locate control
-            metersUnit: "metrov", // string for metric units
-            feetUnit: "feet", // string for imperial units
-            popup: "Ti si v območju {distance} {unit} od te točke", // text to appear if user clicks on circle
-            outsideMapBoundsMsg: "Zgleda da se nahajaš izven območja zemljevida" // default message for onLocationOutsideMapBounds
-          },
-          locateOptions: {
-            enableHighAccuracy: true,
-            maxZoom: 15,
-            minZoom: 14,
-          } // define location options e.g enableHighAccuracy: true or maxZoom: 10
-        }).addTo(map);
-
-
-
-        map.on("zoomend", function() {
-          //ga('send', 'event', 'view', 'Zoom Navigacija');
-        });
-
-        map.on('locationfound', function() {
-          //ga('send', 'event', 'view', 'GPS Navigacija');
-        });
-
-        function onEachFeature(feature, layer) {
-
-          var popupContent =
-            '<style>.warning{padding:5px;background-color:#D32F2F;color:#fff;margin-bottom:15px}h2{width:240px;text-align:center;font-size:16px}.poper{margin-right:5px;}.pop{height:340px;overflow-y:auto;overflow-x:hidden}@media (max-width:720px) and (orientation:landscape){.pop{height:200px}}@media (min-width:721px){h2{width:550px}.pop{font-size:14px;text-align:justify;height:390px}}@media (min-width:1199px){h2{width:750px}.pop{font-size:14px;text-align:justify;height:530px}}.leaflet-popup-content{margin-top:16px;margin-left:5px;margin-right:0px;margin-bottom:12px}.pop::-webkit-scrollbar-track{-webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.3);background-color:#F5F5F5;}.pop::-webkit-scrollbar{width:6px;background-color:#F5F5F5;}.pop::-webkit-scrollbar-thumb{background-color:#1e88e5;}</style><div class="pop"><div class="poper">';
-
-          popupContent += '<h2>' + feature.properties.Name + '</h2>';
-
-          if (feature.properties && feature.properties.img) {
-            popupContent += '<div style="margin-bottom:24px"><img id="slika" src="https://x.bazdara.com/pristan/' + feature.properties.img +
-              '.jpg" style="max-width:100%" /><fullscreen-icon-button target="#slika" class="fullscreen" title="fullscreen" tabindex="0" alt="fullscreen" style="margin-top:-52px;margin-left:15px"></fullscreen-icon-button></div>';
-          }
-
-          if (feature.properties && feature.properties.img2) {
-            popupContent += '<div style="margin-bottom:24px"><img id="slika2" src="https://x.bazdara.com/pristan/' + feature.properties.img2 +
-              '.png" style="max-width:100%" /><fullscreen-icon-button target="#slika2" class="fullscreen" title="fullscreen" tabindex="0" alt="fullscreen" style="margin-top:-52px;margin-left:15px"></fullscreen-icon-button></div>';
-          }
-
-
-          if (feature.properties && feature.properties.warning) {
-            popupContent += '<div class="warning">';
-
-            if (feature.properties.lang) {
-              popupContent += '<span lang="' + feature.properties.lang + '">';
-            }
-
-            popupContent += feature.properties.warning;
-
-            if (feature.properties.lang) {
-              popupContent += '</span>';
-            }
-
-            popupContent += '</div>';
-          }
-
-          if (feature.properties && feature.properties.description) {
-
-            if (feature.properties.lang) {
-              popupContent += '<span lang="' + feature.properties.lang + '">';
-            }
-            popupContent += feature.properties.description;
-
-            if (feature.properties.lang) {
-              popupContent += '</span>';
-            }
-
-          }
-
-          popupContent += '</div></div>';
-
-
-          layer.bindPopup(popupContent, {
-            'maxWidth': 'auto',
-            'className': 'custompop'
-          });
+        if (this.add1 == "0" && this.add3 == "0") {
+          timeDimensionControl.addTo(map);
         }
 
-        let xhr = new XMLHttpRequest();
-        xhr.open('GET', 'https://x.bazdara.com/pristan/pristani.json');
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.onload = function() {
-          if (xhr.status === 200) {
+        this.add2 = "1";
+        //ga('send', 'event', 'view', 'Map Veter');
+      } else if (groupedOverlays.name == 'Napoved temperature') {
 
-            var harbour = L.icon({
-              iconUrl: this.path + 'images/map/harbour.png',
-              iconSize: [18, 18], // size of the icon
-            });
+        if (this.add1 == "0" && this.add2 == "0") {
+          timeDimensionControl.addTo(map);
+        }
+        testLegend2.addTo(map);
 
-            var anchor = L.icon({
-              iconUrl: this.path + 'images/map/anchor.png',
-              iconSize: [18, 18], // size of the icon
-            });
+        this.add3 = "1";
+        //ga('send', 'event', 'view', 'Map Temperatura');
+      } else if (groupedOverlays.name == 'Val') {
 
-            var lighthouse = L.icon({
-              iconUrl: this.path + 'images/map/lighthouse.png',
-              iconSize: [18, 18], // size of the icon
-            });
+        if (this.add1 == "0" && this.add2 == "0") {
+          timeDimensionControl.addTo(map);
+        }
 
-            var buoy = L.icon({
-              iconUrl: this.path + 'images/map/buoy.png',
-              iconSize: [18, 18], // size of the icon
-            });
+        this.add4 = "1";
+        //ga('send', 'event', 'view', 'Map Temperatura');
+      } else if (groupedOverlays.name == 'Navionics') {
+        var zoomLev = map.getZoom();
+        if (zoomLev > 16) {
+          map.setZoom(16);
+        }
+        map.options.maxZoom = 16;
+        //ga('send', 'event', 'view', 'Map Navionics');
+      } else if (groupedOverlays.name == 'Pomorske oznake') {
+        //ga('send', 'event', 'view', 'Map Sea Marks');
+      } else if (groupedOverlays.name == 'Pomorski promet') {
+        //ga('send', 'event', 'view', 'Map Marine Traffic');
+      }
 
-            var wreck = L.icon({
-              iconUrl: this.path + 'images/map/wreck.png',
-              iconSize: [18, 18], // size of the icon
-            });
 
-            var pristan = L.geoJSON(JSON.parse(xhr.responseText), {
 
-              onEachFeature: onEachFeature,
-              pointToLayer: function(feature, latlng) {
 
-                if (feature.properties.type == "harbour") {
-                  return L.marker(latlng, {
-                    icon: harbour
-                  });
-                } else if (feature.properties.type == "anchor") {
-                  return L.marker(latlng, {
-                    icon: anchor
-                  });
-                } else if (feature.properties.type == "lighthouse") {
-                  return L.marker(latlng, {
-                    icon: lighthouse
-                  });
-                } else if (feature.properties.type == "buoy") {
-                  return L.marker(latlng, {
-                    icon: buoy
-                  });
-                } else if (feature.properties.type == "wreck") {
-                  return L.marker(latlng, {
-                    icon: wreck
-                  });
-                }
+    }.bind(this));
 
-              }
+    map.on('overlayremove', function (groupedOverlays) {
+      if (groupedOverlays.name == 'Napoved padavin') {
+        map.removeControl(testLegend);
 
-            });
+        if (this.add2 == "0" && this.add3 == "0") {
+          map.removeControl(timeDimensionControl);
+        }
 
-            markers.addLayer(pristan);
+        this.add1 = "0";
+      } else if (groupedOverlays.name == 'Napoved vetera') {
+        //map.removeControl(velocityLegend);
+        if (this.add1 == "0" && this.add3 == "0") {
+          map.removeControl(timeDimensionControl);
+        }
+        this.add2 = "0";
+      } else if (groupedOverlays.name == 'Napoved temperature') {
+        //map.removeControl(velocityLegend);
+        map.removeControl(testLegend2);
+        if (this.add1 == "0" && this.add2 == "0") {
+          map.removeControl(timeDimensionControl);
+        }
+        this.add3 = "0";
+      } else if (groupedOverlays.name == 'Navionics') {
+        map.options.maxZoom = 18;
+      } else if (groupedOverlays.name == 'Pomorske oznake') {
+        //ga('send', 'event', 'view', 'Map Sea Marks');
+      } else if (groupedOverlays.name == 'Pomorski promet') {
+        //ga('send', 'event', 'view', 'Map Marine Traffic');
+      }
+    }.bind(this));
 
-            markers.addTo(map);
+    L.control.groupedLayers(this.baseLayers, groupedOverlays).addTo(map);
+
+    map.timeDimension.on('timeload', function () {
+      this.loading = false;
+    }.bind(this));
+
+    // `fullscreenchange` Event that's fired when entering or exiting fullscreen.
+    map.on('fullscreenchange', function () {
+      if (map.isFullscreen()) {
+        console.log('entered fullscreen');
+        //ga('send', 'event', 'view', 'FullScreen Navigacija');
+      } else {
+        console.log('exited fullscreen');
+        map.invalidateSize(true);
+      }
+    });
+
+    map.on("zoomend", function () {
+      //ga('send', 'event', 'view', 'Zoom Navigacija');
+    });
+
+    map.on('locationfound', function () {
+      //ga('send', 'event', 'view', 'GPS Navigacija');
+    });
+
+    function onEachFeature(feature, layer) {
+
+      var popupContent =
+        '<style>.warning{padding:5px;background-color:#D32F2F;color:#fff;margin-bottom:15px}h2{width:240px;text-align:center;font-size:16px}.poper{margin-right:5px;}.pop{height:340px;overflow-y:auto;overflow-x:hidden}@media (max-width:720px) and (orientation:landscape){.pop{height:200px}}@media (min-width:721px){h2{width:550px}.pop{font-size:14px;text-align:justify;height:390px}}@media (min-width:1199px){h2{width:750px}.pop{font-size:14px;text-align:justify;height:530px}}.leaflet-popup-content{margin-top:16px;margin-left:5px;margin-right:0px;margin-bottom:12px}.pop::-webkit-scrollbar-track{-webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.3);background-color:#F5F5F5;}.pop::-webkit-scrollbar{width:6px;background-color:#F5F5F5;}.pop::-webkit-scrollbar-thumb{background-color:#1e88e5;}</style><div class="pop"><div class="poper">';
+
+      popupContent += '<h2>' + feature.properties.Name + '</h2>';
+
+      if (feature.properties && feature.properties.img) {
+        popupContent += '<div style="margin-bottom:24px"><img id="slika" src="https://x.bazdara.com/pristan/' + feature.properties.img +
+          '.jpg" style="max-width:100%" /><fullscreen-icon-button target="#slika" class="fullscreen" title="fullscreen" tabindex="0" alt="fullscreen" style="margin-top:-52px;margin-left:15px"></fullscreen-icon-button></div>';
+      }
+
+      if (feature.properties && feature.properties.img2) {
+        popupContent += '<div style="margin-bottom:24px"><img id="slika2" src="https://x.bazdara.com/pristan/' + feature.properties.img2 +
+          '.png" style="max-width:100%" /><fullscreen-icon-button target="#slika2" class="fullscreen" title="fullscreen" tabindex="0" alt="fullscreen" style="margin-top:-52px;margin-left:15px"></fullscreen-icon-button></div>';
+      }
+
+
+      if (feature.properties && feature.properties.warning) {
+        popupContent += '<div class="warning">';
+
+        if (feature.properties.lang) {
+          popupContent += '<span lang="' + feature.properties.lang + '">';
+        }
+
+        popupContent += feature.properties.warning;
+
+        if (feature.properties.lang) {
+          popupContent += '</span>';
+        }
+
+        popupContent += '</div>';
+      }
+
+      if (feature.properties && feature.properties.description) {
+
+        if (feature.properties.lang) {
+          popupContent += '<span lang="' + feature.properties.lang + '">';
+        }
+        popupContent += feature.properties.description;
+
+        if (feature.properties.lang) {
+          popupContent += '</span>';
+        }
+
+      }
+
+      popupContent += '</div></div>';
+
+
+      layer.bindPopup(popupContent, {
+        'maxWidth': 'auto',
+        'className': 'custompop'
+      });
+    }
+
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', 'https://x.bazdara.com/pristan/pristani.json');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+
+        var harbour = L.icon({
+          iconUrl: this.path + 'images/map/harbour.png',
+          iconSize: [18, 18], // size of the icon
+        });
+
+        var anchor = L.icon({
+          iconUrl: this.path + 'images/map/anchor.png',
+          iconSize: [18, 18], // size of the icon
+        });
+
+        var lighthouse = L.icon({
+          iconUrl: this.path + 'images/map/lighthouse.png',
+          iconSize: [18, 18], // size of the icon
+        });
+
+        var buoy = L.icon({
+          iconUrl: this.path + 'images/map/buoy.png',
+          iconSize: [18, 18], // size of the icon
+        });
+
+        var wreck = L.icon({
+          iconUrl: this.path + 'images/map/wreck.png',
+          iconSize: [18, 18], // size of the icon
+        });
+
+        var pristan = L.geoJSON(JSON.parse(xhr.responseText), {
+
+          onEachFeature: onEachFeature,
+          pointToLayer: function (feature, latlng) {
+
+            if (feature.properties.type == "harbour") {
+              return L.marker(latlng, {
+                icon: harbour
+              });
+            } else if (feature.properties.type == "anchor") {
+              return L.marker(latlng, {
+                icon: anchor
+              });
+            } else if (feature.properties.type == "lighthouse") {
+              return L.marker(latlng, {
+                icon: lighthouse
+              });
+            } else if (feature.properties.type == "buoy") {
+              return L.marker(latlng, {
+                icon: buoy
+              });
+            } else if (feature.properties.type == "wreck") {
+              return L.marker(latlng, {
+                icon: wreck
+              });
+            }
+
           }
-        }.bind(this);
-        xhr.send();
+
+        });
+
+        markers.addLayer(pristan);
+
+        markers.addTo(map);
+      }
+    }.bind(this);
+    xhr.send();
 
   }
+
 }
 
 window.customElements.define("bazdara-map", BazdaraMap);

@@ -68,6 +68,7 @@ class LiveCurrent extends PolymerElement {
 
       .container {
         height: calc(100vh - 64px);
+        min-height:550px;
         text-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
         color: #ffffff;
         padding: 64px 10px 10px 10px;
@@ -75,6 +76,12 @@ class LiveCurrent extends PolymerElement {
         background-repeat: no-repeat;
         background-size: cover;
         background-position: bottom;
+      }
+
+      @media (min-width: 992px) {
+        .container {
+          min-height:850px
+        }
       }
 
       .container, .container.clear, .container.mostClear {

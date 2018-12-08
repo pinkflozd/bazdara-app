@@ -6,9 +6,11 @@ import '@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
 import '@polymer/paper-item/paper-item.js';
 import '@polymer/paper-listbox/paper-listbox.js';
 import "./paypal-button-express.js";
+import '@polymer/polymer/lib/elements/dom-if.js';
 
 import firebase from "firebase/app";
 import "firebase/database";
+import "../shared-styles.js";
 
 //import {afterNextRender} from "@polymer/polymer/lib/utils/render-status.js";
 
@@ -21,16 +23,24 @@ import "firebase/database";
 class PaypalDonate extends PolymerElement {
   static get template() {
     return html `
-    <style>
+    <style include="shared-styles">
     p {
-      padding: 0 10px;
+      padding: 10px;
     }
     #dropdown {
       width: 130px;
       margin: 0 auto;
     }
+    .green {
+      background-color: #43A047;
+      color: var(--dark-theme-text-color);
+    }
     </style>
-<p>Z donacijo podpirate stran in pridobite dostop do več podatkov, hitrejše osvežitve podatkov v živo, zemljevide z možnostjo dodajanja pozicije.</p>
+
+<template is="dom-if" if="{{userdata.donate.donate}}">
+  <p class="green paper-font-body2"><strong>Status:</strong> Donacija prejeta</p>
+</template>
+<p class="paper-font-body1">Z donacijo podpirate stran in pridobite dostop do več podatkov, hitrejše osvežitve podatkov v živo, zemljevide z možnostjo dodajanja pozicije.</p>
 <div id="dropdown">
 <paper-dropdown-menu label="Znesek donacije">
   <paper-listbox slot="dropdown-content" attr-for-selected="name" selected="{{donation}}">

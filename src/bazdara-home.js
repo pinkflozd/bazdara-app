@@ -40,7 +40,6 @@ import "./elements/gauge-sea-height.js";
 
 import "./elements/gauge-sea-temperature.js";
 
-
 /**
  * @polymer
  * @extends HTMLElement
@@ -80,26 +79,36 @@ class BazdaraHome extends GestureEventListeners(PolymerElement) {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
             width: 100%;
+            min-height: 850px;
             height: 100%;
           }
         }
 
         .outer {
-          padding:5px
+          padding:5px;
+          max-width: 1200px;
         }
 
         .material {
           background-color:var(--primary-background-color);
           margin: 5px;
+          height: 100%;
         }
 
         .material2 {
           margin: 5px;
+          height: 100%;
         }
         .center {
           @apply --layout-flex;
           @apply --layout-horizontal;
           @apply --layout-center-justified;
+        }
+        .margin {
+          padding: 5px;
+        }
+        .paper-material {
+          height: 100%;
         }
 
       </style>
@@ -118,38 +127,52 @@ class BazdaraHome extends GestureEventListeners(PolymerElement) {
     </div>
     <div class="col-lg">
       <div class="row no-gutters">
-        <div class="col-md paper-material material" elevation="1">
+        <div class="col-md-6 margin">
+          <div class="paper-material material" elevation="1">
           <live-details live="[[live]]" trenutno="[[trenutno]]"></live-details>
+          </div>
         </div>
-        <div class="col-md paper-material material" elevation="1">
+        <div class="col-md-6 margin">
+          <div class="paper-material material" elevation="1">
           <wind-details live="[[live]]" trenutno="[[trenutno]]" speedunit="[[speedunit]]"></wind-details>
+          </div>
         </div>
-        <div class="w-100"></div>
-        <div class="col paper-material material2 gaugespeed center" elevation="1">
+        <div class="col-6 margin">
+          <div class="paper-material material2 gaugespeed center" elevation="1">
           <gauge-wind-speed speed="[[live.currentWindSpeed]]" speedunit="[[speedunit]]"></gauge-wind-speed>
+          </div>
         </div>
-        <div class="col paper-material material2 gaugewind center" elevation="1">
+        <div class="col-6 margin">
+          <div class="paper-material material2 gaugewind center" elevation="1">
           <gauge-wind-direction direction="[[live.currentWindDirection]]" name="[[live.currentWindDirection]]"></gauge-wind-direction>
+          </div>
         </div>
-        <div class="w-100"></div>
-        <div class="col paper-material material" elevation="1">
-          <sea-details live="[[live]]" trenutno="[[trenutno]]" speedunit="[[speedunit]]"></sea-details>
+        <div class="col-12 col-md-6 margin">
+          <div class="paper-material material" elevation="1">
+            <sea-details live="[[live]]" trenutno="[[trenutno]]" speedunit="[[speedunit]]"></sea-details>
+          </div>
         </div>
-        <div class="w-100"></div>
-        <div class="col paper-material material2 gaugewave center" elevation="1">
-          <gauge-sea-wave wave="[[trenutno.val.vrh.zdaj]]" wave2="[[live.wavesHeight]]"></gauge-sea-wave>
+        <div class="col-6 margin">
+          <div class="paper-material material2 gaugewave center" elevation="1">
+          <gauge-sea-wave wave2="[[trenutno.val.vrh.zdaj]]" wave="[[live.wavesHeight]]"></gauge-sea-wave>
+          </div>
         </div>
-        <div class="col paper-material material2 gaugeheight center" elevation="1">
+        <div class="col-6 margin">
+          <div class="paper-material material2 gaugeheight center" elevation="1">
           <gauge-sea-height temp="[[trenutno.vodostaj]]"></gauge-sea-height>
+          </div>
         </div>
-        <div class="w-100"></div>
-        <div class="col paper-material material2 gaugeseatemp center" elevation="1">
+        <div class="col margin">
+          <div class="paper-material material2 gaugeseatemp center" elevation="1">
           <gauge-sea-temperature temp="[[trenutno.morje.vrh.zdajkoper]]"></gauge-sea-temperature>
+          </div>
         </div>
       </div>
 
     </div>
   </div>
+
+  <div style="height:56px"></div>
     `;
   }
 

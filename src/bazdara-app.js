@@ -29,6 +29,7 @@ import "@polymer/iron-selector/iron-selector.js";
 import "@polymer/paper-icon-button/paper-icon-button.js";
 import "@polymer/paper-dialog/paper-dialog.js";
 import "@polymer/paper-button/paper-button.js";
+import "@polymer/iron-icon/iron-icon.js";
 
 import "@polymer/iron-media-query/iron-media-query.js";
 import "@polymer/paper-toggle-button/paper-toggle-button.js";
@@ -49,10 +50,10 @@ import "./elements/page-settings.js";
 import "@fabricelements/skeleton-auth/auth-mixin.js";
 import firebase from 'firebase/app';
 
-
 import "./elements/paper-fab-menu.js";
-
 import "./elements/paper-avatar.js";
+import "./elements/firebase-user.js";
+
 
 
 // Gesture events like tap and track generated from touch will not be
@@ -219,7 +220,6 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
           margin-right: -17px;
           margin-top: 7px
         }
-
         .login {
           background-color: var(--primary-color);
           color: var(--dark-theme-text-color);
@@ -239,21 +239,31 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
           padding:10px;
           color: var(--primary-text-color);
         }
-        .usersettings {
+        .settings {
           margin-right:10px;
         }
-        #usersettings {
+        #userdonate {
           max-width: 380px
+        }
+        .premium {
+          background-color: var(--primary-color);
+          color: var(--dark-theme-text-color);
+          width:140px;
+          margin: 0 auto 10px auto;
+          display:block;
+          text-align: center;
+          margin-top: -56px
         }
       </style>
 
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]">
       </app-location>
 
-      <app-route route="{{route}}" pattern="[[rootPath]]:page" data="{{routeData}}" tail="{{subroute}}">
-      <app-route route="{{subroute}}" pattern="/:sub" data="{{subrouteData}}" tail="{{subsubroute}}">
-
-      </app-route>
+      <app-route route="{{route}}" pattern="[[rootPath]]:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
+      <app-route route="{{subroute}}" pattern="/:sub" data="{{subrouteData}}" tail="{{subsubroute}}"></app-route>
+      <template is="dom-if" if="{{signedIn}}" restamp>
+        <firebase-user uid="{{user.uid}}" userdata="{{userdata}}"></firebase-user>
+      </template>
 
       <app-drawer-layout fullbleed="" force-narrow narrow="{{narrow}}">
         <!-- Drawer content -->
@@ -261,9 +271,12 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
           <div class="user">
           <template is="dom-if" if="{{signedIn}}" restamp>
             <paper-avatar label="{{user.displayName}}" src\$="{{user.photoURL}}" title="{{user.uid}}"></paper-avatar>
-            <paper-icon-button icon="bazdara-icons:settings" class="usersettings" on-tap="_userSettings"></paper-icon-button>
+            <div>
+            <paper-icon-button icon="bazdara-icons:membership" class="userdonate" on-tap="_userDonate"></paper-icon-button>
+            <paper-icon-button icon="bazdara-icons:settings" class="settings" on-tap="_paperSettings"></paper-icon-button>
+            </div>
           </template>
-          <paper-button class="login" raised on-tap="_openDialog" hidden="{{signedIn}}">Prijavi se</paper-button>
+          <paper-button class="login" raised on-tap="_openDialog" hidden="{{signedIn}}"><iron-icon icon="bazdara-icons:lock-open"></iron-icon> Prijavi se</paper-button>
           </div>
 
           <app-toolbar>Vreme</app-toolbar>
@@ -288,21 +301,31 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
           </app-header>
 
           <iron-pages selected="[[page]]" class$="[[page]]" attr-for-selected="name" role="main">
-            <bazdara-home speedunit="[[speedunit]]" latitude="[[latitude]]" longitude="[[longitude]]" name="home"></bazdara-home>
-            <bazdara-forecast speedunit="[[speedunit]]" latitude="[[latitude]]" longitude="[[longitude]]" theme="[[theme]]" redraw="{{redraw}}" name="napoved"></bazdara-forecast>
-            <bazdara-tide theme="[[theme]]" redraw="{{redrawp}}" name="plimovanje"></bazdara-tide>
-            <bazdara-map name="navigacija" redraw="{{redrawm}}"></bazdara-map>
-            <bazdara-about name="informacije"></bazdara-about>
+            <bazdara-home speedunit="[[speedunit]]" latitude="[[latitude]]" longitude="[[longitude]]" userdata="[[userdata]]" name="home"></bazdara-home>
+            <bazdara-forecast speedunit="[[speedunit]]" latitude="[[latitude]]" longitude="[[longitude]]" theme="[[theme]]" redraw="{{redraw}}" userdata="[[userdata]]" name="napoved"></bazdara-forecast>
+            <bazdara-tide theme="[[theme]]" redraw="{{redrawp}}" userdata="[[userdata]]" name="plimovanje"></bazdara-tide>
+            <bazdara-map name="navigacija" redraw="{{redrawm}}" userdata="[[userdata]]" theme="[[theme]]"></bazdara-map>
+            <bazdara-about name="informacije" userdata="[[userdata]]"></bazdara-about>
             <bazdara-view404 name="view404"></bazdara-view404>
           </iron-pages>
 
         </app-header-layout>
       </app-drawer-layout>
-
+      <template is="dom-if" if="{{userdata.donate.donate}}" restamp>
         <paper-fab-menu color="#2196F3" icon="bazdara-icons:apps" hidden$="{{fabhidden}}">
           <paper-fab-menu-item color="#009688" title="Nastavitve" icon="bazdara-icons:settings" on-tap="_paperSettings"></paper-fab-menu-item>
-          <paper-fab-menu-item color="#E91E63" title="Favorites" icon="bazdara-icons:videocam" on-tap="_paperCam"></paper-fab-menu-item>
+          <paper-fab-menu-item color="#E91E63" title="Web Cams" icon="bazdara-icons:videocam" on-tap="_paperCam"></paper-fab-menu-item>
+          <!-- <paper-fab-menu-item color="#673AB7" title="Donate" hidden$="{{userdata.donate.donate}}" icon="bazdara-icons:membership" on-tap="_userDonate"></paper-fab-menu-item> -->
         </paper-fab-menu>
+      </template>
+
+        <div hidden$="{{userdata.donate.donate}}">
+        <paper-fab-menu color="#2196F3" icon="bazdara-icons:apps" hidden$="{{fabhidden}}">
+          <paper-fab-menu-item color="#009688" title="Nastavitve" icon="bazdara-icons:settings" on-tap="_paperSettings"></paper-fab-menu-item>
+          <paper-fab-menu-item color="#E91E63" title="Web Cams" icon="bazdara-icons:videocam" on-tap="_paperCam"></paper-fab-menu-item>
+          <paper-fab-menu-item color="#673AB7" title="Donate" icon="bazdara-icons:membership" on-tap="_userDonate"></paper-fab-menu-item>
+        </paper-fab-menu>
+        </div>
 
         <paper-dialog id="dialog" with-backdrop>
           <firebase-login></firebase-login>
@@ -310,35 +333,38 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
             <p class="dialogp paper-font-body2">Uspešno ste se prijavili.</p>
           </template>
           <div class="buttons">
-            <paper-button dialog-confirm autofocus>Zapri</paper-button>
+            <paper-button dialog-confirm>Zapri</paper-button>
           </div>
         </paper-dialog>
 
         <paper-dialog id="settings">
-          <iron-media-query query="(prefers-color-scheme: dark)" query-matches="{{dark}}"></iron-media-query>
-          <paper-toggle-button checked="{{theme}}" aria-label="Dark Theme">Temna stran</paper-toggle-button><br>
-          <app-localstorage-document key="theme" data="{{theme}}"></app-localstorage-document>
-          <page-settings speedunit="{{speedunit}}"></page-settings>
+          <div class="dialogp">
+            <iron-media-query query="(prefers-color-scheme: dark)" query-matches="{{dark}}"></iron-media-query>
+            <paper-toggle-button checked="{{theme}}" aria-label="Dark Theme">Temna stran</paper-toggle-button><br>
+            <app-localstorage-document key="theme" data="{{theme}}"></app-localstorage-document>
+            <page-settings speedunit="{{speedunit}}"></page-settings>
+          </div>
           <div class="buttons">
-            <paper-button dialog-confirm autofocus>Zapri</paper-button>
+            <paper-button dialog-confirm>Zapri</paper-button>
           </div>
         </paper-dialog>
 
         <paper-dialog id="cam" with-backdrop>
           <live-cam class="camera" lat="[[latitude]]" lng="[[longitude]]"></live-cam>
           <div class="buttons">
-            <paper-button dialog-confirm autofocus>Zapri</paper-button>
+            <paper-button dialog-confirm>Zapri</paper-button>
           </div>
         </paper-dialog>
 
-        <paper-dialog id="usersettings">
+        <paper-dialog id="userdonate">
           <template is="dom-if" if="{{signedIn}}" restamp>
-            <paypal-donate user="{{user}}" paypal="{{paypal}}"></paypal-donate>
-            <div class="buttons">
-              <paper-button dialog-confirm autofocus>Zapri</paper-button>
-            </div>
+            <paypal-donate user="{{user}}" paypal="{{paypal}}" userdata="{{userdata}}"></paypal-donate>
           </template>
+          <div class="buttons">
+            <paper-button dialog-confirm>Zapri</paper-button>
+          </div>
         </paper-dialog>
+
     `;
   }
 
@@ -359,10 +385,14 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
       theme: Boolean,
       dark: Boolean,
       redraw: String,
+      userdata: Object,
     };
   }
 
-
+  resHasImage(){
+    console.log(this.userdata.donate.donate);
+        return !!this.userdata.donate.donate;
+  }
 
   static get observers() {
     return ["_themechange(theme)", "_routePageChanged(routeData.page)"];
@@ -432,14 +462,20 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
   }
 
   _paperSettings() {
+    if (!this.$.drawer.persistent) {
+      this.$.drawer.close();
+    }
     this.$.settings.open();
   }
 
-  _userSettings() {
+  _userDonate() {
     /* jshint ignore:start */
     import("./elements/paypal-donate.js").then(
       function () {
-        this.$.usersettings.open();
+        if (!this.$.drawer.persistent) {
+          this.$.drawer.close();
+        }
+        this.$.userdonate.open();
       }.bind(this)
     );
     /* jshint ignore:end */

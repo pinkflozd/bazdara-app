@@ -275,7 +275,7 @@ class GaugeWindDirection extends PolymerElement {
       valueTextShadow: false,
       colorCircleInner: "#fff",
       colorNeedleCircleOuter: "#ccc",
-      needleCircleSize: 15,
+      needleCircleSize: 13,
       needleCircleOuter: false,
       animationRule: "linear",
       needleType: "line",

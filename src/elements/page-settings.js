@@ -30,12 +30,14 @@ class PageSettings extends PolymerElement {
     return html `
 
       <style include="shared-styles">
-
+        #hitrost {
+          float: left;
+        }
       </style>
 
       <app-localstorage-document key="settings_unit_speed" data="{{speedunit}}"></app-localstorage-document>
 
-      <label id="hitrost">Hitrost:</label><br>
+      <label id="hitrost">Hitrost:</label>
       <paper-radio-group aria-labelledby="hitrost" selected="{{speedunit}}">
         <paper-radio-button name="ms">m/s</paper-radio-button>
         <paper-radio-button name="kmh">km/h</paper-radio-button>

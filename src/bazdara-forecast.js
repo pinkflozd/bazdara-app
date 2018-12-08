@@ -66,7 +66,6 @@ class BazdaraForecast extends PolymerElement {
             <meteogram-yrno lat="[[latitude]]" lng="[[longitude]]" speedunit="[[speedunit]]" full="true" theme="[[theme]]" redraw="{{redraw}}" select="{{selected}}"></meteogram-yrno>
           </div>
           <forecast-arso napoved="[[napoved]]" speedunit="[[speedunit]]"></forecast-arso>
-          <div style="height:64px"></div>
         </div>
         <div>
           <forecast-text napoved="[[napoved]]" speedunit="[[speedunit]]"></forecast-text>
@@ -76,6 +75,8 @@ class BazdaraForecast extends PolymerElement {
         </div>
 
       </iron-pages>
+
+      <div style="height:56px"></div>
     `;
   }
 

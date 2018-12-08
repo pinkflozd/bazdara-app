@@ -156,8 +156,14 @@ class LiveCam extends PolymerElement {
           <paper-item class="cont" hidden$="[[cameras.podvodna]]" id="podvodna" on-tap="onTabSelect">
             Piran&nbsp;-&nbsp;Podvodna
           </paper-item>
+          <paper-item class="cont" hidden$="[[cameras.siportoroz06]]" id="siportoroz06" on-tap="onTabSelect">
+            Bernardin
+          </paper-item>
+          <paper-item class="cont" hidden$="[[cameras.siportoroz07]]" id="siportoroz07" on-tap="onTabSelect">
+            Bernardin mandrač
+          </paper-item>
           <paper-item class="cont" hidden$="[[cameras.siportoroz03]]" id="siportoroz03" on-tap="onTabSelect">
-            Portorož
+            Portorož plaža
           </paper-item>
           <paper-item class="cont" hidden$="[[cameras.siportoroz05]]" id="siportoroz05" on-tap="onTabSelect">
             Portorož&nbsp;Panorama&nbsp;1
@@ -418,6 +424,22 @@ class LiveCam extends PolymerElement {
         this.cameras.siportoroz03
       ],
       [
+        "si_portoroz06",
+        45.516941,
+        13.569318,
+        "003",
+        "siportoroz06",
+        this.cameras.siportoroz06
+      ],
+      [
+        "si_portoroz07",
+        45.514891,
+        13.573450,
+        "004",
+        "siportoroz07",
+        this.cameras.siportoroz07
+      ],
+      [
         "si_portoroz05",
         45.51226,
         13.594525,
@@ -606,6 +628,14 @@ class LiveCam extends PolymerElement {
     } else if (this.custcam == "siportoroz05") {
       this.lat = "45.512260";
       this.lng = "13.594525";
+      this.disa();
+    } else if (this.custcam == "siportoroz06") {
+      this.lat = "45.516941";
+      this.lng = "13.569318";
+      this.disa();
+    } else if (this.custcam == "siportoroz07") {
+      this.lat = "45.514891";
+      this.lng = "13.573450";
       this.disa();
     } else if (this.custcam == "siportoroz04") {
       this.lat = "45.511023";
@@ -908,7 +938,7 @@ class LiveCam extends PolymerElement {
       const hlsjs = document.createElement("script");
       hlsjs.setAttribute(
         "src",
-        "https://cdn.jsdelivr.net/npm/hls.js@0.11.0/dist/hls.light.min.js"
+        "/files/hls.light.min.js"
       );
       document.head.appendChild(hlsjs);
 

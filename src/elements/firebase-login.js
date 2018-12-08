@@ -3,6 +3,7 @@ import {html, PolymerElement} from "@polymer/polymer/polymer-element";
 import "@fabricelements/skeleton-auth/skeleton-auth.js";
 import firebase from "firebase/app";
 import "firebase/database";
+import "@polymer/app-storage/app-localstorage/app-localstorage-document.js";
 
 /**
 * @polymer
@@ -17,6 +18,8 @@ class FirebaseLogin extends PolymerElement {
                      popup
                      signed-in="{{signedIn}}"
                      user="{{user}}"></skeleton-auth>
+                     <app-localstorage-document key="uid" data="{{user.uid}}"></app-localstorage-document>
+
         `;
   }
 

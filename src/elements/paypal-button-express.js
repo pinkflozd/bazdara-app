@@ -97,7 +97,7 @@ class PaypalButtonExpress extends PolymerElement {
     params.set('reference', this.reference);
     params.set('referer', document.location.href);
 
-    this._frame.src = `${this.resolveUrl("/denar.html")}?${params.toString()}`;
+    this._frame.src = `${this.resolveUrl("/files/denar.html")}?${params.toString()}`;
   }
 
   connectedCallback() {

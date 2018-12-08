@@ -356,7 +356,7 @@ class SeaTide extends PolymerElement {
         Highcharts.setOptions(Highcharts.theme);
       }
 
-      this.loading = false;
+      //this.loading = false;
 
       var datea = new Date(0);
       var dts = datea.toLocaleString('en-GB', {
@@ -375,11 +375,14 @@ class SeaTide extends PolymerElement {
             fontFamily: 'Roboto, sans-serif'
           },
           events: {
+            render: function () {
+              this.loading = false;
+            }.bind(this),
             load: function () {
               //setTimeout(function() {
               this.xAxis[0].setExtremes(prev, next);
               //}.bind(this), 1);
-            },
+            }
           },
         },
 

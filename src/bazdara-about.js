@@ -63,6 +63,8 @@ class BazdaraAbout extends PolymerElement {
         <hr>
         <p class="paper-font-body1"><a href="mailto:luka.karinja@gmail.com"><i18n-msg msgid="informacije_10">piši mi</i18n-msg></a>!</p>
       </div>
+
+      <div style="height:56px"></div>
     `;
   }
 

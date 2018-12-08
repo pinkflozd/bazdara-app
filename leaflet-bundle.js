@@ -5,3 +5,5 @@
 // require ./node_modules/leaflet.locatecontrol/src/L.Control.Locate.js
 // require ./node_modules/leaflet-fullscreen/dist/Leaflet.fullscreen.js
 // require ./node_modules/leaflet-groupedlayercontrol/src/leaflet.groupedlayercontrol.js
+// require ./node_modules/leaflet-easybutton/src/easy-button.js
+// require ./node_modules/leaflet-draw/dist/leaflet.draw-src.js

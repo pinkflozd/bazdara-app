@@ -55,7 +55,7 @@ gulp.task('copy', () => {
 gulp.task('firebase', () => {
   // These are the files needed by PRPL Server, that are going to be moved to the functions folder
   const filesToMove = ['build/polymer.json', 'build/**/index.html', 'build/**/push-manifest.json'];
-  const filesToMove2 = ['denar.html'];
+  const filesToMove2 = ['robots.txt', 'sitemap.xml', 'files/**/*', 'favicon.ico'];
   // Delete the build folder inside the functions folder
   return del('functions/build')
     .then(() =>
@@ -77,6 +77,8 @@ gulp.task('firebase', () => {
         })
         .pipe(gulp.dest('build'))
         .on('end', resolve)));
+
+
   // Delete them from the original build
   //.then(() => del(filesToMove));
 });

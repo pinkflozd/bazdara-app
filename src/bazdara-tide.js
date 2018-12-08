@@ -18,7 +18,6 @@ import "./shared-styles.js";
 import "./elements/sea-tide.js";
 import "./elements/firebase-tide.js";
 
-
 /**
 * @polymer
 * @extends HTMLElement
@@ -47,6 +46,8 @@ class BazdaraTide extends PolymerElement {
       <div class="paper-font-subhead">Plimovanje morja severni Jadran</div>
       <sea-tide elevation="1" theme="{{theme}}" tide="[[tide]]" tiden="[[tiden]]" redraw="{{redraw}}"></sea-tide>
       </div>
+
+      <div style="height:56px"></div>
     `;
   }
 

@@ -12,6 +12,7 @@ import {
   PolymerElement,
   html
 } from "@polymer/polymer/polymer-element.js";
+import "@polymer/paper-spinner/paper-spinner.js";
 
 import "@polymer/app-storage/app-localstorage/app-localstorage-document.js";
 import "@polymer/paper-styles/element-styles/paper-material-styles.js";
@@ -20,6 +21,7 @@ import "@polymer/paper-spinner/paper-spinner.js";
 import "@polymer/paper-dropdown-menu/paper-dropdown-menu.js";
 import "@polymer/paper-item/paper-item.js";
 import "@polymer/paper-listbox/paper-listbox.js";
+
 import {afterNextRender} from "@polymer/polymer/lib/utils/render-status.js";
 
 import firebase from "firebase/app";
@@ -40,6 +42,15 @@ class MeteogramYrno extends PolymerElement {
       <style include="paper-material-styles shared-styles">
         :host {
           display: block;
+        }
+        paper-spinner {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          margin: auto;
+          z-index:1;
         }
         paper-dropdown-menu {
           z-index:2;
@@ -85,6 +96,8 @@ class MeteogramYrno extends PolymerElement {
         };
        }
       </style>
+      <paper-spinner active$="[[loading]]"></paper-spinner>
+
       <app-localstorage-document key="[[town]]" data="{{meteograms}}"></app-localstorage-document>
 
       <div class="paper-material selector" elevation="1">
@@ -145,6 +158,14 @@ class MeteogramYrno extends PolymerElement {
       redraw: {
         type: String
       },
+      select: {
+        type: Number,
+        value: 0
+      },
+      loading: {
+        type: Boolean,
+        value: true
+      },
     };
   }
 
@@ -162,7 +183,7 @@ class MeteogramYrno extends PolymerElement {
   _redraw() {
 
     afterNextRender(this, function() {
-    if (this.select === 0) {
+    if (this.select == 0) {
       if (this.sel) {
         setTimeout(
           function () {
@@ -829,6 +850,9 @@ class MeteogramYrno extends PolymerElement {
         events: {
           redraw: function () {
             this.Meteogram();
+          }.bind(this),
+          load: function () {
+            this.loading = false;
           }.bind(this)
         }
       },
