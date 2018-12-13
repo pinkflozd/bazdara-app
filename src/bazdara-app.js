@@ -50,7 +50,6 @@ import "./elements/page-settings.js";
 import "@fabricelements/skeleton-auth/auth-mixin.js";
 import firebase from 'firebase/app';
 
-//import "./elements/paper-fab-menu.js";
 import "./elements/paper-avatar.js";
 import "./elements/firebase-user.js";
 
