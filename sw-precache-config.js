@@ -44,6 +44,30 @@ module.exports = {
     {
       urlPattern: /https?:\/\/x\.bazdara\.com\/.*/,
       handler: 'networkFirst'
+    },
+    {
+      urlPattern: /https?:\/\/ogcie\.iblsoft\.com\/.*/,
+      handler: 'networkFirst'
+    },
+    {
+      urlPattern: /https?:\/\/tiles\.marinetraffic\.com\/.*/,
+      handler: 'networkFirst'
+    },
+    {
+      urlPattern: /https?:\/\/x\.bazdara\.com\/.*/,
+      handler: 'networkFirst'
+    },
+    {
+      urlPattern: /https?:\/\/webapiv2\.navionics\.com\/.*/,
+      handler: 'networkFirst'
+    },
+    {
+      urlPattern: /https?:\/\/.*api\.here\.com\/.*/,
+      handler: 'networkFirst'
+    },
+    {
+      urlPattern: /https?:\/\/tiles\.lightningmaps\.org\/.*/,
+      handler: 'networkFirst'
     }
   ]
 };

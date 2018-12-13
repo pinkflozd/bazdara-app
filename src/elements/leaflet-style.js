@@ -375,6 +375,10 @@ $_documentContainer.innerHTML = `<dom-module id="leaflet-style">
     .leaflet-control-layers-expanded .leaflet-control-layers-list {
       display: block;
       position: relative;
+      max-height: calc(100vh - 128px);
+      overflow-x: hidden;
+      overflow-y: auto;
+      z-index:1
       }
     .leaflet-control-layers-expanded {
       padding: 6px 10px 6px 6px;

@@ -1,4 +1,5 @@
 // require ./node_modules/leaflet/dist/leaflet-src.js
+// require ./node_modules/leaflet-providers/leaflet-providers.js
 // require ./node_modules/iso8601-js-period/iso8601.js
 // require ./node_modules/leaflet-timedimension/dist/leaflet.timedimension.src.js
 // require ./node_modules/leaflet.markercluster/dist/leaflet.markercluster-src.js

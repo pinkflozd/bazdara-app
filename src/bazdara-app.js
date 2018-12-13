@@ -50,11 +50,14 @@ import "./elements/page-settings.js";
 import "@fabricelements/skeleton-auth/auth-mixin.js";
 import firebase from 'firebase/app';
 
-import "./elements/paper-fab-menu.js";
+//import "./elements/paper-fab-menu.js";
 import "./elements/paper-avatar.js";
 import "./elements/firebase-user.js";
 
+import "./elements/paper-fab-speed-dial-action.js";
+import "./elements/paper-fab-speed-dial.js";
 
+/*global ga*/
 
 // Gesture events like tap and track generated from touch will not be
 // preventable, allowing for better scrolling performance.
@@ -294,7 +297,7 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
 
           <app-header slot="header" class$="[[page]]" condenses="" reveals="" fixed effects="waterfall fade-background">
             <app-toolbar>
-              <paper-icon-button class="button-width" icon="bazdara-icons:menu" drawer-toggle="" aria-label="Menu"></paper-icon-button>
+              <paper-icon-button class="button-width" icon="bazdara-icons:menu" drawer-toggle="" aria-label="Menu" on-tap="_menu"></paper-icon-button>
               <div class="title" main-title="Bazdara"><h1 class="paper-font-display1">Bazdara</h1></div>
               <geo-button class="button-width" latitude="{{latitude}}" longitude="{{longitude}}"></geo-button>
             </app-toolbar>
@@ -311,21 +314,20 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
 
         </app-header-layout>
       </app-drawer-layout>
-      <template is="dom-if" if="{{userdata.donate.donate}}" restamp>
-        <paper-fab-menu color="#2196F3" icon="bazdara-icons:apps" hidden$="{{fabhidden}}">
-          <paper-fab-menu-item color="#009688" title="Nastavitve" icon="bazdara-icons:settings" on-tap="_paperSettings"></paper-fab-menu-item>
-          <paper-fab-menu-item color="#E91E63" title="Web Cams" icon="bazdara-icons:videocam" on-tap="_paperCam"></paper-fab-menu-item>
-          <!-- <paper-fab-menu-item color="#673AB7" title="Donate" hidden$="{{userdata.donate.donate}}" icon="bazdara-icons:membership" on-tap="_userDonate"></paper-fab-menu-item> -->
-        </paper-fab-menu>
+      <template is="dom-if" if="{{userdata.donate.donate}}">
+      <paper-fab-speed-dial with-backdrop hidden$="{{fabhidden}}">
+        <paper-fab-speed-dial-action color="#009688" icon="bazdara-icons:settings" on-tap="_paperSettings">Nastavitve</paper-fab-speed-dial-action>
+        <paper-fab-speed-dial-action color="#E91E63" icon="bazdara-icons:videocam" on-tap="_paperCam">Spletne kamere</paper-fab-speed-dial-action>
+      </paper-fab-speed-dial>
       </template>
+      <div hidden$="{{userdata.donate.donate}}">
+      <paper-fab-speed-dial with-backdrop hidden$="{{fabhidden}}">
+        <paper-fab-speed-dial-action color="#009688" icon="bazdara-icons:settings" on-tap="_paperSettings">Nastavitve</paper-fab-speed-dial-action>
+        <paper-fab-speed-dial-action color="#E91E63" icon="bazdara-icons:videocam" on-tap="_paperCam">Spletne kamere</paper-fab-speed-dial-action>
+        <paper-fab-speed-dial-action color="#673AB7" icon="bazdara-icons:membership" on-tap="_userDonate">Premium</paper-fab-speed-dial-action>
+      </paper-fab-speed-dial>
+      </div>
 
-        <div hidden$="{{userdata.donate.donate}}">
-        <paper-fab-menu color="#2196F3" icon="bazdara-icons:apps" hidden$="{{fabhidden}}">
-          <paper-fab-menu-item color="#009688" title="Nastavitve" icon="bazdara-icons:settings" on-tap="_paperSettings"></paper-fab-menu-item>
-          <paper-fab-menu-item color="#E91E63" title="Web Cams" icon="bazdara-icons:videocam" on-tap="_paperCam"></paper-fab-menu-item>
-          <paper-fab-menu-item color="#673AB7" title="Donate" icon="bazdara-icons:membership" on-tap="_userDonate"></paper-fab-menu-item>
-        </paper-fab-menu>
-        </div>
 
         <paper-dialog id="dialog" with-backdrop>
           <firebase-login></firebase-login>
@@ -345,11 +347,14 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
             <page-settings speedunit="{{speedunit}}"></page-settings>
           </div>
           <div class="buttons">
+            <template is="dom-if" if="{{signedIn}}">
+              <paper-button on-tap="_signOut"><iron-icon icon="bazdara-icons:lock"></iron-icon> Odjavi se</paper-button>
+            </template>
             <paper-button dialog-confirm>Zapri</paper-button>
           </div>
         </paper-dialog>
 
-        <paper-dialog id="cam" with-backdrop>
+        <paper-dialog id="cam">
           <live-cam class="camera" lat="[[latitude]]" lng="[[longitude]]"></live-cam>
           <div class="buttons">
             <paper-button dialog-confirm>Zapri</paper-button>
@@ -459,6 +464,10 @@ class BazdaraApp extends Fabric.AuthMixin(PolymerElement) {
       });
     }
 
+  }
+
+  _menu() {
+    ga('send','event', 'Menu', 'Click');
   }
 
   _paperSettings() {

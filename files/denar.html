@@ -32,7 +32,7 @@
   // data bridge recieving
   window.addEventListener("message", (event) => {
     // bail for wrong origin
-    if (event.origin !== `${window.location.protocol}//${window.location.host}`) { return; }
+    //if (event.origin !== `${window.location.protocol}//${window.location.host}`) { return; }
 
     switch (event.data.type) {
       case "paypal-window-init-ack":
